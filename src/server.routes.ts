@@ -10,6 +10,21 @@
  * ];
  **/
 export const routes: string[] = [
+  'profile/edit',
+  'login',
+  'signin',
+  'signup',
+  'reg',
+  'profile',
+  'signin',
+  'projects',
+  'project',
+  'managers',
+  'plans',
+  'support',
+  'cards',
+  'main',
+  'about',
   'about',
   'home',
   'todo',

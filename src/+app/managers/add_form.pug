@@ -1,0 +1,9 @@
+div
+	form.form-modal.form-block([formGroup]="myForm") 
+		h1 Add Managers
+		div.row
+			div.input-block.col-sm-12
+				label.context(for="managers") Emails
+				email-tag([event]="event_click", name="managers", placeholder="Title", type="managers", id="managers", (valueChange)="changeManagers($event)")
+			div.col-sm-4.f-right
+				button.cbutton((click)="save(myForm.value, myForm.valid)") Add manager

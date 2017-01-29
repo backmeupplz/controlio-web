@@ -1,0 +1,21 @@
+@import "../../helpers/sass.scss";
+
+@include b('mh','svg') {
+	@include m('common'){
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	@include m('default'){
+		fill: $default_color_svg;
+	}
+	@include m('common'){
+		fill: $common_color_svg;
+	}
+	@include m('awesome'){
+		fill: $awesome_color_svg;
+	}
+	@include m('small-white'){
+		@include respond-to(handhelds) { fill: #fff;}
+	}
+}

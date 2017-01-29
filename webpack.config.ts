@@ -23,8 +23,17 @@ export var commonConfig = {
   // https://webpack.github.io/docs/configuration.html#devtool
   devtool: 'source-map',
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
-    modules: [ root('node_modules') ]
+    modules: [root('node_modules') ],
+    alias: {
+      app: path.resolve(__dirname, 'src/+app/'),
+      npm: '/',
+      template: path.resolve(__dirname, 'src/template/'),
+      rxjs_lib: 'rxjs',
+      img: path.resolve(__dirname, 'src/assets/'),
+      css: path.resolve(__dirname, 'src/css'),
+      fonts_path: path.resolve(__dirname, 'src/fonts/'),
+    },
+    extensions: ['.js','.jsx', '.ts', '.json', '.css', '.scss', '.sass', '.pug']
   },
   context: __dirname,
   output: {
@@ -36,14 +45,34 @@ export var commonConfig = {
       // TypeScript
       { test: /\.ts$/,   use: ['awesome-typescript-loader', 'angular2-template-loader'] },
       { test: /\.html$/, use: 'raw-loader' },
-      { test: /\.css$/,  use: 'raw-loader' },
-      { test: /\.json$/, use: 'json-loader' }
+      { test: /\.json$/, use: 'json-loader' },
+      {
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.(pug|jade)$/,
+        loader: 'pug-html-loader'
+      },
+      {
+        test: /\.less$/,
+        //'csslint-loader'
+        loaders: ['style-loader','css-loader','less-loader']
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style-loader','css-loader']
+      },
+      // Apply loader
+      {
+        test: /\.scss$/,
+        use: ['style-loader','css-loader', 'sass-loader'],
+      },
     ],
   },
   plugins: [
     // Use commonPlugins.
-  ]
-
+  ],
 };
 
 // Client.

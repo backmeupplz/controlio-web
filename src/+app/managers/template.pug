@@ -1,0 +1,24 @@
+div.container
+  div.managers-top
+    div.col-md-6
+      p.context Manager
+    div.col-md-3
+      p.context Telephone
+    div.col-md-2
+      p.context Projects
+div.container(*ngFor="let manager of managers")
+  div.common-block.managers
+    div.author.col-md-6
+      imgb.photo-mini([key]="manager.photo")
+      div.text-block.two-line
+        p.username Manager
+        p.message {{ (manager.firstName != undefined) ? manager.firstName + ' ' + manager.secondName : manager.email }}
+    div.col-md-3
+      p.align {{ manager.phone || '-' }}
+    div.col-md-2
+      p.align {{ manager.projects.length }}
+    div.col-md-1
+      img.icon(src="assets/delete.svg")
+div.container
+  button.cbutton.managers.col-md-3([routerLink]="['./', {modalOpen:3}]") Add manager
+

@@ -12,6 +12,13 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import * as compression from 'compression';
+//import * as fileUpload from 'express-fileupload/lib';
+//import * as fileUpload from 'express-fileupload';
+//var fileUpload = require('express-fileupload');
+var multer  = require('multer')
+//var upload = multer({ dest: 'uploads/' })
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 
 // Angular 2
 import { enableProdMode } from '@angular/core';
@@ -23,6 +30,10 @@ import { MainModule } from './node.module';
 
 // Routes
 import { routes } from './server.routes';
+
+
+// Bucket service
+import { BucketService } from './bucket.service';
 
 // enable prod for faster renders
 enableProdMode();
@@ -47,6 +58,7 @@ app.set('json spaces', 2);
 
 app.use(cookieParser('Angular 2 Universal'));
 app.use(bodyParser.json());
+
 app.use(compression());
 
 app.use(morgan('dev'));
@@ -69,7 +81,7 @@ import { serverApi, createTodoApi } from './backend/api';
 app.get('/data.json', serverApi);
 app.use('/api', createTodoApi());
 
-process.on('uncaughtException', function (err) { 
+process.on('uncaughtException', function (err) {
   console.error('Catching uncaught errors to avoid process crash', err);
 });
 
@@ -103,6 +115,105 @@ routes.forEach(route => {
   app.get(`/${route}`, ngApp);
   app.get(`/${route}/*`, ngApp);
 });
+
+
+
+const bucket = new BucketService();
+app.get('/img', function(req, res) {
+
+
+  console.log("!!!!!!!!!!!! work!!!!!!!");
+
+  let key = req.query.key;
+  if(!key){
+    let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
+    res.status(400).send(json);
+    return;
+  }
+  bucket.getImage(key,(err, ans)=>{
+    if(err){
+      let json = JSON.stringify({ key: key, err: err });
+      res.status(400).send(json);
+    }
+    else {
+      //let json = JSON.stringify({ key: key, res: ans });
+      res.send(ans);
+    }
+  });
+});
+
+
+app.post('/upload', multipartMiddleware, function(req: express.Request & { files: any }, res) {
+  console.log(req.body, req.files);
+
+  let key = req.body.key;
+
+  if(!req.files){
+    let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });
+    res.status(400).send(json);
+    return;
+  }
+
+  if(!key){
+    let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
+    res.status(400).send(json);
+    return;
+  }
+
+
+  let file = req.files.image;
+  bucket.uploadImage(key, file, (err, ans)=>{
+    if(err){
+      let json = JSON.stringify({ key: key, err: err });
+      res.status(400).send(json);
+    }
+    else {
+      //let json = JSON.stringify({ key: key, res: ans });
+      res.send(ans);
+    }
+  });
+  // don't forget to delete all req.files when done
+});
+
+// app.post('/upload', upload.any(), function (req: express.Request & { files: any }, res, next) {
+//   console.log('request files: ', req.files );
+//   res.send(true);
+// })
+
+// app.post('/upload', function(req: express.Request & { files: any }, res) {
+
+
+//     console.log('FIRST TEST: ' + JSON.stringify(req.files));
+//     console.log('second TEST: ' +req.files.theFile.name);
+
+  //  let key = req.body.key;
+
+  // if(!req.files){
+  //   let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });
+  //   res.status(400).send(json);
+  //   return;
+  // }
+
+  // if(!key){
+  //   let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
+  //   res.status(400).send(json);
+  //   return;
+  // }
+
+  // console.log(req.files)
+  // let file = req.files.data;
+  // bucket.uploadImage(key, file, (err, ans)=>{
+  //   if(err){
+  //     let json = JSON.stringify({ key: key, err: err });
+  //     res.status(400).send(json);
+  //   }
+  //   else {
+  //     //let json = JSON.stringify({ key: key, res: ans });
+  //     res.send(ans);
+  //   }
+  // });
+// });
+
 
 app.get('*', function(req, res) {
   res.setHeader('Content-Type', 'application/json');

@@ -1,0 +1,4 @@
+div(block="mh-button", [mod]="mods")
+	div(elem="image", [mod]="imageMods")
+		ng-content(styles="image")
+	span(*ngIf="title", elem="text", [mod]="textMods") {{ title }}

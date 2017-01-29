@@ -1,0 +1,4 @@
+div.windows-options(*ngIf="!close")
+  ul 
+    li.menu-block-parent(*ngFor='let element of data; let i = index; trackBy: trackByFn')
+      menu-block([title]="element.title", [ischecked]="element.ischecked", [url]="element.url", [icon]="element.icon", [class]="element.css", [action]="element.action")

@@ -65,6 +65,8 @@ function cacheControl(req, res, next) {
 }
 // Serve static files
 app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
+app.use('/css', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
+app.use('/fonts', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
 //
@@ -76,7 +78,7 @@ import { serverApi, createTodoApi } from './backend/api';
 app.get('/data.json', serverApi);
 app.use('/api', createTodoApi());
 
-process.on('uncaughtException', function (err) { 
+process.on('uncaughtException', function (err) {
   console.error('Catching uncaught errors to avoid process crash', err);
 });
 
@@ -111,6 +113,10 @@ routes.forEach(route => {
   app.get(`/${route}/*`, ngApp);
 });
 
+app.get('images',function(req,res){
+  var json = JSON.stringify({ content: 'Hi!' });
+  res.send(json);
+});
 
 app.get('*', function(req, res) {
   res.setHeader('Content-Type', 'application/json');

@@ -1,0 +1,4 @@
+{
+  "separators": ["__", "--", "-"],
+  "modCase": "kebab"
+}

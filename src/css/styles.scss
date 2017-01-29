@@ -1,0 +1,30 @@
+@import 'helpers/sass.scss';
+@import 'partial/svg/SvgComponent.scss';
+@import 'Button.scss';
+@import 'helpers/form-elements/file-upload.scss';
+
+
+.app-block {
+  height: 100%;
+  padding-bottom: 76px;
+}
+
+.align-center {
+  align-self: center;
+}
+
+.mb-footer {
+	margin-top: 240px;
+	height: 48px;
+	background: #fff;
+	width: 100%;
+	border-top: 1px solid #cfcfcf;
+}
+
+.logo-block:before, .logo-block:after {
+    content: '';
+}
+
+.link-block .author .photo-mini {
+  border-width: 0;
+}

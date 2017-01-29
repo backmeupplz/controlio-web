@@ -1,0 +1,4 @@
+div.language-block.menu-block([ngClass]="{'checked': ischecked, 'full-view': languageFullView }", *ngIf="isAccess")
+  a((click)="menuCenter.openMenuOrClose(menuCenter.MENU.LanguageMenu)")
+    img(src="assets/u-s.svg", class="icon")
+  language-drop-down-list([event]="event", [open]="menuCenter.isOpenMenu(menuCenter.MENU.LanguageMenu)", (closedChange)="menuCenter.closeMenu($event)")

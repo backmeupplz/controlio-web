@@ -1,0 +1,89 @@
+/// Block
+/// @access public
+/// @param {String} $prefix - BLock's prefix
+/// @param {String} $name - BLock's name
+@mixin block($prefix, $name) {
+    .#{$prefix}-#{$name} {
+        @content;
+    }
+}
+
+/// Block Element
+/// @access public
+/// @param {String} $element - Element's name
+@mixin element($element) {
+    &__#{$element} {
+        @content;
+    }
+}
+
+/// Block Modifier
+/// @access public
+/// @param {String} $modifier - Modifier's name
+@mixin modifier($modifier) {
+    &--#{$modifier} {
+        @content;
+    }
+}
+
+/// @alias block
+@mixin b($prefix, $name) {
+    @include block($prefix, $name)  {
+        @content;
+    }
+}
+
+/// @alias element
+@mixin e($element) {
+    @include element($element)  {
+        @content;
+    }
+}
+
+/// @alias modifier
+@mixin m($modifier) {
+    @include modifier($modifier) {
+        @content;
+    }
+}
+
+
+/// Block
+/// @access public
+/// @param {String} $prefix - BLock's prefix
+/// @param {String} $name - BLock's name
+@mixin print-s($data, $mods, $modifier: null) {
+    @each $type in $mods {
+      @include m($type) {
+        $values: null;
+        @if ($modifier){
+            $values: map-get($data, #{$type}_#{$modifier})
+        } @else {
+            $values: map-get($data, #{$type});
+        }
+        @if ($values !=null) {
+          @include print-styles($values);
+        }
+      }
+    }
+}
+
+
+/// Block
+/// @access public
+/// @param {String} $prefix - BLock's prefix
+/// @param {String} $name - BLock's name
+@mixin block-s($prefix, $name, $data, $mods, $elements: null ) {
+    .#{$prefix}-#{$name} {
+        @content;
+        @include print-styles(map-deep-get($data, 'main'))
+        @include print-s($data, $mods)
+        @if ($elements){
+            @each $element in $elements {
+                @include e($element) {
+                    @include print-s($data, $mods, $element )
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,111 @@
+/**
+*  Theme
+*/
+$background: #fff;
+$color_font: #585d6c;
+
+$awesome_color:  #b0a4fd;
+$awesome_background:  #b0a4fd;
+$painted_color_font:  #fff;
+
+$awesome_color_svg: $awesome_color;
+$common_color_svg: #fff;
+$default_color_svg: #eaeaea;
+
+$green-background: (
+  background-image: linear-gradient(285deg, #05bfb3, #03c386),
+);
+
+/**
+* Paddings
+*/
+$padding_left:  15px;
+$padding_right:  15px;
+$margin_left:  15px;
+$margin_right:  15px;
+
+.padding-common-left { padding-left: $padding_left; }
+.padding-common-right { padding-right: $padding_right; }
+.padding-common {
+  @extend .padding-common-left;
+  @extend .padding-common-right;
+}
+$padding-big: (
+  padding-left: 25px,
+  padding-right: 25px,
+);
+
+$padding: (
+  padding-left: 15px,
+  padding-right: 15px,
+);
+
+.margin-common-left { margin-left: $margin_left; }
+.margin-common-right { margin-right: $margin_right; }
+.margin-common {
+  @extend .margin-common-left;
+  @extend .margin-common-right;
+}
+
+
+.reverse {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+$all-width: (
+  width: 100%,
+  justify-content: center,
+);
+
+/**
+* Buttons
+*/
+$button_mods: 'painted', 'common', 'default','radius', 'all-width', 'padding', 'padding-big', 'big', 'middle', 'small', 'sign-up';
+
+$button: (
+  main: (height: 2.5em),
+  radius: (
+    border-radius: 4px,
+  ),
+  all-width: $all-width,
+  padding-big: $padding-big,
+  padding: $padding,
+  sign-up: (
+    background-color: #fff,
+    box-shadow: 0 1px 3px 0 rgba(104, 104, 104, 0.5),
+  ),
+  sign-up_text: (
+    color: #5b6b89,
+    font-weight: 500,
+    font-size: 12px,
+    padding: 0 5px,
+  ),
+  default: (
+    background-color: $background,
+    border-width: 1px,
+    border-style: solid,
+    border-color: $color_font,
+  ),
+  default_text: (color: $color_font),
+  default_image: (color: $color_font),
+  painted: (
+    background-color: $awesome_background,
+  ),
+  painted_text: (color: #fff),
+  painted_image: (color: #fff),
+  common: map-merge(
+    $green-background,
+    (box-shadow: 0 5px 20px 0 rgba(25, 151, 128, 0.5))
+  ),
+  common_text: (color: #fff),
+  common_image: (color: #fff),
+  big: (height: 3.5em),
+  middle: (height: 2.5em),
+  small: (height: 1.5em),
+);
+

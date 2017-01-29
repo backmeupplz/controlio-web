@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 14 18">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="project_details_manager" stroke="none" stroke-width="1" fill-rule="evenodd">
+        <g id="project_details_edit_message" transform="translate(-557.000000, -452.000000)">
+            <g id="msg-copy-3" transform="translate(470.000000, 202.000000)">
+                <g id="Group" transform="translate(20.000000, 216.000000)">
+                    <path d="M68,50 C68,51.1 68.9,52 70,52 L78,52 C79.1,52 80,51.1 80,50 L80,38 L68,38 L68,50 L68,50 Z M81,35 L77.5,35 L76.5,34 L71.5,34 L70.5,35 L67,35 L67,37 L81,37 L81,35 L81,35 Z" id="Shape" style="
+    /* fill: red; */
+"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

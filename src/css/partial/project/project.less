@@ -1,0 +1,67 @@
+.you-dont-have-project .text {
+  max-width: 460px;
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  text-align: center;
+  color: #585d6c;
+}
+
+.common-block.project {
+	margin-top: 24px;
+  width: 100%;
+}
+
+.project-post-block {
+	display: flex;
+	flex-direction: column;
+}
+
+.action-post {
+	left: -15px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+@media screen and (min-width: 767px) {
+	.project .content {
+		padding-left: 0;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.project .top-block, .project .bottom-block {
+		padding-left: 15px  !important;
+		padding-right: 15px  !important;
+	}
+	.project .top-block, .project .backgrond-funny {
+		border-radius: 3px 3px 0 0 !important;
+	}
+	.project .bottom-block {
+		border-radius: 0 0 3px 3px;
+	}
+
+	.action-post {
+    padding-left: 15px;
+    left: 0;
+    padding-right: 15px;
+	}
+
+  .common-block .main-photo {
+    position: absolute;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+
+  .common-block .main-photo .image {
+    opacity: .3;
+  }
+
+  .common-block .main-photo + .content .top-block p, .common-block .main-photo + .content .top-block a {
+    color: #fff !important;
+  }
+}

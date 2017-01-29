@@ -1,0 +1,19 @@
+$prefix: "mh";
+$block_name: "button";
+
+$elements: image, text;
+@include block-s($prefix, $block_name, $button, $button_mods, $elements ) {
+
+	display: inline-flex;
+	align-items: center;
+  cursor: pointer;
+
+  @include e('image') {
+		@include m('separator-between') {
+			margin-right: $margin_right / 2;
+		}
+		@include m('reverse') {
+			@extend .reverse;
+		}
+  }
+}
