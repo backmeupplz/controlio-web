@@ -14,7 +14,9 @@ export class BucketService {
 	private s3: any;
 
 
-	constructor(private http: AppHttp, private headers: AppHeaders){}
+	constructor(private http: AppHttp, private headers: AppHeaders){
+    console.log("BucketService");
+  }
 
 	store_data( key: string, data: any ) {
     let array = data.Body.data;

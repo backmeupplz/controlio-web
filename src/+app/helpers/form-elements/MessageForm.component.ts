@@ -12,7 +12,7 @@ import { ImageModel } from '../imgb/imgb.model';
 
     .file-upload-button {
       position: absolute;
-      margin: 12px 15px;
+      margin: 0 15px;
       overflow: hidden;
       line-height: 2em;
       display: inline-flex;
@@ -66,7 +66,7 @@ import { ImageModel } from '../imgb/imgb.model';
     }
   `],
   template: `
-		
+
     <!-- User -->
     <!--  name="text", placeholder="Message", type="text", formControlName="text", id="text"  -->
     <file-upload-button class="file-upload-button" [upload]="uploadMethod" (valueChange)="changesFiles($event)" [maxCount]="10" [refreshFiles]="files" [resetFiles]="resetFiles">
@@ -74,13 +74,13 @@ import { ImageModel } from '../imgb/imgb.model';
     </file-upload-button>
 
     <div class="mytextarea" id="hiddenDivTextarea">{{ inputValue }}</div>
-		<textarea 
-		type="text" 
-		class="mytextarea"  
+		<textarea
+		type="text"
+		class="mytextarea"
     placeholder="Message"
     id="description"
-		[(ngModel)]="inputValue" 
-		name="inputValue" 
+		[(ngModel)]="inputValue"
+		name="inputValue"
 		(paste)="inputPaste($event)"
 		(keydown)="inputChanged($event)"
 		(blur)="inputBlurred($event)"
@@ -93,7 +93,7 @@ import { ImageModel } from '../imgb/imgb.model';
   `,
 })
 
-export class MessageForm { 
+export class MessageForm {
   componentName: "MessageForm";
   private styles: string = "my-thumbnail";
   public inputValue: string = '';
@@ -110,7 +110,7 @@ export class MessageForm {
 
   private resetFiles: any;
 
-  @Input() 
+  @Input()
   set resetAll(reset: any){
     if(reset){
       this.resetFiles = ()=>{
@@ -164,10 +164,10 @@ export class MessageForm {
     if(callback){
       console.log("Upload files");
       this.uploadMethod = (err, res)=>{
-        if(!err){ 
+        if(!err){
           console.log(res)
           this._uploadFiles = true;
-          //this.isUpload.emit(true); 
+          //this.isUpload.emit(true);
           callback(null, res);
         }
         else { console.error(err); callback(err, null); }
@@ -185,7 +185,7 @@ export class MessageForm {
   set value( str: string ){
     if( str ) this.onChange( str );
   }
-  
+
   onChange( str: string ){
   	this.inputValue = str.slice( 0, this.limit );
     this.inputChange.emit( this.inputValue );
@@ -205,7 +205,7 @@ export class MessageForm {
       clild.style.height = (((hiddenDiv.clientHeight) > minHeight ? hiddenDiv.clientHeight: minHeight ) + addDown ) + "px";
     }
   }
-  constructor(private elementRef: ElementRef) { 
+  constructor(private elementRef: ElementRef) {
     this._gallery = new ImageGalleryModel();
   }
   inputChanged(event) {

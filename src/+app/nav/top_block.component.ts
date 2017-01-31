@@ -11,6 +11,8 @@ export class MenuBlock {
   @Input() url = "/";
   @Input() icon: string;
   @Input() action: any;
-  constructor() {}
+  constructor() {
+    console.log("awesome! menu-block");
+  }
   componentName: "MenuBlock";
 }

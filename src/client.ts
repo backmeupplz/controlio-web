@@ -16,6 +16,13 @@ require('css/styles.less');
 require('css/vendor/style.css');
 require('css/styles.scss');
 
+let arr = document.querySelector('body').className.split(' ');
+let result = arr.reduce((prev, next)=>{
+  return (next == 'loading-view') ? prev : prev + next
+}, "");
+
+document.querySelector('body').className = result + " ready-view";
+
 function load(url) {
   return new Promise(function(resolve, reject) {
     var script = document.createElement('script');

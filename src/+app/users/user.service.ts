@@ -1,10 +1,11 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { Http, Headers, RequestOptions, RequestMethod, Request } from '@angular/http';
 import 'rxjs/add/operator/map'
 import { Subject }    from 'rxjs/Subject';
 import { AppSettings } from '../app-settings';
 import { AppHeaders } from '../helpers/http/AppHeaders.service';
 import { User } from './user.model';
+import { LocalStorage } from '../helpers/local-storage';
 
 @Injectable()
 export class UserService {
@@ -22,22 +23,22 @@ export class UserService {
 
   private mainUrl = AppSettings.API_ENDPOINT;
 
-  constructor(private http: Http, private headers: AppHeaders){
-    this.loggedIn = !!localStorage.getItem('auth_token');
+  constructor(private http: Http, private headers: AppHeaders, @Inject(LocalStorage) private localStorage ){
+    this.loggedIn = !!this.localStorage.getItem('auth_token');
   }
 
 
   getAuthUser(){
     if( this.user == null && this.isLoggedIn() ){
       this.user = new User({
-        "email": localStorage.getItem('email'),
-        "name": localStorage.getItem('name'),
-        "phone": localStorage.getItem('phone'),
-        "photo": localStorage.getItem('photo'),
-        "_id": localStorage.getItem('userId'),
-        "stripeId": localStorage.getItem('stripeId'),
-        "stripeSubscriptionId": localStorage.getItem('stripeSubscriptionId'),
-        "plan": localStorage.getItem('plan')
+        "email": this.localStorage.getItem('email'),
+        "name": this.localStorage.getItem('name'),
+        "phone": this.localStorage.getItem('phone'),
+        "photo": this.localStorage.getItem('photo'),
+        "_id": this.localStorage.getItem('userId'),
+        "stripeId": this.localStorage.getItem('stripeId'),
+        "stripeSubscriptionId": this.localStorage.getItem('stripeSubscriptionId'),
+        "plan": this.localStorage.getItem('plan')
       });
     }
     return this.user;
@@ -60,7 +61,7 @@ export class UserService {
       .map((res) => {
 
         if (res.success) {
-          localStorage.clear();
+          this.localStorage.clear();
           this.setTokens( res.token, res._id );
           this.setUser( res );
           this.loggedIn = true;
@@ -90,7 +91,7 @@ export class UserService {
 
         console.log( res );
         if ( res.token ) {
-          localStorage.clear();
+          this.localStorage.clear();
           this.setTokens( res.token, res._id );
           this.setUser( res );
           this.loggedIn = true;
@@ -105,27 +106,27 @@ export class UserService {
 
 
   setTokens( token, userId ){
-    localStorage.removeItem('auth_token');
-    localStorage.setItem('auth_token', token);
-    localStorage.removeItem('userId');
-    localStorage.setItem('userId', userId );
+    this.localStorage.removeItem('auth_token');
+    this.localStorage.setItem('auth_token', token);
+    this.localStorage.removeItem('userId');
+    this.localStorage.setItem('userId', userId );
   }
 
   setUser( user ){
-    localStorage.removeItem('email');
-    localStorage.setItem('email', user.email || "" );
-    localStorage.removeItem('name');
-    localStorage.setItem('name', user.name || "" );
-    localStorage.removeItem('phone');
-    localStorage.setItem('phone', user.phone || "" );
-    localStorage.removeItem('stripeId');
-    localStorage.setItem('stripeId', user.stripeId );
-    localStorage.removeItem('photo');
-    localStorage.setItem('photo', user.photo );
-    localStorage.removeItem('stripeSubscriptionId');
-    localStorage.setItem('stripeSubscriptionId', user.stripeSubscriptionId );
-    localStorage.removeItem('plan');
-    localStorage.setItem('plan', user.plan );
+    this.localStorage.removeItem('email');
+    this.localStorage.setItem('email', user.email || "" );
+    this.localStorage.removeItem('name');
+    this.localStorage.setItem('name', user.name || "" );
+    this.localStorage.removeItem('phone');
+    this.localStorage.setItem('phone', user.phone || "" );
+    this.localStorage.removeItem('stripeId');
+    this.localStorage.setItem('stripeId', user.stripeId );
+    this.localStorage.removeItem('photo');
+    this.localStorage.setItem('photo', user.photo );
+    this.localStorage.removeItem('stripeSubscriptionId');
+    this.localStorage.setItem('stripeSubscriptionId', user.stripeSubscriptionId );
+    this.localStorage.removeItem('plan');
+    this.localStorage.setItem('plan', user.plan );
   }
 
   login(email: any, password: any) {
@@ -145,7 +146,7 @@ export class UserService {
 
         if ( res.token ) {
           console.log(res);
-          localStorage.clear();
+          this.localStorage.clear();
           this.setTokens( res.token, res._id );
           this.setUser( res );
           this.loggedIn = true;
@@ -207,9 +208,9 @@ export class UserService {
 
 
     let mainUrl = this.mainUrl;
-    let webPushToken = localStorage.getItem('auth_token');
+    let webPushToken = this.localStorage.getItem('auth_token');
 
-    localStorage.clear();
+    this.localStorage.clear();
     this.user = null;
     this.loggedIn = false;
     this.setLoggedIn( false );

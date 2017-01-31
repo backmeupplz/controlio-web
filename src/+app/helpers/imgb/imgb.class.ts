@@ -6,8 +6,9 @@ export class ImageClass {
 
 	protected _key: string;
 	protected _src: string | SafeUrl;
-	protected _img: any = AppSettings.DEFAUL_IMG;
+	protected _img: any = AppSettings.DEFAUL_IMG || "";
   get img(){
+    console.log("returem _img", this._img);
   	return this._img;
   }
 	get str(){
@@ -16,6 +17,7 @@ export class ImageClass {
 
 	setKey( key: string ){
 		if( key ){
+
   		if( this._src ) throw new Error("ImageComponent must have only one str or key property");
   		this._key = key;
       let cash = this.bucket.getCachedImg( this._key );

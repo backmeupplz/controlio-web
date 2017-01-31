@@ -11,7 +11,7 @@ div.container
           div(class="settings-block")
             div
               p.hidden-xs {{ date | amDateFormat: 'MMM D, h:mm A' }}
-              div(*ngIf="isOpenSettings", [routerLink]="['./', {modalOpen: 4}]")
+              div(*ngIf="isOpenSettings", routerLink="/project/edit/{{ id }}", routerLinkActive="active")
                 svg-icon(src="assets/settings.svg" block="mh-svg" mod="common awesome small-white")
           div
             p.title

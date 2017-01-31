@@ -1,71 +1,93 @@
 import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-import { MBootstrapModule } from '../bootstrap-components/MBootstrapModule.module';
-
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SelectComponent } from 'ng2-select/ng2-select';
+import { BemModule } from 'angular-bem';
 
-import { OffClickDirective } from 'ng2-select/components/select/off-click';
-import { HighlightPipe } from 'ng2-select/components/select/select-pipes';
+
+import { MBootstrapModule } from '../bootstrap-components/MBootstrapModule.module';
+import { ImageGaleryModule } from '../image-galery/ImageGaleryModule';
+
+
+
+
+
+
+import { FormMessageService } from './message.service';
+
+
 
 import { LimitInput } from './limit.component';
 import { MessageForm } from './MessageForm.component';
 
-import { ImportFileElement } from './file-upload.component';
-import { FileUploadButton } from './file-upload-button.component';
 
 
-import { Email } from './email.component';
+
+/**
+* Select
+*/
 import { SelectUser } from './select-user.component';
-import { FormMessageService } from './message.service';
+import { SelectComponent } from 'ng2-select/ng2-select';
+import { OffClickDirective } from 'ng2-select/components/select/off-click';
+import { HighlightPipe } from 'ng2-select/components/select/select-pipes';
 
-import {TagInputComponent} from './tag-input/tag-input.component';
-import {TagInputItemComponent} from './tag-input/tag-input-item.component';
-import { FileUploadService } from './FileUploadService.service';
 
+/**
+* Tag input
+*/
+import { Email } from './email.component';
+import { TagInputComponent } from './tag-input/tag-input.component';
+import { TagInputItemComponent } from './tag-input/tag-input-item.component';
+
+
+
+
+import { AppHttp } from '../http/AppHttp.service';
+import { AppHeaders } from '../http/AppHeaders.service';
 import { BucketService } from '../../bucket/bucket.service';
+import { FileUploadService } from './FileUploadService.service';
 import { NativeWindow } from '../NativeWindow.service';
-import { ImageGaleryModule } from '../image-galery/ImageGaleryModule';
+import { FileUploadButton } from './file-upload-button.component';
+import { ImportFileElement } from './file-upload.component';
+
 
 import { ButtonComponent } from './Button/Button.component';
 import { SvgIconComponent } from './SvgIcon.component';
 
-import { BemModule } from 'angular-bem';
-import { AppHttp } from '../http/AppHttp.service';
-import { AppHeaders } from '../http/AppHeaders.service';
-//import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload';
-//import { FileUploadModule } from "ng2-file-upload/file-upload/file-upload.module"
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     ImageGaleryModule,
     BemModule,
-    MBootstrapModule,
-    //FileUploadModule
+    MBootstrapModule
   ],
   declarations: [
-    //FileSelectDirective,
-    //FileDropDirective,
     LimitInput,
-    ImportFileElement,
+    MessageForm,
+
     Email,
-    SelectUser,
     TagInputComponent,
     TagInputItemComponent,
+
+    SelectUser,
     SelectComponent,
     OffClickDirective,
     HighlightPipe,
+
+
     FileUploadButton,
-    MessageForm,
+    ImportFileElement,
+
     ButtonComponent,
     SvgIconComponent
   ],
   providers: [
-  AppHttp, AppHeaders,
-  FormMessageService, FileUploadService, BucketService, NativeWindow
+    AppHttp, AppHeaders,
+    FormMessageService,
+    FileUploadService,
+    BucketService,
+    NativeWindow
   ],
   exports: [
     LimitInput,

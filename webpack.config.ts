@@ -2,6 +2,8 @@ var webpack = require('webpack');
 var path = require('path');
 var clone = require('js.clone');
 var webpackMerge = require('webpack-merge');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('main.css');
 
 export var commonPlugins = [
   new webpack.ContextReplacementPlugin(
@@ -56,22 +58,33 @@ export var commonConfig = {
       },
       {
         test: /\.less$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader!less-loader",
+        })
         //'csslint-loader'
-        loaders: ['style-loader','css-loader','less-loader']
       },
       {
         test: /\.css$/,
-        loaders: ['style-loader','css-loader']
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader",
+        })
       },
       // Apply loader
       {
         test: /\.scss$/,
-        use: ['style-loader','css-loader', 'sass-loader'],
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader!sass-loader",
+          //use: ['style-loader','css-loader', 'sass-loader'],
+        }),
       },
     ],
   },
   plugins: [
     // Use commonPlugins.
+    extractCSS
   ],
 };
 
@@ -91,7 +104,7 @@ export var clientConfig = {
     __dirname: true,
     __filename: true,
     process: true,
-    Buffer: false
+    Buffer: true
   }
 };
 

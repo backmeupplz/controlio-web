@@ -32,6 +32,7 @@ import { MainModule } from './node.module';
 import { routes } from './server.routes';
 
 
+
 // Bucket service
 import { BucketService } from './bucket.service';
 
@@ -40,6 +41,7 @@ enableProdMode();
 
 const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
+
 
 // Express View
 app.engine('.html', createEngine({
@@ -120,10 +122,6 @@ routes.forEach(route => {
 
 const bucket = new BucketService();
 app.get('/img', function(req, res) {
-
-
-  console.log("!!!!!!!!!!!! work!!!!!!!");
-
   let key = req.query.key;
   if(!key){
     let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
@@ -144,10 +142,7 @@ app.get('/img', function(req, res) {
 
 
 app.post('/upload', multipartMiddleware, function(req: express.Request & { files: any }, res) {
-  console.log(req.body, req.files);
-
   let key = req.body.key;
-
   if(!req.files){
     let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });
     res.status(400).send(json);
@@ -168,51 +163,11 @@ app.post('/upload', multipartMiddleware, function(req: express.Request & { files
       res.status(400).send(json);
     }
     else {
-      //let json = JSON.stringify({ key: key, res: ans });
       res.send(ans);
     }
   });
   // don't forget to delete all req.files when done
 });
-
-// app.post('/upload', upload.any(), function (req: express.Request & { files: any }, res, next) {
-//   console.log('request files: ', req.files );
-//   res.send(true);
-// })
-
-// app.post('/upload', function(req: express.Request & { files: any }, res) {
-
-
-//     console.log('FIRST TEST: ' + JSON.stringify(req.files));
-//     console.log('second TEST: ' +req.files.theFile.name);
-
-  //  let key = req.body.key;
-
-  // if(!req.files){
-  //   let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });
-  //   res.status(400).send(json);
-  //   return;
-  // }
-
-  // if(!key){
-  //   let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
-  //   res.status(400).send(json);
-  //   return;
-  // }
-
-  // console.log(req.files)
-  // let file = req.files.data;
-  // bucket.uploadImage(key, file, (err, ans)=>{
-  //   if(err){
-  //     let json = JSON.stringify({ key: key, err: err });
-  //     res.status(400).send(json);
-  //   }
-  //   else {
-  //     //let json = JSON.stringify({ key: key, res: ans });
-  //     res.send(ans);
-  //   }
-  // });
-// });
 
 
 app.get('*', function(req, res) {

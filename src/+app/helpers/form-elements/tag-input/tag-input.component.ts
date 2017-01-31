@@ -89,7 +89,7 @@ import {TagInputItemComponent} from './tag-input-item.component';
 })
 export class TagInputComponent {
   @Input() placeholder: string = 'Add a tag';
-  @Input() 
+  @Input()
   set setValue( arr: string[] ){
     this.tagsList = (arr) ? arr : [];
     this.onChange(this.tagsList);
@@ -123,7 +123,7 @@ export class TagInputComponent {
         return true;
       }
     });
-    return false; 
+    return false;
   }
 
   undo(){
@@ -226,7 +226,7 @@ export class TagInputComponent {
   }
 
   private _removeTag(tagIndexToRemove) {
-   
+
     this.tagsList.splice(tagIndexToRemove, 1);
     this._resetSelected();
     if(this.compareArray()){ this.isChanged = true; }
@@ -253,7 +253,7 @@ export class TagInputComponent {
 
   /** Implemented as part of ControlValueAccessor. */
   onChange: (value) => any = (value) => {
-    this.valueChange.emit( value )
+    this.valueChange.emit({ value: value, isChanged: this.isChanged })
   };
 
   onTouched: () => any = () => { };

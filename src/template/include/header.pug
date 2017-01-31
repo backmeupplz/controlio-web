@@ -4,7 +4,7 @@ div.top-block.top-block-style
       include header_blocks/logo_block.pug
       div.col-md-4.in-flex.col-sm-3.col-xs-3.pages-block
         include header_blocks/burger_block.pug
-        div.row.hidden-sm.hidden-xs
+        div.row.hidden-sm.hidden-xs(*ngIf="isAccess")
           menu-block(*ngFor='let element of pages; let i = index; trackBy: trackByFn', [title]="element.title", [ischecked]="element.ischecked", [url]="element.url", [icon]="element.icon", [class]="element.css", [action]="element.action")
       div.col-md-5.d-flex.col-sm-6.jc-fe.right-block
         div.row
@@ -12,6 +12,5 @@ div.top-block.top-block-style
           user-small-info([event]="event", [userValue]="user", *ngIf="isAccess")
           //-include header_blocks/language_block.pug
           include header_blocks/sign_buttons.pug
-div.modal-view-layout((click)="closeMenuAndModals()")
 
 

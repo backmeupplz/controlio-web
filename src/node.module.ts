@@ -21,6 +21,10 @@ export function getResponse() {
   return Zone.current.get('res') || {};
 }
 
+
+
+import {LocalStorage} from './+app/helpers/local-storage';
+
 // TODO(gdi2290): refactor into Universal
 export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
 
@@ -44,7 +48,7 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
     { provide: 'res', useFactory: getResponse },
 
     { provide: 'LRU', useFactory: getLRU, deps: [] },
-
+    { provide: LocalStorage, useValue: {getItem() {} }},
     CacheService,
 
     Meta,

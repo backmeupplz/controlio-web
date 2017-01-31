@@ -1,12 +1,21 @@
 import 'rxjs/add/operator/pairwise';
-import { Component, ViewChild, ContentChild } from '@angular/core';
+import { Component, Directive, ElementRef, ChangeDetectionStrategy, Renderer, ViewChild, ContentChild } from '@angular/core';
 import { MenuBlock } from './nav/top_block.component.js';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService } from './users/user.service';
-import { UserDropDownList } from './nav/user-drop-down-list.component';
 import { MenuCenter } from './nav/menu-center';
 
+@Directive({
+  selector: '[xLarge]'
+})
+export class XLargeDirective {
+  constructor(element: ElementRef, renderer: Renderer) {
+    renderer.setElementStyle(element.nativeElement, 'fontSize', 'x-large');
+  }
+}
+
 @Component({
+  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app',
   template: require("../template/elements/app.pug")
 })
@@ -28,20 +37,9 @@ export class AppComponent {
     this.burgerShow = this.isAccess;
    }
 
-  setReadyClass(){
-
-    let arr = document.querySelector('body').className.split(' ');
-    let result = arr.reduce((prev, next)=>{
-      return (next == 'loading-view') ? prev : prev + next
-    }, "");
-
-    document.querySelector('body').className = result + " ready-view";
+  sendEvent(e){
+    this.event = e;
   }
-
-  ngAfterViewInit() {
-    this.setReadyClass();
-  }
-
 
   constructor(
     private userService: UserService,
@@ -50,6 +48,7 @@ export class AppComponent {
     private menuCenter: MenuCenter
   ){
 
+    console.log("awesome!");
     this.languageFullView = true;
 
     this.addProject = {
@@ -72,7 +71,12 @@ export class AppComponent {
     ];
 
     this.burger_list = data;
-    this.burger_list.push(this.addProject);
+    this.burger_list.push({
+      title: "New Project",
+      icon: "assets/add-circle-outline.svg",
+      css: "add-projects col-md-6 col-sm-6",
+      url: "project/add"
+    });
 
 
     let self = this;

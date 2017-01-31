@@ -46,7 +46,9 @@ export class ImageComponent extends ImageClass {
 		}
 	}
 
-	constructor(protected bucket: BucketService, private sanitizer: DomSanitizer){
+	constructor(
+    protected bucket: BucketService,
+    private sanitizer: DomSanitizer){
 		super(bucket);
 	}
 

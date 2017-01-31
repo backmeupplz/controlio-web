@@ -1,5 +1,5 @@
 div
-	form.form-modal.form-block([formGroup]="myForm") 
+	form.form-modal.form-block([formGroup]="myForm")
 		h1 Sign In
 		error-message([message]="error")
 		div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null && submitted }")
@@ -12,7 +12,7 @@ div
 			invalid-message([errors]="myForm.controls.password.errors", [list]="listMessages.password", [show]="submitted")
 		//-div.input-block
 			input(type="checkbox", name="remember", id="remember", formControlName="remember")
-			label.context.remember(for="remember") 
+			label.context.remember(for="remember")
 				p Remember me
 		button.cbutton((click)="save(myForm.value, myForm.valid)", [disabled]="myForm.invalid && submitted", [ngClass]="{'disabled': myForm.invalid && submitted }") Sign In
 		a.under-link Forgot your password?

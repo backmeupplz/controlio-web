@@ -19,7 +19,7 @@ import { ImageClass } from './imgb/imgb.class';
 
 export class ImageBackgroudComponent extends ImageClass {
 
-	@Input() 
+	@Input()
 	set key( key: string ){
 		this.setKey(key);
 	}

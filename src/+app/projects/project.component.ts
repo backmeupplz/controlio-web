@@ -29,6 +29,7 @@ export class Project {
   private setUploadFiles: any;
   private message: string;
   private resetAll: any;
+  private isChangeClients: boolean = false;
 
   isUploadFile( isUpload: boolean ){
     this.setUploadFiles = false;
@@ -88,8 +89,9 @@ export class Project {
 
 
 
-  changeClients( emails: string[] ){
-    this.clients = emails;
+  changeClients( data: any ){
+    this.clients = data.value;
+    this.isChangeClients = data.isChanged;
   }
 
   ngOnInit() {
@@ -102,7 +104,7 @@ export class Project {
           this.isLoading = false;
           this.title = `This is project deleted or not exist`;
         } else {
-          if(  this.project.clients ) this.clients = this.project.clients.map((client)=>{ return client; });
+          if( this.project.clients ) this.clients = this.project.clients;
           this.postService.getPosts( this.project, 0, 10 ).subscribe( res => {
             this.posts = res;
             this.isLoading = false;

@@ -80,12 +80,11 @@ export class EditProject {
 
 	    this.description = project.description;
 
-	    // project.manager.text = project.manager.email;
-	    // this.manager = project.manager;
+	    project.manager.text = project.manager.email;
+	    this.manager = project.manager;
 
 	    this.image = new ImageModel(project.image, true);
-
-	    if(  project.clients ) this.clients = project.clients.map((client)=>{ return client.email; });
+	    if( project.clients ) this.clients = project.clients;
     	this.myForm.setValue(obj);
   	}
   }

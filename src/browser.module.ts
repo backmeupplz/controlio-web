@@ -31,6 +31,7 @@ export function getResponse() {
 
 // TODO(gdi2290): refactor into Universal
 export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
+import {LocalStorage} from './+app/helpers/local-storage';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -53,7 +54,7 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
     { provide: 'res', useFactory: getResponse },
 
     { provide: 'LRU', useFactory: getLRU, deps: [] },
-
+    { provide: LocalStorage, useValue: window.localStorage },
     CacheService,
 
     Meta,

@@ -52,7 +52,8 @@ export class EditProjectModal extends ModalWindow {
   constructor(private userService: UserService,
       private router: Router,
     private route: ActivatedRoute,
-    private projectService: ProjectService ){
+    private projectService: ProjectService
+    ){
     super();
     // this.router.events
     //   .map(_ => this.router.routerState.root)

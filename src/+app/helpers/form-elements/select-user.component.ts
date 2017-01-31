@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, Input, ElementRef, Output, EventEmitter } from '@angular/core';
-
+import { Component, OnInit, Input, ElementRef, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
-  styles: [``],
   selector: 'select-user',
   template: `
-  <ng-select class="user-select" 
+  <ng-select class="user-select"
     [active]="active"
     [allowClear]="true"
     [items]="items"
@@ -17,17 +15,15 @@ import { Component, OnInit, ViewEncapsulation, Input, ElementRef, Output, EventE
     (typed)="typed($event)"
     placeholder="No select user">
   </ng-select>`,
-  //encapsulation: ViewEncapsulation.None 
 })
 
-//    [closeList]="close"
 export class SelectUser implements OnInit {
-  componentName: "SelectUser";
-  private _disabledV:string = '0';
-  private disabled:boolean = false;
-  private items:Array<any> = [];
-  public close: boolean = false;
-  constructor(private elementRef: ElementRef) { }
+
+  @Input()
+  set event(event: any) {
+    if( event != null ) this.handleClick(event);
+  }
+
   public value: any = null;
   private active: any;
   @Input()
@@ -51,21 +47,24 @@ export class SelectUser implements OnInit {
 
   @Output() valueChange = new EventEmitter(true);
 
+  private _disabledV: string = '0';
+  private disabled: boolean = false;
+  private items: Array<any> = [];
+  public close: boolean = false;
+
+  constructor(private elementRef: ElementRef) {}
+
+
   onChanges(newValue) {
     this.valueChange.emit(newValue);
   }
 
-  @Input()
-  set event(event: any) {
-    if( event != null ) this.handleClick(event);
-  }
 
   handleClick(event){
     if (!this.elementRef.nativeElement.contains(event.target)){ // or some similar check
       this.close = !this.close;
     }
   }
-
 
   public getText(text){
     return `<div class="line-select"><img src="assets/EF23F3CC-80AC-4C50-9CF7-23E6934C4A0B.png"><p>` +  text  + `</p></div>`;
@@ -93,7 +92,7 @@ export class SelectUser implements OnInit {
   }
 
   public typed(value:any):void {
-    
+
   }
 
   public refreshValue(value:any):void {

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 import { AppHeaders } from './headers';
+
+import { Http } from 'angular2-universal/node';
 
 @Injectable()
 export class AppHttp {
