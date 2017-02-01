@@ -22,7 +22,8 @@ export function getResponse() {
 }
 
 
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieBackendService } from 'angular2-cookie/services/cookies.backend.service';
 import {LocalStorage} from './+app/helpers/local-storage';
 
 // TODO(gdi2290): refactor into Universal
@@ -43,7 +44,10 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
   providers: [
     { provide: 'isBrowser', useValue: isBrowser },
     { provide: 'isNode', useValue: isNode },
-
+    {
+      provide: CookieService,
+      useClass: CookieBackendService
+    },
     { provide: 'req', useFactory: getRequest },
     { provide: 'res', useFactory: getResponse },
 

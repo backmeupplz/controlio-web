@@ -12,7 +12,7 @@ import { ImageModel } from '../imgb/imgb.model';
 
     .file-upload-button {
       position: absolute;
-      margin: 0 15px;
+      margin: 12px 15px;
       overflow: hidden;
       line-height: 2em;
       display: inline-flex;

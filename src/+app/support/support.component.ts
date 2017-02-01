@@ -3,6 +3,11 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'projects',
+  styles: [`
+    :host {
+      padding-bottom: 90px;
+    }
+  `],
   template: `
     <div class="container">
       <div class="row">

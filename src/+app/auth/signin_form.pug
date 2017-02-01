@@ -15,4 +15,4 @@ div
 			label.context.remember(for="remember")
 				p Remember me
 		button.cbutton((click)="save(myForm.value, myForm.valid)", [disabled]="myForm.invalid && submitted", [ngClass]="{'disabled': myForm.invalid && submitted }") Sign In
-		a.under-link Forgot your password?
+		a.under-link(routerLink="/account-recovery") Forgot your password?

@@ -24,15 +24,17 @@ export class ImageClass {
       if( cash ){
         this._img = cash;
       } else if( this._key != "undefined" ) {
-        this.bucket.getImage(  this._key ).subscribe((data)=>{
-          let array = data.Body.data;
-          let base64Data = btoa(String.fromCharCode.apply(null, array));
-          let image = document.createElement('img');
-          image.src = 'data:image/png;base64,' + base64Data;
-          this._img = image.src;
-        }, (err)=>{
-          console.error(err);
-        })
+        if( btoa != undefined ){
+          this.bucket.getImage(  this._key ).subscribe((data)=>{
+            let array = data.Body.data;
+            let base64Data = btoa(String.fromCharCode.apply(null, array));
+            let image = document.createElement('img');
+            image.src = 'data:image/png;base64,' + base64Data;
+            this._img = image.src;
+          }, (err)=>{
+            console.error(err);
+          })
+        }
       }
     }
 	}

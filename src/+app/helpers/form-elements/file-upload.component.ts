@@ -11,9 +11,10 @@ import { ImageGalleryModel } from '../image-galery/ImageGallery.model';
 @Component({
   styles: [
   `
+  /*
   .file_block , .undo {
     height: 3.5em;
-  }
+  }*/
 
   .remove {
     height: 100%;
@@ -26,7 +27,7 @@ import { ImageGalleryModel } from '../image-galery/ImageGallery.model';
   ],
   selector: 'file-upload',
   template: `
-   <div class="file_block row">
+   <div class="file_block in-flex">
      <div class="author padding-common"  *ngIf="useOld || file">
       <ImageSmallGallery [gallery]="gallery"></ImageSmallGallery>
       <div  (click)="removeFile()" class="remove"><svg-icon src="assets/delete.svg" block="mh-svg" mod="common awesome"></svg-icon><p>Delete</p></div>

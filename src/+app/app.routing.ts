@@ -10,7 +10,7 @@ import { SignUpPage } from './auth/signup-page.component';
 import { LoginComponent } from './auth/login.component';
 import { ProfileComponent } from './users/profile.component';
 import { LoggedInGuard } from './auth/logged-in.guard';
-// import { AccountRecoveryModal } from "./auth/account-recovery-modal";
+import { AccountRecoveryPageComponent } from './auth/account-recovery-page.component';
 import { MainPage } from "./index.component";
 import { ErrorPage } from "./pages/error-page.component";
 import { Cards } from './plans/cards.component';
@@ -22,6 +22,7 @@ const appRoutes: Routes = [
   { path: 'profile/edit', component: UserEditPage, canActivate: [LoggedInGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signin', component: LoginComponent },
+  { path: 'account-recovery', component: AccountRecoveryPageComponent },
   { path: 'signup', component: SignUpPage },
   { path: 'profile', component: ProfileComponent, canActivate: [LoggedInGuard] },
   { path: 'projects', component: Projects, canActivate: [LoggedInGuard] },

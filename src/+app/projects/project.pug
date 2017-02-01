@@ -1,6 +1,6 @@
 div.center-block.you-dont-have-project(*ngIf="project == null")
   h1.text {{ title }}
-div(*ngIf="project != null")
+div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrottle]="300", (scrolled)="onScroll()", infinite-scroll)
   project-list-elem([title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.status : null }}", [image]="project.image", [id]="project.id", [manager]="project.manager", [date]="project.date", [isOpenSettings]="project.editable")
   div.container.project-post-block
     div.row.jc-fe

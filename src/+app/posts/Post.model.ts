@@ -7,7 +7,7 @@ import { IRemovableImage } from '../helpers/image-galery/IRemovableImage.interfa
 export class PostModel implements IRemovableImage {
 	protected _id: string;
   get id(){
-    return this._message;
+    return this._id;
   }
 
 	protected _project: ProjectModel;

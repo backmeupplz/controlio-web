@@ -81,11 +81,12 @@ export class PostService {
 
   delete( postid ){
     let headers = this.headers.getAuthHeader();
+    let body = { postid };
 
     let request = this.http
       .delete(
-        this.headers.getMainURL() + '/posts' + this.headers.getFormatURL({ postid }),
-         { headers }
+        this.headers.getMainURL() + '/posts',
+         { headers, body }
       );
 
     return request

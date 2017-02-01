@@ -5,6 +5,11 @@ import { ProjectService } from '../projects/project.service';
 
 
 @Component({
+  styles: [`
+    .project-list {
+      padding-bottom: 90px;
+    }
+  `],
   selector: 'projects',
   template: require("./template.pug")
 })

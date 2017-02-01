@@ -2,11 +2,28 @@ import { Component } from '@angular/core';
 import { UserService } from '../users/user.service';
 
 @Component({
+  styles: [`
+    .white-page {
+      background: #fff;
+      width: 100%;
+    }
+
+    .form-page {
+      margin-left: 0;
+    }
+
+    .white-page /deep/ .form-modal {
+      padding: 0;
+    }
+  `],
   selector: 'add-project-page',
-  template: `<div class="container">
-    <div class="row">
-      <div class="col-xs-12 form-page">
-        <add-project  [users]="users"></add-project>
+  template: `
+  <div class="white-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-8 form-page">
+          <add-project  [users]="users"></add-project>
+        </div>
       </div>
     </div>
   </div>`

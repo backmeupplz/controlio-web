@@ -117,20 +117,13 @@ export class Post {
   set post(post: PostModel | PostStatusModel ){
     if(post instanceof PostModel || post instanceof PostStatusModel ){
       this._post = post;
-      console.log(post);
       if( this.post instanceof PostStatusModel && this.post.sender != null){
-
-        console.log("PostStatusModel");
-
         this.data = {
           title: 'Updated status',
           text: this.post.status,
           photo: this.post.project.image
         }
-
       } else if( this.post instanceof PostModel && this.post.project != null) {
-        console.log("PostModel");
-
         this.data = {
           title: this.post.sender.role,
           subtitle: this.post.sender.name,
@@ -138,7 +131,6 @@ export class Post {
           photo: this.post.sender.photo
         }
       }
-
     }
   }
 

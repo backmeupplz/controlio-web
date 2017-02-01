@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { Modal } from "ng2-modal";
-import { ClickOutsideModule } from 'ng2-click-outside';
 
 @Component({
   host: {
@@ -10,7 +9,7 @@ import { ClickOutsideModule } from 'ng2-click-outside';
   template: "",
 })
 
-export class ModalWindow { 
+export class ModalWindow {
   componentName: string = "ModalWindow";
   public Modal = null;
   protected isOpen: boolean = false;

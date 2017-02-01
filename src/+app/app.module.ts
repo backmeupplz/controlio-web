@@ -8,6 +8,9 @@ import { BemModule } from 'angular-bem';
 
 import { AppComponent, XLargeDirective }   from './app.component';
 
+import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+
 
 /**
 *  Modules
@@ -28,7 +31,8 @@ import { LoggedInGuard } from './auth/logged-in.guard';
 import { LoginComponent } from './auth/login.component';
 // import { RegisterComponent } from './auth/register.component';
 import { SignUpPage } from './auth/signup-page.component';
-
+import { AccountRecovery } from './auth/account-recovery.component';
+import { AccountRecoveryPageComponent } from './auth/account-recovery-page.component';
 
 /**
 * Support
@@ -65,6 +69,7 @@ import { AddProject } from './projects/add-project.component';
 import { AddProjectPage } from './projects/add-project-page.component';
 import { EditProject } from './projects/edit-project.component';
 import { EditProjectPage } from './projects/edit-project-page.component';
+import { SearchComponent } from './projects/search.component';
 
 /**
 *  Post
@@ -111,7 +116,8 @@ import { AppHttp } from './helpers/http/AppHttp.service';
   HelperFormModule,
   ImageGaleryModule,
   BemModule,
-  MBootstrapModule
+  MBootstrapModule,
+  InfiniteScrollModule
 ],
   declarations: [
     ErrorMessageComponent,
@@ -136,9 +142,11 @@ import { AppHttp } from './helpers/http/AppHttp.service';
     AboutControlio,
     ProjectListElem,
     EditProjectPage,
+    SearchComponent,
     SignIn,
     SignUp,
-    // AccountRecovery,
+    AccountRecovery,
+    AccountRecoveryPageComponent,
     LoginComponent,
     // RegisterComponent,
     ProfileComponent,
@@ -161,7 +169,8 @@ import { AppHttp } from './helpers/http/AppHttp.service';
     MenuCenter,
     AppHeaders,
     PaymentsService,
-    AppHttp
+    AppHttp,
+    CookieService,
   ]
 })
 export class AppModule { }

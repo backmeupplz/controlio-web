@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { AppHttp } from '../helpers/http/AppHttp.service';
 import { Observable }     from 'rxjs/Observable';
 import { AppHeaders } from '../helpers/http/AppHeaders.service';
-
+import { LocalStorage } from '../helpers/local-storage';
 
 
 @Injectable()
@@ -14,21 +14,25 @@ export class BucketService {
 	private s3: any;
 
 
-	constructor(private http: AppHttp, private headers: AppHeaders){
+	constructor(private http: AppHttp, private headers: AppHeaders, @Inject(LocalStorage) private localStorage){
     console.log("BucketService");
   }
 
 	store_data( key: string, data: any ) {
     let array = data.Body.data;
-    let base64Data = btoa(String.fromCharCode.apply(null, array));
-    let image = document.createElement('img');
-		image.src = 'data:image/png;base64,' + base64Data;
-		localStorage.setItem( key, image.src );
+
+    if( btoa != undefined ){
+      let base64Data = btoa(String.fromCharCode.apply(null, array));
+      let image = document.createElement('img');
+  		image.src = 'data:image/png;base64,' + base64Data;
+  		this.localStorage.setItem( key, image.src );
+    }
+
 	  return data;
 	}
 
 	getCachedImg( key: string ){
-		const imgSrc = localStorage.getItem(key);
+		const imgSrc = this.localStorage.getItem(key);
 		if( imgSrc ){
 			return imgSrc;
 		} else {

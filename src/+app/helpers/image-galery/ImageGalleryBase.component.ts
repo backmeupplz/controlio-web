@@ -7,15 +7,15 @@ import { ImageModel } from '../imgb/imgb.model';
    template: `
    <div class="ng-overlay" *ngIf="opened">
     <div class="ng-gallery-content" >
-    <div class="uil-ring-css" *ngIf="loading"><div></div></div>         
-    <a class="close-popup" (click)="closeGallery()"><i class="fa fa-close">Close</i></a>
-     <a class="nav-left" *ngIf="gallery.images.length >1" (click)="prevImage()"><i class="fa fa-angle-left">Left</i></a>
+    <div class="uil-ring-css" *ngIf="loading"><div></div></div>
+    <a class="close-popup" (click)="closeGallery()"><svg-icon src="assets/clear.svg" block="mh-svg" mod="common"></svg-icon></a>
+     <a class="nav-left" *ngIf="gallery.images.length >1" (click)="prevImage()"><</a>
      <imgb *ngIf="!loading" [image]="image" [styles]="styles" (click)="nextImage()" class="effect"></imgb>
-     <a class="nav-right" *ngIf="gallery.images.length >1" (click)="nextImage()"><i class="fa fa-angle-right">Right</i></a>
+     <a class="nav-right" *ngIf="gallery.images.length >1" (click)="nextImage()">></a>
      <span class="info-text">{{ currentImageIndex + 1 }}/{{ gallery.images.length }} - Image {{currentImageIndex+1}}</span>
    </div>
    </div>
-       ` 
+       `
 })
 export class ImageModal implements OnInit {
   private styles: string = "img-border-width";

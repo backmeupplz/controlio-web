@@ -5,20 +5,18 @@ import { PaymentsService } from './payments.service';
 	selector: 'stripe',
 	template:
 	`
-  <div class="col-sm-3 col-xs-12">
-    <mh-button
-    (click)="openCheckout()"
-    title="Add card"
-    mods="big padding-big common radius margin"
-    text-mods="common">
-    </mh-button>
-  </div>
+  <mh-button
+  (click)="openCheckout()"
+  title="Add card"
+  mods="big padding-big common radius margin"
+  text-mods="common">
+  </mh-button>
 `
 })
 
 
 export class Stripe {
-
+  @Input() value: number = 2000;
   @Input() subsciption: number;
 	componentName: "Stripe";
 
@@ -40,12 +38,13 @@ export class Stripe {
     handler.open({
     	key: "pk_test_QUk0bgtsbIfR67SVr0EHnIpx",
       class: "stripe-button",
-    	image: "https://stripe.comassets/documentation/checkout/marketplace.png",
-      name: 'Demo Site',
+    	// image: "https://stripe.comassets/documentation/checkout/marketplace.png",
+      name: 'Controlio',
       description: 'Subscription',
-      amount: 2000,
+      // amount: self.value,
+      panelLabel: 'Add card',
       locale: "auto",
-      label: 'Sign Me Up!'
+      label: 'Add card'
     });
 
   }

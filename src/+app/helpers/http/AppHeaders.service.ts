@@ -1,11 +1,14 @@
 import { Headers } from '@angular/http';
-import { Injectable } from '@angular/core'
+import { Injectable, Inject } from '@angular/core'
 import { AppSettings } from '../../app-settings';
+import { LocalStorage } from '../local-storage';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class AppHeaders {
 
 	private mainUrl = AppSettings.API_ENDPOINT;
+  constructor( @Inject(LocalStorage) private localStorage, private cookieService: CookieService ){}
 
 	getMainURL(){
 		return this.mainUrl;
@@ -36,12 +39,12 @@ export class AppHeaders {
 	getAuthHeader( params?: any ): Headers {
 		if( !params ){
 		  params = {
-				'userId': localStorage.getItem('userId'),
-	      'token': localStorage.getItem('auth_token')
+				'userId': this.localStorage.getItem('userId') || this.cookieService.get( "userId" ),
+	      'token': this.localStorage.getItem('auth_token') || this.cookieService.get( "auth_token" )
     	}
 		} else {
-      params['userId'] = localStorage.getItem('userId');
-      params['token'] = localStorage.getItem('auth_token');
+      params['userId'] = this.localStorage.getItem('userId') || this.cookieService.get( "userId" );
+      params['token'] = this.localStorage.getItem('auth_token') || this.cookieService.get( "auth_token" );
     }
 
 		let headers = this.getHeader( params );
@@ -52,12 +55,12 @@ export class AppHeaders {
 
     if( !params ){
       params = {
-        'userId': localStorage.getItem('userId'),
-        'token': localStorage.getItem('auth_token')
+        'userId': this.localStorage.getItem('userId') || this.cookieService.get( "userId" ),
+        'token': this.localStorage.getItem('auth_token') || this.cookieService.get( "auth_token" )
       }
     } else {
-      params['userId'] = localStorage.getItem('userId');
-      params['token'] = localStorage.getItem('auth_token');
+      params['userId'] = this.localStorage.getItem('userId') || this.cookieService.get( "userId" );
+      params['token'] = this.localStorage.getItem('auth_token')  || this.cookieService.get( "auth_token" );
     }
 
     let headers = new Headers({

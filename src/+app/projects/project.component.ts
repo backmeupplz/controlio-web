@@ -8,7 +8,7 @@ import { FileImage } from '../helpers/form-elements/FileImage.model';
 import { ProjectModel } from './Project.model';
 
 @Component({
-  styles: ['.you-dont-have-project .text { max-width: 375px; } .input-block { margin-bottom: 24px; } :host { padding-bottom: 240px; }'],
+  styles: ['.you-dont-have-project .text { max-width: 375px; } .input-block { margin-bottom: 24px; } :host { padding-bottom: 240px; } .project-post-block { padding-bottom: 90px; }'],
   selector: 'projects',
   template: require("./project.pug")
 })
@@ -31,9 +31,13 @@ export class Project {
   private resetAll: any;
   private isChangeClients: boolean = false;
 
+  onScroll () {
+    this.loadPosts();
+  }
+
+
   isUploadFile( isUpload: boolean ){
     this.setUploadFiles = false;
-    console.log("isUpload", isUpload)
   }
 
   postMessageInput( message: string ){
@@ -94,21 +98,29 @@ export class Project {
     this.isChangeClients = data.isChanged;
   }
 
+
+  private limitPostLoad = 10;
+  private skipPosts = 0;
+  loadPosts(){
+    this.postService.getPosts( this.project, this.skipPosts, this.limitPostLoad ).subscribe( res => {
+      this.skipPosts += this.limitPostLoad;
+      this.posts = this.posts.concat(res);
+      this.isLoading = false;
+    });
+  }
+
+
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
       this.isLoading = true;
       this.projectService.get( params['id'] ).subscribe( res => {
         this.project = res;
-        console.log("project", this.project, this);
         if(!this.project == null ){
           this.isLoading = false;
           this.title = `This is project deleted or not exist`;
         } else {
           if( this.project.clients ) this.clients = this.project.clients;
-          this.postService.getPosts( this.project, 0, 10 ).subscribe( res => {
-            this.posts = res;
-            this.isLoading = false;
-          });
+          this.loadPosts();
         }
       });
     });
@@ -127,15 +139,15 @@ export class Project {
   }
 
   createPost(_data: any){
+
     let data = _data || {};
     data.projectid = this.project.id;
+    this.myForm.reset()
 
     this.postService.create( this.project, data ).subscribe( res => {
-      console.log( "create res ", res );
       this.posts.unshift(res);
-      this.resetAll = ()=>{
-        console.log("reset all");
-      };
+      this.resetAll = ()=>{};
+      this.setUploadFiles = ()=>{};
       if( res.type == "status" ) this.project.lastStatus = res;
     });
   }
@@ -155,10 +167,8 @@ export class Project {
   save( _data, isValid: boolean ){
     console.log(_data,isValid)
     if(this.actionCheckedID == 0){
-      console.log("Загрузить картинки и получить сообщение");
       this.setUploadFiles = (err: any, images: any )=>{
         if(!err){
-          console.log("upload!!!", images );
           let keys = images.filter((elem)=>{
             if(!elem.err) return elem;
           }).map((elem)=>{

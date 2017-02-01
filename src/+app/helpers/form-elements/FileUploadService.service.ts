@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BucketService } from '../../bucket/bucket.service';
 import { NativeWindow } from '../NativeWindow.service';
 import { ImageModel } from '../imgb/imgb.model';
 import { FileImage } from './FileImage.model';
+import { LocalStorage } from '../local-storage';
 
 @Injectable()
 export class FileUploadService {
@@ -15,7 +16,7 @@ export class FileUploadService {
 		this._ext = ext;
 	}
 
-	constructor( private bucketService: BucketService, private nativeWindow: NativeWindow ){}
+	constructor( private bucketService: BucketService, private nativeWindow: NativeWindow,  @Inject(LocalStorage) private localStorage ){}
 
 
   checkExt(fileName: string){
@@ -79,7 +80,7 @@ export class FileUploadService {
   getStringFormat( name ){
     let format = name.split(".");
     format = format[format.length - 1];
-    let userId = localStorage.getItem('userId');
+    let userId = this.localStorage.getItem('userId');
     let uniqueString =  Math.random().toString(36).substring(7);
     let timestamp = Date.now() / 1000 | 0;
      let str = userId + "/" + uniqueString + "-" + timestamp + "." + format;

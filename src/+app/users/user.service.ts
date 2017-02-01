@@ -6,6 +6,7 @@ import { AppSettings } from '../app-settings';
 import { AppHeaders } from '../helpers/http/AppHeaders.service';
 import { User } from './user.model';
 import { LocalStorage } from '../helpers/local-storage';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()
 export class UserService {
@@ -23,8 +24,8 @@ export class UserService {
 
   private mainUrl = AppSettings.API_ENDPOINT;
 
-  constructor(private http: Http, private headers: AppHeaders, @Inject(LocalStorage) private localStorage ){
-    this.loggedIn = !!this.localStorage.getItem('auth_token');
+  constructor(private http: Http, private headers: AppHeaders, @Inject(LocalStorage) private localStorage, private cookieService: CookieService){
+    this.loggedIn = !!this.localStorage.getItem('auth_token') || !!this.cookieService.get( "auth_token" );
   }
 
 
@@ -106,6 +107,10 @@ export class UserService {
 
 
   setTokens( token, userId ){
+
+    this.cookieService.put( "auth_token", token );
+    this.cookieService.put( "userId", userId )
+
     this.localStorage.removeItem('auth_token');
     this.localStorage.setItem('auth_token', token);
     this.localStorage.removeItem('userId');
@@ -211,6 +216,8 @@ export class UserService {
     let webPushToken = this.localStorage.getItem('auth_token');
 
     this.localStorage.clear();
+    this.cookieService.removeAll();
+
     this.user = null;
     this.loggedIn = false;
     this.setLoggedIn( false );

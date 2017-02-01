@@ -51,8 +51,6 @@ import { ImportFileElement } from './file-upload.component';
 
 
 import { ButtonComponent } from './Button/Button.component';
-import { SvgIconComponent } from './SvgIcon.component';
-
 
 @NgModule({
   imports: [
@@ -79,8 +77,7 @@ import { SvgIconComponent } from './SvgIcon.component';
     FileUploadButton,
     ImportFileElement,
 
-    ButtonComponent,
-    SvgIconComponent
+    ButtonComponent
   ],
   providers: [
     AppHttp, AppHeaders,
@@ -96,8 +93,7 @@ import { SvgIconComponent } from './SvgIcon.component';
     SelectUser,
     FileUploadButton,
     MessageForm,
-    ButtonComponent,
-    SvgIconComponent
+    ButtonComponent
   ]
 })
 export class HelperFormModule {}

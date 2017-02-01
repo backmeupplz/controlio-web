@@ -5,6 +5,7 @@ import { PaymentsService } from './payments.service';
 import { User } from '../users/user.model';
 import { Customer } from './customer.model';
 
+
 @Component({
   selector: 'plans',
   styles: [
@@ -100,6 +101,18 @@ import { Customer } from './customer.model';
     padding-top: 15px;
   }
 
+  .plan .block-mask {
+    bottom: 15px;
+  }
+
+  .action .block-mask {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    top: -20px;
+  }
+
   .plan .top-block p {
     max-width: 100%;
   }
@@ -112,6 +125,51 @@ import { Customer } from './customer.model';
     margin: 15px 0;
     border-radius: 3px;
     box-shadow: 0px 5px 16px rgba(0,0,0,.2);
+  }
+
+  .add-card-pls {
+    text-align: center;
+    padding: 24px;
+    font-size: 1.3em;
+  }
+
+  .card {
+    margin: 0;
+    background: #fff;
+    padding: 0 20px;
+    border-radius: 3px;
+  }
+
+  .container.card-data {
+    padding-bottom: 90px;
+    justify-content: space-between;
+    display: flex;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 48px;
+  }
+
+  .author .text-block ~ .photo-mini {
+    margin-left: 15px;
+    height: 60px;
+    width: 60px;
+  }
+
+  .author .username {
+    font-weight: bold;
+  }
+
+  .support-title {
+    font-style: italic;
+    text-align: right;
+    color: #585d6c;
+    line-height: 1.7em;
+    margin-bottom: 12px;
+  }
+
+  .support-title .link {
+    color:#b0a4fd;
+    font-style: normal;
   }
   `
   ],
@@ -126,11 +184,12 @@ import { Customer } from './customer.model';
         </div>
       </div>
     </div-->
-    <div *ngIf="loading" class="container d-flex">
+    <div *ngIf="loading" class="center-block you-dont-have-project d-flex">
       <h3>Loading ...</h3>
     </div>
-    <div *ngIf="card" class="plans container">
+    <div *ngIf="!loading && card" class="plans container">
       <div class="col-md-3 plan" *ngFor="let plan of plans; let index = index" [ngClass]="{'action': index == 2 }">
+        <div class="block-mask block-common-style"></div>
         <div class="common-block  all-width">
           <div class="content  all-width">
             <div class="top-block">
@@ -145,29 +204,37 @@ import { Customer } from './customer.model';
         </div>
       </div>
     </div>
-    <div class="container" *ngIf="!loading">
+    <div *ngIf="!card && !loading" class="center-block you-dont-have-project">
       <div class="row">
-        <div *ngIf="!card" class="col-xs-12 alert">
-          <p>Добавьте карту, прежду чем выбрать план</p>
-          <stripe class="col-xs-12" [subsciption]="subsciption" (sourceData)="setSource($event)"></stripe>
-        </div>
+        <p class="col-md-12 add-card-pls">Add card to choose a plan</p>
+        <stripe class="col-md-12 d-flex jc-c" [value]="priceValue" [subsciption]="subsciption" (sourceData)="setSource($event)"></stripe>
       </div>
-      <div class="row all-width jc-fs">
-        <div class="col-md-3">
-          <div class="card active" *ngIf="card">
-            <div class="common-block">
-              <div class="content">
-                <div class="top-block">
-                  <p class="type">{{ card.object }}<span style="float: right"><a class="btn cbutton" routerLink="/cards" routerLinkActive="active" *ngIf="card">Change</a></span></p>
-                  <p class="number-card">**** **** **** {{ card.last4 }}</p>
-                  <p class="text-card"><span>{{ card.funding }} {{ card.brand }} {{ card.country }}</span><span class="f-right">{{ card.exp_month }} / {{ card.exp_year }}</span></p>
-                </div>
+    </div>
+    <div class="container card-data" *ngIf="!loading">
+      <div class="col-md-4">
+        <div class="block-mask block-common-style"></div>
+        <div class="card active" *ngIf="card">
+          <div class="common-block">
+            <div class="content">
+              <div class="top-block">
+                <p class="type">{{ card.object }}<span style="float: right"><a class="btn cbutton" routerLink="/cards" routerLinkActive="active" *ngIf="card">Change</a></span></p>
+                <p class="number-card">**** **** **** {{ card.last4 }}</p>
+                <p class="text-card"><span>{{ card.funding }} {{ card.brand }} {{ card.country }}</span><span class="f-right">{{ card.exp_month }} / {{ card.exp_year }}</span></p>
               </div>
             </div>
           </div>
-
-          <!-- cards></cards -->
         </div>
+      </div>
+      <div class="col-md-8 jc-fe support-title">
+        <p>– If you need more than 50 projects, please contact us at: <span class="link">sales@controlio.co</span><br/>
+And don‘t worry, you can upgrade, downgrade or cancel your plan at any time!</p>
+        <span class="author no-padding-bottom">
+          <div class="text-block two-line">
+            <p class="username">Nikita Kolmogorov</p>
+            <p class="info">co-founder at Controlio</p>
+          </div>
+          <div class="photo-mini"><imgb str="assets/ava.png"></imgb></div>
+        </span>
       </div>
     </div>
   `,
@@ -181,14 +248,57 @@ export class Plans {
     { title: "Twenty", "count": 20, price: 50, id: 2, action: true },
     { title: "Fifty", "count": 50, price: 100, id: 3 }
   ];
+
+  setDefault( source: any ){
+    this.source = source;
+    if( !this.user.stripeId || !this.source ) return;
+
+    this.paymentsService.setDefaultPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
+      console.log("setPayments", res);
+    }, (err)=>{
+      console.log( "setPayments", err )
+    })
+  }
+
+
+
+
+  private source: any;
+  private customer: Customer;
+  private user: User;
+  private default: string;
+
+  setSource( source: any ){
+    this.source = source;
+    this.card = this.source;
+
+    if( !this.user.stripeId || !this.source ) return;
+
+    this.paymentsService.setPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
+      console.log("setPayments", res);
+    }, (err)=>{
+      console.log( "setPayments", err )
+    })
+  }
+
+
+
+
+
+  private isAddCard: boolean = false;
+  getPlan( id: number ){
+    let index = this.plans.findIndex((elem: any)=>{
+        return elem.id == id;
+    });
+    return index > -1 ? this.plans[index] : null;
+  }
+
   isDisabled( planId ){
     return this.subsciption == planId;
   }
+  private priceValue: number;
   private loading: boolean = true;
   private subsciption: any = 0;
-  private source: string;
-  private customer: Customer;
-  private user: User;
   private card: any | null;
   private loadingSubsciption: boolean[] = [false, false, false, false];
   constructor(
@@ -199,13 +309,18 @@ export class Plans {
   ){}
 
   setSubsciption(type: number){
-    console.log( type )
+    if(!type) return;
+    // if( !this.card ){
+    //   // this.isAddCard = true;
+    //   // console.log("type", type, this.getPlan(type))
+    //   // let subscription = this.getPlan(type);
+    //   // this.priceValue = (subscription.price||0) * 100;
+    // }
     if( !this.customer ) return;
 
     this.loadingSubsciption[type] = true;
     this.paymentsService.setSubscription( type )
                         .subscribe((res)=>{
-                         console.log(res);
                           this.subsciption = type;
                           this.loadingSubsciption[type] = false;
                         });

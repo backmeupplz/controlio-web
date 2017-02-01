@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule }       from '@angular/common';
-
+import { MBootstrapModule } from '../bootstrap-components/MBootstrapModule.module';
 import { ImageModal } from './ImageGalleryBase.component';
 import { ImageSmallGallery } from './ImageGalleryBaseSmall.component';
 import { ImageGallery } from './ImageGallery.component';
@@ -15,7 +15,8 @@ import { AppHeaders } from '../http/AppHeaders.service';
 @NgModule({
   imports: [
     BemModule,
-    CommonModule
+    CommonModule,
+    MBootstrapModule
   ],
   declarations: [
     ImageGallery,
