@@ -51,7 +51,7 @@ export class SignIn implements OnInit {
     	let self = this;
 		  this.authService.login( data.email, data.password).subscribe((result) => {
 	      if (result) {
-	      	//self.router.navigate(['/profile']);
+	      	self.router.navigate(['/profile']);
 	      	this.authService.setLoggedIn( true );
 	      }
 	    }, (err)=>{

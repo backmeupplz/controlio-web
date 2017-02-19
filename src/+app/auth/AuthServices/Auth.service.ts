@@ -8,7 +8,11 @@ import { UserAuthModel } from '../models';
 @Injectable()
 export class AuthService {
 
+
   loggedIn: boolean = false;
+  isLoggedIn() {
+    return this.loggedIn;
+  }
 
   private loggedInChange = new Subject<boolean>();
   loggedIn$ = this.loggedInChange.asObservable()
@@ -16,10 +20,6 @@ export class AuthService {
   constructor(private userAuthModel: UserAuthModel, private http: AppHttp, private headers: AppHeaders ) {
     this.loggedIn = this.userAuthModel.checkAuth();
     if( !this.userAuthModel.isSetFromStorage ) this.userAuthModel.setUserFromStorage();
-  }
-
-  isLoggedIn() {
-    return this.loggedIn;
   }
 
   setLoggedIn(loggedIn: boolean) {
@@ -82,5 +82,4 @@ export class AuthService {
                       return true;
                     })
   }
-
 }

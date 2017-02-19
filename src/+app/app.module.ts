@@ -8,7 +8,7 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { routing, appRoutingProviders }  from './app.routing';
-import { AuthModule } from './Auth';
+import { AuthService, AuthModule } from './auth';
 
 import { MBootstrapModule } from './helpers/bootstrap-components/MBootstrapModule.module';
 import { SharedModule } from './shared/shared.module';
@@ -18,15 +18,11 @@ import { MainPageComponent } from "./MainPage";
 import { ErrorPage } from "./pages/error-page.component";
 import { AboutControlio } from './pages/about_controlio.component';
 
-import { AuthService, UserAuthModel } from './auth';
 import { UserModule } from './users';
-
-
-// import { UserAuthModel } from './models';
 
 @NgModule({
   imports:      [
-    AuthModule,
+    AuthModule.forRoot(),
     SharedModule,
     routing,
     MomentModule,
@@ -41,12 +37,12 @@ import { UserModule } from './users';
     MainPageComponent,
     ErrorPage,
     AboutControlio,
+
   ],
   providers: [
     appRoutingProviders,
     CookieService,
-    AppConfig,
-    UserAuthModel
+    AppConfig
   ]
 })
 export class AppModule { }

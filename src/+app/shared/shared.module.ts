@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from './api.service';
 import { ModelService } from './model/model.service';
 
-import { AuthService, UserAuthModel } from '../auth';
+// import { AuthService, UserAuthModel } from '../auth';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -25,8 +25,7 @@ const COMPONENTS = [
 
 const PROVIDERS = [
   ModelService,
-  ApiService,
-  // AuthService
+  ApiService
 ]
 
 @NgModule({
@@ -41,9 +40,6 @@ const PROVIDERS = [
     ...MODULES,
     ...PIPES,
     ...COMPONENTS
-  ],
-  providers: [
-    ...PROVIDERS
   ]
 })
 export class SharedModule {

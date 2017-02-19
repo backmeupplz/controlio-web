@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -30,19 +30,20 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     FormHelperModule,
     SharedModule,
-    RouterModule.forRoot(moduleRoutes)
+    RouterModule.forChild(moduleRoutes)
   ],
   exports: [],
   declarations: [
     AccountRecoveryPageComponent, AccountRecovery,
     SignIn, LoginComponent,
     SignUp, SignUpPage
-  ],
-  providers: [
-    FormMessageService,
-    //AuthService,
-    AppHeaders, AppHttp,
-    //UserAuthModel
-  ],
+  ]
 })
-export class AuthModule {}
+export class AuthModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: AuthModule,
+      providers: [AuthService, UserAuthModel, FormMessageService, AppHeaders, AppHttp]
+    }
+  }
+}

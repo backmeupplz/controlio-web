@@ -47,9 +47,6 @@ import { MainModule } from './browser.module';
 
 export const platformRef = platformUniversalDynamic();
 
-
-import { AuthService, UserAuthModel } from './+app/auth';
-
 // on document ready bootstrap Angular 2
 export function main() {
   // Load fonts async
@@ -60,7 +57,7 @@ export function main() {
     }
   });
 
-  return platformRef.bootstrapModule(MainModule, [AuthService, UserAuthModel]);
+  return platformRef.bootstrapModule(MainModule);
 }
 
 // support async tag or hmr

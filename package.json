@@ -85,8 +85,6 @@
     "zone.js": "~0.6.26"
   },
   "devDependencies": {
-    "sass-resources-loader": "git+https://github.com/shakacode/sass-resources-loader.git",
-    "node-sass": "^4.3.0",
     "@ngtools/webpack": "~1.1.7",
     "@types/body-parser": "0.0.29",
     "@types/compression": "0.0.29",
@@ -111,8 +109,10 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.2",
     "less-loader": "^2.2.3",
+    "node-sass": "^4.3.0",
     "nodemon": "^1.10.0",
     "pug-html-loader": "^1.1.0",
+    "pug-plugin-ng": "0.0.2",
     "raw-loader": "^0.5.1",
     "reflect-metadata": "0.1.8",
     "rimraf": "^2.5.4",

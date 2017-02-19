@@ -28,6 +28,8 @@ import {LocalStorage} from './+app/helpers/local-storage';
 // TODO(gdi2290): refactor into Universal
 export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
 
+
+
 @NgModule({
   bootstrap: [ AppComponent ],
   imports: [
@@ -41,10 +43,9 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
     AppModule,
   ],
   providers: [
+
     { provide: 'isBrowser', useValue: isBrowser },
     { provide: 'isNode', useValue: isNode },
-    // { provide: 'AuthService', useValue: AuthService },
-    // { provide: 'UserAuthModel', useValue: UserAuthModel },
     {
       provide: CookieService,
       useClass: CookieBackendService
