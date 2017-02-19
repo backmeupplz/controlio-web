@@ -1,0 +1,10 @@
+div.ng-overlay(*ngIf="opened")
+  div.ng-gallery-content
+    div.uil-ring-css(*ngIf="loading")</div>
+    a.close-popup((click)="closeGallery()")
+      svg-icon(src="assets/clear.svg" block="mh-svg" mod="common")
+    a.nav-left(*ngIf="gallery.images.length > 1" (click)="prevImage()")
+      bts-icon(icon="chevron-left")
+    imgb.effect(*ngIf="!loading" [image]="image" [styles]="styles" (click)="nextImage()")
+    a.nav-right(*ngIf="gallery.images.length > 1" (click)="nextImage()")
+      bts-icon(icon="chevron-right")

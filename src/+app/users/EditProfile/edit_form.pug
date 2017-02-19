@@ -1,0 +1,16 @@
+div
+	form.form-modal.form-block([formGroup]="myForm") 
+		h1 {{ typeWindow }}
+		div.row
+			div.input-block.col-sm-6
+				label.context(for="title") Name
+				input(name="name", placeholder="Your name", type="text", formControlName="name", id="name")
+			div.input-block.col-sm-6
+				label.context(for="title") Phone
+				input(name="phone", placeholder="phone", type="text", formControlName="phone", id="phone")
+		div.row.jc-sb
+			div.input-block.col-sm-6
+				label.context Photo
+				file-upload([upload]="callback_upload", (valueChange)="imageKeyChange($event)", [ext]="photoExt", [image]="image")
+			div.input-block.col-sm-3.f-right
+				button.cbutton((click)="save(myForm.value, myForm.valid)") {{ typeWindow }}

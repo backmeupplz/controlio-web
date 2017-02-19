@@ -1,0 +1,5 @@
+div.windows-options(*ngIf="!close")
+  ul
+    li
+      a(routerLink="/profile" routerLinkActive="active") {{ data.name || data.email }}
+    li((click)="logout()") Sign Out

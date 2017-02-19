@@ -1,0 +1,29 @@
+div.container
+  div.row
+    div.common-block.support
+      div.block-mask.block-common-style
+      div.col-md-3.main-photo.col-xs-12.col-sm-3
+        a.image([style.background-image]="'url(' + 'assets/Nikita.png' + ')'")
+      div.content.col-md-9.col-xs-12.col-sm-9.no-padding-left
+        div.top-block
+          p.title {{ title }}
+          p.description {{ description }}
+          span.author.no-padding-bottom
+            img.photo-mini(src="assets/ava.png")
+            div.text-block.two-line
+              p.username Nikita Kolmogorov
+              p.info co-founder at Controlio
+        div.link-block.bottom-block.row
+          span.author.col-md-4
+            img.photo-mini.round-mask(src="assets/telegram.png")
+            div.text-block.two-line
+              p.context TELEGRAM
+          span.author.col-md-4
+            img.photo-mini.round-mask(src="assets/skype.png")
+            div.text-block.two-line
+              p.context SKYPE
+              p.info.link-style backmeupplz
+          span.author.col-md-4
+            img.photo-mini.round-mask(src="assets/facebook.png")
+            div.text-block.two-line
+              p.context FACEBOOK

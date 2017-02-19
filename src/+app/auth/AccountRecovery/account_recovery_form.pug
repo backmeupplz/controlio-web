@@ -1,0 +1,11 @@
+div
+  form.form-modal.form-block([formGroup]="myForm")
+    h1 Account Recovery
+    p.subtitle(*ngIf="!sendEmail") Enter your email address and we'll help you reset your&nbsp;password.
+    p.subtitle.send-email-message(*ngIf="sendEmail") We sent link for reset password to your ✉&nbsp;email&nbsp;({{ email }})
+    div.input-block(*ngIf="!sendEmail")
+      label.context(for="email") Email
+      input(name="email", placeholder="Your email", type="email", formControlName="email")
+      invalid-message([errors]="myForm.controls.email.errors", [list]="listMessages.email", [show]="submitted")
+    button.cbutton(type="submit", *ngIf="!sendEmail", (click)="save(myForm.value, myForm.valid)", [disabled]="myForm.invalid && submitted", [ngClass]="{'disabled': myForm.invalid && submitted }") Recover
+    a.under-link(routerLink="/login") Back to sign in
