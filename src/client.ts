@@ -36,11 +36,8 @@ function load(url) {
 }
 
 load('https://checkout.stripe.com/checkout.js')
-.then(function() {
-  console.log('Loaded!');
-})
 .catch(function(err) {
-  console.error('Something went wrong!', err);
+  console.error(`Checkout stripe don't loaded!`, err);
 })
 
 // enable prod for faster renders
@@ -49,6 +46,9 @@ load('https://checkout.stripe.com/checkout.js')
 import { MainModule } from './browser.module';
 
 export const platformRef = platformUniversalDynamic();
+
+
+import { AuthService, UserAuthModel } from './+app/auth';
 
 // on document ready bootstrap Angular 2
 export function main() {
@@ -60,7 +60,7 @@ export function main() {
     }
   });
 
-  return platformRef.bootstrapModule(MainModule);
+  return platformRef.bootstrapModule(MainModule, [AuthService, UserAuthModel]);
 }
 
 // support async tag or hmr

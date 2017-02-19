@@ -13,7 +13,7 @@ import { ImageGaleryModule } from '../image-galery/ImageGaleryModule';
 
 
 import { FormMessageService } from './message.service';
-
+import { FilesUploadComponent } from './files-upload.component'
 
 
 import { LimitInput } from './limit.component';
@@ -75,6 +75,7 @@ import { ButtonComponent } from './Button/Button.component';
 
 
     FileUploadButton,
+    FilesUploadComponent,
     ImportFileElement,
 
     ButtonComponent
@@ -93,7 +94,8 @@ import { ButtonComponent } from './Button/Button.component';
     SelectUser,
     FileUploadButton,
     MessageForm,
-    ButtonComponent
+    ButtonComponent,
+    FilesUploadComponent
   ]
 })
 export class HelperFormModule {}

@@ -3,65 +3,71 @@ import { BucketService } from '../../bucket/bucket.service';
 import { NativeWindow } from '../NativeWindow.service';
 import { ImageModel } from '../imgb/imgb.model';
 import { FileImage } from './FileImage.model';
+import { FileModel } from './File.model';
 import { LocalStorage } from '../local-storage';
+import { FilesGalleryModel } from '../image-galery/FilesGallery.model';
 
 @Injectable()
 export class FileUploadService {
 
-	private _ext: string[] = [];
-	get ext(){
-		return this._ext;
-	}
-	set ext( ext: string[] ){
-		this._ext = ext;
-	}
-
-	constructor( private bucketService: BucketService, private nativeWindow: NativeWindow,  @Inject(LocalStorage) private localStorage ){}
+	constructor( private bucketService: BucketService,
+               private nativeWindow: NativeWindow,
+               @Inject(LocalStorage) private localStorage ){}
 
 
-  checkExt(fileName: string){
+  checkExt(fileName: string, ext: string[]){
+    console.log("checkExt", fileName, ext)
   	let str = fileName.split(".");
   	let format = str[str.length - 1];
-  	let res = this.ext.findIndex( val => { return val == format; });
+  	let res = ext.findIndex( val => { return val == format; });
   	return res != -1;
   }
 
-  createImageFile( data ){
-    const self = this;
-    let newFile = new FileImage(this.generateKey( data ), data);
-    newFile.loadImageMethod = ( file, callback )=>{
-      self.getImagePreview( newFile.file, ( err: any, img: ImageModel )=>{
-        file.img = img;
-        callback(null, img);
-      }, newFile.key );
-    };
+  createFile( file: any ){
+    if(!file) return null;
 
+    let fileName = file.name;
+    let newFile = null;
+
+    const self = this;
+    if( this.checkExt(fileName, ['jpeg','png','jpg'])){
+      newFile = new FileImage(this.generateKey( file ), file, false, fileName);
+      newFile.loadImageMethod = ( file, callback )=>{
+        self.getImagePreview( file, ( err: any, img: ImageModel )=>{
+          newFile.image = img;
+          if(callback) callback(null, img);
+        }, newFile.key );
+      };
+    } else newFile = new FileModel(this.generateKey( file ), file, false, fileName);
+
+    console.log(newFile);
     return newFile;
   }
 
-  // For preview image before upload
-  getImagePreview( file: any, callback: any, fileKey?: string ){
-    var img = document.createElement("img");
-    console.log(file);
-    let src = this.nativeWindow.createObjectURL( file );
 
-    var reader: any, target: EventTarget;
-    reader = new FileReader();
-    reader.addEventListener("load", (event) => {
-      let image = new ImageModel(src, false, file.name, fileKey);
-      callback(null, image)
-    }, false);
-    reader.readAsDataURL( file );
+
+  uploadGallery( gallery: FilesGalleryModel ){
+    if(!gallery) return;
+    gallery.files.forEach((file)=>{
+      console.log("set upload", file);
+      if(!file.isUploaded){
+        file.setLoad();
+        this.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress );
+      }
+    });
   }
-
 
 
   // For upload file on server
   // callback (err, res)=>{}
-  uploadOn( key: string, file: any, callback: any ){
+  uploadOn( key: string, file: any, callback: any, callabackUploadProgress?: any ){
   	if( callback != undefined && callback != null && key.length > 0 && file != undefined ){
-  		if( file == undefined || key == undefined ) callback( true, null);
-      this.bucketService.uploadImage( key, file ).subscribe((res)=>{
+  		if( file == undefined || key == undefined ){
+        callback( true, null);
+        if(callabackUploadProgress) callabackUploadProgress(-1)
+      }
+      this.bucketService.uploadImage( key, file, callabackUploadProgress ).subscribe((res)=>{
+        console.log("callback FileUploadService", new Date())
         callback(null, res);
       }, (err)=>{
         callback(err, null);
@@ -71,6 +77,14 @@ export class FileUploadService {
 
 
 
+  getImagePreview( file: any, callback: any, fileKey?: string ){
+    let reader = new FileReader();
+    reader.onloadend = function () {
+      let image = new ImageModel(reader.result, false, file.name, fileKey);
+      callback(null, image)
+    }
+    reader.readAsDataURL( file );
+  }
 
   // For generate key for bucket upload
   generateKey( file: any ){

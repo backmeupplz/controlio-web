@@ -1,95 +1,16 @@
-import 'rxjs/add/operator/pairwise';
-import { Component, Directive, ElementRef, ChangeDetectionStrategy, Renderer, ViewChild, ContentChild } from '@angular/core';
-import { MenuBlock } from './nav/top_block.component.js';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { UserService } from './users/user.service';
-import { MenuCenter } from './nav/menu-center';
-
-@Directive({
-  selector: '[xLarge]'
-})
-export class XLargeDirective {
-  constructor(element: ElementRef, renderer: Renderer) {
-    renderer.setElementStyle(element.nativeElement, 'fontSize', 'x-large');
-  }
-}
+import { Component } from '@angular/core';
+import { AuthService } from './auth';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Default,
   selector: 'app',
-  template: require("../template/elements/app.pug")
+  template: require("./app.pug")
 })
 export class AppComponent {
-  private MODALS: any ;
-
-  private burgerShow: boolean = false;
-
   private isAccess: boolean = false;
-  public event: any = null;
-  private user: any = null;
-
-  private pages: any[];
-  private burger_list: any[];
-  private addProject: any;
-  private languageFullView: boolean;
-
-  changeView( access: boolean ){
-    this.burgerShow = this.isAccess;
-   }
-
-  sendEvent(e){
-    this.event = e;
-  }
-
-  constructor(
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private menuCenter: MenuCenter
-  ){
-
-    console.log("awesome!");
-    this.languageFullView = true;
-
-    this.addProject = {
-      title: "New Project",
-      icon: "assets/add-circle-outline.svg",
-      css: "add-projects col-md-6 col-sm-6 hidden-xs hidden-sm",
-      url: "project/add"
-    };
-
-    let data = [
-      { title: "Projects", url: "/projects" },
-      { title: "Plans", url: "/plans"  },
-      { title: "Support", url: "support" }
-    ];
-
-    this.pages = [
-      { title: "Projects", url: "/projects" },
-      { title: "Plans", url: "/plans"  },
-      { title: "Support", url: "support" }
-    ];
-
-    this.burger_list = data;
-    this.burger_list.push({
-      title: "New Project",
-      icon: "assets/add-circle-outline.svg",
-      css: "add-projects col-md-6 col-sm-6",
-      url: "project/add"
+  constructor(private authService: AuthService){
+    this.isAccess = this.authService.isLoggedIn();
+    this.authService.loggedIn$.subscribe((value) => {
+      this.isAccess = value;
     });
-
-
-    let self = this;
-    this.isAccess = this.userService.isLoggedIn();
-
-    this.userService.loggedIn$.subscribe((value) => {
-      self.isAccess = value;
-      self.changeView( self.isAccess );
-      self.user = self.userService.getAuthUser();
-    });
-
-    this.user = this.userService.getAuthUser();
-    this.changeView( this.userService.isLoggedIn() );
-
   }
 }

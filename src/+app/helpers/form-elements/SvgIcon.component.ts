@@ -24,7 +24,6 @@ export class SvgIconComponent implements OnInit {
 			.map( (res: Response) => res.text() )
 			.subscribe(
 				data => {
-					console.log("SVG", this.src)
 					const div = document.createElement('DIV');
 					div.innerHTML = data;
 					const svg = <SVGElement>div.querySelector('svg');

@@ -90,8 +90,8 @@ export class ImportFileElement {
 
 
   constructor(private bucket: BucketService, private fileUploadService: FileUploadService) {
-    this.fileUploadService.ext = ["image/jpeg","image/png"];
-    this._exts = this.fileUploadService.ext.join(",");
+    // this.fileUploadService.ext = ["image/jpeg","image/png"];
+    // this._exts = this.fileUploadService.ext.join(",");
     this.gallery = new ImageGalleryModel();
   }
 

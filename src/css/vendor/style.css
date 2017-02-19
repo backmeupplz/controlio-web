@@ -5,9 +5,6 @@
   display: inline-block;
 }
 
-.my-thumbnail .thumbnail  {
-  margin-left: 15px;
-}
 
 img.ng-thumb {
   height: 50px;
@@ -17,7 +14,7 @@ img.ng-thumb {
 }
 
 
-.ng-overlay { 
+.ng-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -34,7 +31,7 @@ img.ng-thumb {
   -webkit-user-drag: none;
 }
 
-.ng-gallery-content { 
+.ng-gallery-content {
   position: fixed;
   top: 0;
   left: 0;
@@ -158,7 +155,7 @@ img.ng-thumb {
   opacity: 0.6;
 }
 
-.ng-gallery-content > .ng-thumbnails-wrapper > .ng-thumbnails > div > img:hover, 
+.ng-gallery-content > .ng-thumbnails-wrapper > .ng-thumbnails > div > img:hover,
 .ng-gallery-content > .ng-thumbnails-wrapper > .ng-thumbnails > div > img.active {
   transition: opacity 0.25s ease;
   opacity: 1;
@@ -167,11 +164,11 @@ img.ng-thumb {
 /* Loading - from http://loading.io */
 uiload {
   display: inline-block;
-  position: relative; 
+  position: relative;
 }
 
 uiload > div {
-    position: relative; 
+    position: relative;
 }
 
 @-webkit-keyframes uil-ring-anim {
@@ -180,7 +177,7 @@ uiload > div {
     -moz-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);
-    transform: rotate(0deg); 
+    transform: rotate(0deg);
   }
 
   100% {
@@ -188,8 +185,8 @@ uiload > div {
     -moz-transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     -o-transform: rotate(360deg);
-    transform: rotate(360deg); 
-  } 
+    transform: rotate(360deg);
+  }
 }
 
 @-moz-keyframes uil-ring-anim {
@@ -198,7 +195,7 @@ uiload > div {
     -moz-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);
-    transform: rotate(0deg); 
+    transform: rotate(0deg);
   }
 
   100% {
@@ -206,8 +203,8 @@ uiload > div {
     -moz-transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     -o-transform: rotate(360deg);
-    transform: rotate(360deg); 
-    } 
+    transform: rotate(360deg);
+    }
 }
 
 @-ms-keyframes uil-ring-anim {
@@ -216,7 +213,7 @@ uiload > div {
     -moz-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);
-    transform: rotate(0deg); 
+    transform: rotate(0deg);
   }
 
   100% {
@@ -224,8 +221,8 @@ uiload > div {
     -moz-transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     -o-transform: rotate(360deg);
-    transform: rotate(360deg); 
-  } 
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes uil-ring-anim {
@@ -234,7 +231,7 @@ uiload > div {
     -moz-transform: rotate(0deg);
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);
-    transform: rotate(0deg); 
+    transform: rotate(0deg);
   }
 
   100% {
@@ -242,8 +239,8 @@ uiload > div {
     -moz-transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     -o-transform: rotate(360deg);
-    transform: rotate(360deg); 
-  } 
+    transform: rotate(360deg);
+  }
 }
 
 .uil-ring-css {
@@ -252,7 +249,7 @@ uiload > div {
   top: 0;
   margin: 180px auto 0 auto;
   width: 100px;
-  height: 100px; 
+  height: 100px;
 }
 
 .uil-ring-css > div {
@@ -268,7 +265,7 @@ uiload > div {
     -moz-animation: uil-ring-anim 1s linear infinite;
     -webkit-animation: uil-ring-anim 1s linear infinite;
     -o-animation: uil-ring-anim 1s linear infinite;
-    animation: uil-ring-anim 1s linear infinite; 
+    animation: uil-ring-anim 1s linear infinite;
 }
 
 .thumbnail {

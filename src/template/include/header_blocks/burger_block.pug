@@ -1,5 +1,0 @@
-div.burger-block.menu-block.hidden-md.hidden-lg([ngClass]="{'checked': ischecked }", *ngIf="burgerShow")
-  a.main((click)="menuCenter.openMenuOrClose(menuCenter.MENU.BurgerMenu)")
-    img.icon.burger-icon(src="assets/menu.svg")
-    p.text-label Menu
-  burger-drop-down-list([event]="event", [open]="menuCenter.isOpenMenu(menuCenter.MENU.BurgerMenu)", (closedChange)="menuCenter.closeMenu($event)", [data]="burger_list")

@@ -21,7 +21,6 @@ export function getResponse() {
   return Zone.current.get('res') || {};
 }
 
-
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { CookieBackendService } from 'angular2-cookie/services/cookies.backend.service';
 import {LocalStorage} from './+app/helpers/local-storage';
@@ -44,6 +43,8 @@ export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
   providers: [
     { provide: 'isBrowser', useValue: isBrowser },
     { provide: 'isNode', useValue: isNode },
+    // { provide: 'AuthService', useValue: AuthService },
+    // { provide: 'UserAuthModel', useValue: UserAuthModel },
     {
       provide: CookieService,
       useClass: CookieBackendService

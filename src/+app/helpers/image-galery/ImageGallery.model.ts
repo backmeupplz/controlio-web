@@ -2,9 +2,6 @@ import { ImageModel } from '../imgb/imgb.model';
 import { IRemovableImage } from './IRemovableImage.interface';
 
 export class ImageGalleryModel {
-	// метод добавления фотки
-	// метод удаления фотографии
-	// метод получения фотографий
 	public index: number = 1;
   private _images: ImageModel[] = [];
  	get images(){

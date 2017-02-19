@@ -11,6 +11,8 @@ import { BucketService } from '../../bucket/bucket.service';
 import { ImageBackgroudComponent } from '../imgsb.component';
 import { AppHttp } from '../http/AppHttp.service';
 import { AppHeaders } from '../http/AppHeaders.service';
+import { CircleProgressComponent } from '../progress-circle/circle-progress.component';
+import { FileImageComponent } from './file-image.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import { AppHeaders } from '../http/AppHeaders.service';
     ImageModal,
     ImageSmallGallery,
     ImageComponent,
-    ImageBackgroudComponent
+    ImageBackgroudComponent,
+    CircleProgressComponent,
+    FileImageComponent
   ],
   providers: [
     ImageGalleryService,

@@ -29,4 +29,5 @@ export const routes: string[] = [
   'home',
   'todo',
   'lazy',
+  'account-recovery'
 ];

@@ -36,7 +36,11 @@ export class ImageComponent extends ImageClass {
 
 	@Input()
 	set image( img: ImageModel ){
+
+    console.log("img",img);
+
 		if(img){
+      console.log("img", img);
 			if(img.iskey){
 				this.setKey(img.str);
 			} else {

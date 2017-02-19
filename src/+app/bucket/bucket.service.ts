@@ -1,21 +1,19 @@
 import { Injectable, Inject } from '@angular/core';
-import { AppHttp } from '../helpers/http/AppHttp.service';
-import { Observable }     from 'rxjs/Observable';
-import { AppHeaders } from '../helpers/http/AppHeaders.service';
+import { AppHttp, AppHeaders } from '../HTTPHelper';
 import { LocalStorage } from '../helpers/local-storage';
-
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 
 @Injectable()
 export class BucketService {
-	private identy: string = "us-east-1:16327515-a666-4f4b-b7b9-d7c831b285c0";
-	private region: string = "us-east-1";
-	private bucketName: string = 'controlio';
-	private bucket: any;
-	private s3: any;
 
+  public progress$: Observable<any>;
+  private progressObserver: any;
 
 	constructor(private http: AppHttp, private headers: AppHeaders, @Inject(LocalStorage) private localStorage){
-    console.log("BucketService");
+    this.progress$ = Observable.create(observer => {
+        this.progressObserver = observer
+    }).share();
   }
 
 	store_data( key: string, data: any ) {
@@ -41,16 +39,69 @@ export class BucketService {
 	}
 
 
-  uploadImage( key, file ){
+
+  makeFileRequest(url: string, file: any, key: string, callabackUploadProgress?: any) {
+    const self = this;
+    return Observable.fromPromise(new Promise((resolve, reject) => {
+
+        let formData: any = new FormData();
+        let xhr = new XMLHttpRequest()
+        formData.append('image', file, file.name);
+        formData.append('key', key );
+
+        console.log("start!")
+        xhr.upload.onprogress = (event:any) => {
+          let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
+
+          console.log("onprogress BucketService", new Date())
+
+          // callabackUploadProgress(40);
+          // setTimeout(()=>{
+          //   callabackUploadProgress(70);
+          // }, 1000)
+          // setTimeout(()=>{
+          //   callabackUploadProgress(100);
+          // }, 2000)
+
+          self.progressObserver.next({key, progress});
+          if(callabackUploadProgress) callabackUploadProgress(progress);
+        };
+
+        xhr.onprogress = function(event) {
+          //let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
+        }
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log('----')
+                    resolve(JSON.parse(xhr.response))
+                } else {
+                    reject(xhr.response)
+                }
+            }
+        }
+        xhr.open("POST", url, true)
+        xhr.send(formData)
+    }));
+  }
+
+  uploadImage( key, file, callabackUploadProgress?: any ){
 
     let self = this;
-    console.log(file);
-    let headers = this.headers.getFileHeader();
+    //let headers = this.headers.getFileHeader();
 
     let formData: any = new FormData();
     formData.append('image', file, file.name);
     formData.append('key', key );
 
+    return this.makeFileRequest('upload',file, key, callabackUploadProgress).map((res)=>{
+              return res;
+            },(err)=>{
+              console.error("Failed to retrieve an object: " + err );
+              return err;
+            })
+    /*
     return this.http.postFile( 'upload', formData, false, headers )
             .map((res)=>{
               console.log(res);
@@ -59,7 +110,7 @@ export class BucketService {
             },(err)=>{
               console.error("Failed to retrieve an object: " + err );
               return err;
-            })
+            })*/
 	}
 
 	getImage( key ){
@@ -67,8 +118,6 @@ export class BucketService {
 		let self = this;
     return this.http.get( 'img', { key }, false )
             .map((res)=>{
-              console.log(res);
-              console.log("вызов store_data");
               return self.store_data( key, res );
             },(err)=>{
               console.error("Failed to retrieve an object: " + err );

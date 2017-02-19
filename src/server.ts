@@ -12,11 +12,7 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import * as compression from 'compression';
-//import * as fileUpload from 'express-fileupload/lib';
-//import * as fileUpload from 'express-fileupload';
-//var fileUpload = require('express-fileupload');
-var multer  = require('multer')
-//var upload = multer({ dest: 'uploads/' })
+
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
@@ -32,7 +28,6 @@ import { MainModule } from './node.module';
 import { routes } from './server.routes';
 
 
-
 // Bucket service
 import { BucketService } from './bucket.service';
 
@@ -41,7 +36,6 @@ enableProdMode();
 
 const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
-
 
 // Express View
 app.engine('.html', createEngine({
@@ -74,14 +68,6 @@ function cacheControl(req, res, next) {
 app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
-//
-/////////////////////////
-// ** Example API
-// Notice API should be in aseparate process
-import { serverApi, createTodoApi } from './backend/api';
-// Our API for demos only
-app.get('/data.json', serverApi);
-app.use('/api', createTodoApi());
 
 process.on('uncaughtException', function (err) {
   console.error('Catching uncaught errors to avoid process crash', err);

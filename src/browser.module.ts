@@ -49,7 +49,8 @@ import {LocalStorage} from './+app/helpers/local-storage';
   providers: [
     { provide: 'isBrowser', useValue: isBrowser },
     { provide: 'isNode', useValue: isNode },
-
+    // { provide: 'AuthService', useValue: AuthService },
+    // { provide: 'UserAuthModel', useValue: UserAuthModel },
     { provide: 'req', useFactory: getRequest },
     { provide: 'res', useFactory: getResponse },
 
