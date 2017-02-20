@@ -2,14 +2,19 @@ import { NgModule } from '@angular/core';
 import { MenuBlockModule } from './MenuBlock';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthModule } from '../auth';
+import { AuthServiceModule } from '../auth';
 import { TopNavComponent } from './TopNav';
 import { UserSmallInfoModule } from '../users/UserHeaderBlock';
 import { DropDownModule } from './DropDownList';
 
 @NgModule({
-      imports: [CommonModule, RouterModule, UserSmallInfoModule, DropDownModule, MenuBlockModule, 
-      AuthModule
+      imports: [
+        CommonModule, 
+        RouterModule, 
+        UserSmallInfoModule, 
+        DropDownModule, 
+        MenuBlockModule, 
+        AuthServiceModule
       ],
       exports: [
         TopNavComponent

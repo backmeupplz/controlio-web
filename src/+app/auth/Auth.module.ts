@@ -25,12 +25,30 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
+    FormHelperModule,
+    SharedModule
+  ],
+  exports: [],
+  declarations: []
+})
+export class AuthServiceModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: AuthModule,
+      providers: [AuthService, UserAuthModel, FormMessageService, AppHeaders, AppHttp]
+    }
+  }
+}
+
+@NgModule({
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FormHelperModule,
     SharedModule,
-    RouterModule.forChild(moduleRoutes)
+    RouterModule.forChild(moduleRoutes),
+    AuthServiceModule
   ],
   exports: [],
   declarations: [
@@ -39,11 +57,4 @@ import { SharedModule } from '../shared/shared.module';
     SignUp, SignUpPage
   ]
 })
-export class AuthModule {
-  static forRoot(): ModuleWithProviders {
-    return {
-      ngModule: AuthModule,
-      providers: [AuthService, UserAuthModel, FormMessageService, AppHeaders, AppHttp]
-    }
-  }
-}
+export class AuthModule {}

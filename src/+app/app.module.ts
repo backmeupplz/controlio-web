@@ -8,7 +8,7 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { routing, appRoutingProviders }  from './app.routing';
-import { AuthService, AuthModule } from './auth';
+import { AuthService, AuthModule, AuthServiceModule } from './auth';
 
 import { MBootstrapModule } from './helpers/bootstrap-components/MBootstrapModule.module';
 import { SharedModule } from './shared/shared.module';
@@ -22,7 +22,8 @@ import { UserModule } from './users';
 
 @NgModule({
   imports:      [
-    AuthModule.forRoot(),
+    AuthModule,
+    AuthServiceModule.forRoot(),
     SharedModule,
     routing,
     MomentModule,
