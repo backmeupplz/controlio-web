@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { IconComponent } from './IconComponent/Icon.component';
-import { SvgIconComponent } from '../form-elements/SvgIcon.component';
+import { SvgModule } from '../../Svg';
 
 @NgModule({
-  imports: [],
-  declarations: [IconComponent,SvgIconComponent],
+  imports: [SvgModule],
+  declarations: [IconComponent],
   providers: [],
-  exports: [IconComponent,SvgIconComponent]
+  exports: [IconComponent]
 })
 export class MBootstrapModule {}

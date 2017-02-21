@@ -12,6 +12,12 @@ export class UserService {
         });
   }
 
+  getUsers(){
+    return this.http.get('/users/managers').map((res) => {
+          return res;
+        });
+  }
+
   getProfile() {
     return this.http.get('/users/profile').map((res) => {
           let user = new UserModel(res);

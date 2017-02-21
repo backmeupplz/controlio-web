@@ -1,13 +1,12 @@
 import { Component, OnInit,  Output, Input, EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GlobalValidator } from '../validation/global-validator';
+import { GlobalValidator } from '../../FormHelper';
 
 import { Router } from '@angular/router';
-import { UserService } from '../users/user.service';
-import { Email } from '../helpers/form-elements/email.component';
-import { LimitInput } from '../helpers/form-elements/limit.component';
-import { ProjectService } from '../projects/project.service';
-import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
+// import { UserService } from '../../users/UserServices/user.service';
+
+import { ProjectService } from '../../projects/ProjectServices/project.service';
+// import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
 
 @Component({
   selector: 'add-project',
@@ -17,10 +16,10 @@ import { ImportFileElement } from '../helpers/form-elements/file-upload.componen
 
 @Injectable()
 export class AddProject implements OnInit {
-  componentName: "AddProject";
-	public myForm: FormGroup; // our model driven form
-	public submitted: boolean; // keep track on whether form is submitted
-	public events: any[] = []; // use later to display form changes
+
+	public myForm: FormGroup;
+	public submitted: boolean;
+	public events: any[] = [];
 	public manager: any = null;
 	private event_click: any;
 	public typeWindow: string = "Add Project";
@@ -67,7 +66,7 @@ export class AddProject implements OnInit {
 
 	constructor(
 		private _fb: FormBuilder,
-		private userService: UserService,
+		// private userService: UserService,
 		private router: Router,
 		private projectService: ProjectService) {
 
@@ -75,21 +74,21 @@ export class AddProject implements OnInit {
 
 	ngOnInit() {
 
-		if( this.userService.isLoggedIn() ){
-			// this.userService.getAuthUsers().subscribe((result) => {
+		// if( this.userService.isLoggedIn() ){
+		// 	// this.userService.getAuthUsers().subscribe((result) => {
 
-			// 		let index = 0;
-			// 		let users = result.map(elem=>{
-			// 			index++;
-			// 			console.log(elem);
-			// 			return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
-			// 		});
+		// 	// 		let index = 0;
+		// 	// 		let users = result.map(elem=>{
+		// 	// 			index++;
+		// 	// 			console.log(elem);
+		// 	// 			return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
+		// 	// 		});
 
-			// 		console.log( users );
-			// 		this.users = users;
-			//   });
+		// 	// 		console.log( users );
+		// 	// 		this.users = users;
+		// 	//   });
 
-		}
+		// }
 
 		    this.myForm = new FormGroup({
 		        title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
