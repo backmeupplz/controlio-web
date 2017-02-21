@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ProjectListElem } from '../projects/project_list_elem.component.js';
-import { ProjectService } from '../projects/project.service';
+import { ProjectService } from '../ProjectServices/project.service';
 
 
 @Component({
@@ -9,13 +8,17 @@ import { ProjectService } from '../projects/project.service';
     .project-list {
       padding-bottom: 90px;
     }
+
+    .container {
+      z-index: 4;
+      position: relative;
+    }
   `],
   selector: 'projects',
   template: require("./template.pug")
 })
 
 export class Projects {
-  componentName: "Projects";
   private projects: Array<any> = [];
   private loading: boolean = false;
   private title: string = "";
@@ -40,6 +43,10 @@ export class Projects {
         this.loading = false;
         this.projects = res;
         console.log(res);
+      }, (err)=>{
+        this.loading = false;
+        this.title = "Error!"
+        console.log("err", err)
       });
     });
   }

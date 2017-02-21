@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
     :host {
       padding-bottom: 90px;
     }
+    .top-block {
+      display: block;
+    }
   `],
   template: require('./support.component.pug'),
 })

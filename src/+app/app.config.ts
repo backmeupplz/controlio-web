@@ -7,6 +7,8 @@ export class AppConfig {
   private static get DEBUG_MODE(): boolean { return false; }
   public static get API_ENDPOINT(): string { return AppConfig.DEBUG_MODE ? 'http://localhost:8443' : 'https://test.controlio.co' }
 
+  public get API_ENDPOINT(): string { return AppConfig.DEBUG_MODE ? 'http://localhost:8443' : 'https://test.controlio.co' }
+
   // remove
   public static get DEFAUL_IMG(): string { return 'assets/img-icon.svg'; }
 

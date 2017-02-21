@@ -19,9 +19,12 @@ import { ErrorPage } from "./pages/error-page.component";
 import { AboutControlio } from './pages/about_controlio.component';
 
 import { UserModule } from './users';
+import { SupportModule } from './support';
+import { ProjectModule } from './projects';
 
 @NgModule({
   imports:      [
+    SupportModule,
     AuthModule,
     AuthServiceModule.forRoot(),
     SharedModule,
@@ -31,7 +34,8 @@ import { UserModule } from './users';
     MBootstrapModule,
     InfiniteScrollModule,
     NavigationModule,
-    UserModule
+    UserModule,
+    ProjectModule
   ],
   declarations: [
     AppComponent,

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AppSettings } from '../app-settings';
+import { AppSettings } from '../../app.config';
 
 @Component({
   selector: 'project-list-elem',

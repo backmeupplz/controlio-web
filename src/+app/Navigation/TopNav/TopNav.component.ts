@@ -9,6 +9,10 @@ import { BurgerDropDownList } from '../DropDownList';
   styles: [`
   :host, .nav-block {
     height: 100%;
+    margin-left: 0;
+  }
+  :host {
+    margin-left: -15px;
   }
   `],
   selector: 'top-nav',

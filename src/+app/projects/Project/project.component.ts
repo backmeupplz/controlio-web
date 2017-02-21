@@ -1,15 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ProjectListElem } from './project_list_elem.component.js';
-import { ProjectService } from './project.service';
-import { PostService } from '../posts/posts.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { FileImage } from '../helpers/form-elements/FileImage.model';
-import { ProjectModel } from './Project.model';
-import { PostStatusModel } from '../posts/PostStatus.model';
-import { MessageForm } from '../helpers/form-elements/MessageForm.component';
-import { FileUploadService } from '../helpers/form-elements/FileUploadService.service';
-import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
+
+// import { ProjectListElem } from './project_list_elem.component.js';
+// import { ProjectService } from '../ProjectServices/project.service';
+// import { PostService } from '../../posts/PostServices/posts.service';
+
+// import { FileImage } from '../helpers/form-elements/FileImage.model';
+import { ProjectModel } from '../models/Project.model';
+// import { PostStatusModel } from '../../posts/models/PostStatus.model';
+// import { MessageForm } from '../helpers/form-elements/MessageForm.component';
+// import { FileUploadService } from '../helpers/form-elements/FileUploadService.service';
+// import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
 
 @Component({
   styles: ['.you-dont-have-project .text { max-width: 375px; } .input-block { margin-bottom: 24px; } :host { padding-bottom: 240px; } .project-post-block { padding-bottom: 90px; }'],
@@ -20,7 +22,8 @@ import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
 
 export class Project {
 
-  @ViewChild('messageForm') messageForm: MessageForm;
+  // @ViewChild('messageForm') messageForm: MessageForm;
+  /*
 
   componentName: "Project";
   private project: ProjectModel;
@@ -176,6 +179,8 @@ export class Project {
       //this.setUploadFiles = ()=>{};
       //if( res.type == "status" ) this.project.lastStatus = res;
     });
+
+    */
   }
 
 

@@ -21,9 +21,7 @@ const moduleRoutes: Routes = [
     NavigationModule,
     RouterModule.forRoot(moduleRoutes)
   ],
-  exports: [
-    // UserSmallInfoComponent
-  ],
+  exports: [],
   declarations: [
     // EditUser,
     // UserEditPage,

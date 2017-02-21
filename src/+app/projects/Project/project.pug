@@ -8,7 +8,7 @@ div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrott
         div.content.block-common-style
           div.top-block
             menu-block(*ngFor='let element of actions; let i = index; trackBy: trackByFn', [title]="element.title", [ischecked]="element.id == actionCheckedID", [url]="element.url", [icon]="element.icon", [class]="element.css", [action]="element.action")
-          div.bottom-block
+          //-div.bottom-block
             form.form-block.row([formGroup]="myForm")
               div.col-xs-12.row(*ngIf="actionCheckedID == 0")
                 div.input-block.col-sm-9.col-xs-12
@@ -27,6 +27,6 @@ div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrott
                   email-tag(name="clients", placeholder="Title", type="clients", id="clients", (valueChange)="changeClients($event)", [setEmails]="clients")
                 div.col-sm-3.col-xs-12.f-right
                   button.cbutton((click)="updateClients(true)", [disabled]="!isChangeClients", [ngClass]="{disabled: !isChangeClients }") Update
-    div.row.jc-fe
+    //-div.row.jc-fe
       div.common-block.col-sm-9.col-xs-12.post.action-post(*ngFor="let post of posts")
         post([post]="post")

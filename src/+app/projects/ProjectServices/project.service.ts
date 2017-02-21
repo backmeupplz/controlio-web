@@ -2,18 +2,21 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions, RequestMethod, Request } from '@angular/http';
 import 'rxjs/add/operator/map'
 import { Subject }    from 'rxjs/Subject';
-import { AppSettings } from '../app-settings';
-import { AppHeaders } from '../helpers/http/AppHeaders.service';
-import { ProjectModel } from './Project.model';
-import { User } from '../users/user.model';
-import { PostStatusModel } from '../posts/PostStatus.model';
-import { PostModel } from '../posts/Post.model';
+
+import { AppConfig } from '../../app.config';
+import { AppHeaders } from '../../HTTPHelper';
+import { ProjectModel } from '../models/Project.model';
+import { UserModel } from '../../users/models/user.model';
+import { PostStatusModel } from '../../posts/models/PostStatus.model';
+import { PostModel } from '../../posts/models/Post.model';
 
 @Injectable()
 export class ProjectService {
 
-  private mainUrl = AppSettings.API_ENDPOINT;
-  constructor(private http: Http, private headers: AppHeaders ){}
+  private mainUrl: string;
+  constructor(private http: Http, private headers: AppHeaders, private appConfig: AppConfig ){
+    this.mainUrl = this.appConfig.API_ENDPOINT;
+  }
 
   create( data ){
 
@@ -50,8 +53,8 @@ export class ProjectService {
       .map((res) => {
 
         console.log("res", res);
-        let manager = new User(res.manager);
-        let owner = new User(res.owner);
+        let manager = new UserModel(res.manager);
+        let owner = new UserModel(res.owner);
 
         let post = res.lastPost;
         let lastPost = (post) ? new PostModel(post._id, manager, null, post.updatedAt, post.text) : null;
@@ -130,8 +133,8 @@ export class ProjectService {
         console.log(data);
         let projects = [];
         data.forEach((res)=>{
-          let manager = new User(res.manager);
-          let owner = new User(res.owner);
+          let manager = new UserModel(res.manager);
+          let owner = new UserModel(res.owner);
 
           let post = res.lastPost;
           let lastPost = (post) ? new PostModel(post._id, manager, null, post.updatedAt, post.text) : null;

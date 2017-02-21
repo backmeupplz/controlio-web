@@ -1,13 +1,15 @@
-import { ProjectModel } from '../projects/Project.model';
-import { ImageGalleryModel } from '../helpers/image-galery/ImageGallery.model';
-import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
-import { ImageModel } from '../helpers/imgb/imgb.model';
-import { User } from '../users/user.model';
-import { IRemovableImage } from '../helpers/image-galery/IRemovableImage.interface';
-import { IRemovableFile } from '../helpers/image-galery/IRemovableFile.interface';
-import { FileModel } from '../helpers/form-elements/File.model';
+import { ProjectModel } from '../../projects/models/Project.model';
+// import { ImageGalleryModel } from '../helpers/image-galery/ImageGallery.model';
+// import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
+// import { ImageModel } from '../helpers/imgb/imgb.model';
+import { UserModel } from '../../users/models/user.model';
+// import { IRemovableImage } from '../helpers/image-galery/IRemovableImage.interface';
+// import { IRemovableFile } from '../helpers/image-galery/IRemovableFile.interface';
+// import { FileModel } from '../helpers/form-elements/File.model';
 
-export class PostModel implements IRemovableFile {
+
+// implements IRemovableFile
+export class PostModel {
 	protected _id: string;
   get id(){
     return this._id;
@@ -18,7 +20,7 @@ export class PostModel implements IRemovableFile {
     return this._project;
   }
 
-	protected _sender: User;
+	protected _sender: UserModel;
   get sender(){
     return this._sender;
   }
@@ -44,13 +46,13 @@ export class PostModel implements IRemovableFile {
 		return this._type;
 	}
 
-	protected _gallery: FilesGalleryModel = null;
-	set gallery(gallery: FilesGalleryModel){
-		this._gallery = gallery;
-	}
-	get gallery(){
-		return this._gallery;
-	}
+	// protected _gallery: FilesGalleryModel = null;
+	// set gallery(gallery: FilesGalleryModel){
+	// 	this._gallery = gallery;
+	// }
+	// get gallery(){
+	// 	return this._gallery;
+	// }
 
   protected _isSave: boolean;
   save(post: PostModel){
@@ -71,7 +73,7 @@ export class PostModel implements IRemovableFile {
     return this._removable;
   }
 
-	constructor( id: string, sender: User, project: ProjectModel, date: string, message?: string, editable?: boolean, removable?: boolean, attachments?: string[], isSave?: boolean ){
+	constructor( id: string, sender: UserModel, project: ProjectModel, date: string, message?: string, editable?: boolean, removable?: boolean, attachments?: string[], isSave?: boolean ){
 		this._id = id;
     this._isSave = isSave === false ? false : true;
 		this._sender = sender;
@@ -88,9 +90,9 @@ export class PostModel implements IRemovableFile {
 		// }
 	}
 
-	removeFile(file: FileModel){
-		console.log("Good! Remove image:", file)
-	}
+	// removeFile(file: FileModel){
+	// 	console.log("Good! Remove image:", file)
+	// }
 
 	// createImageFromKeys( keys: string[] ){
  //    let images = [];

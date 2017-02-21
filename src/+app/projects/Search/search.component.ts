@@ -1,9 +1,15 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GlobalValidator } from '../validation/global-validator';
+import { GlobalValidator } from '../../FormHelper';
 
 @Component({
   styles: [`
+
+    :host {
+      z-index: 4;
+      position: relative;
+    }
+
     :host form {
       margin-top: 24px;
     }
@@ -26,7 +32,6 @@ import { GlobalValidator } from '../validation/global-validator';
     .search-input {
       border-width: 0;
       background: rgba(0,0,0,0);
-      border-bottom: 1px solid #a3adbb;
       border-radius: 0;
       height: 2em;
       color: #585d6c;
@@ -51,6 +56,28 @@ import { GlobalValidator } from '../validation/global-validator';
 
     .js-hidden-border .search-input {
       border-bottom-width: 0;
+    }
+
+    .search-input {
+      padding-left: 30px;
+    }
+
+    .search-icon {
+      position: absolute;
+      margin: 5px;
+    }
+
+    .search-input:focus {
+      outline-style: none;
+    }
+
+    .search-input-line {
+      border-bottom: 1px solid #a3adbb;
+      margin-left: 30px;
+    }
+
+    .search-block {
+      flex-direction: column;
     }
   `],
   selector: 'search',

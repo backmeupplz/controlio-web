@@ -1,14 +1,14 @@
-import { PostStatusModel } from '../posts/PostStatus.model';
-import { PostModel } from '../posts/Post.model';
-import { User } from '../users/user.model';
+import { PostStatusModel } from '../../posts/models/PostStatus.model';
+import { PostModel } from '../../posts/models/Post.model';
+import { UserModel } from '../../users/models/user.model';
 export class ProjectModel {
 
 	public id: string;
 	public image: string;
 	public title: string;
 	public description: string;
-	public manager: User;
-	public owner: User;
+	public manager: UserModel;
+	public owner: UserModel;
 	public clients: string[];
 	public editable: boolean;
 	public isArchived: boolean;
@@ -22,8 +22,8 @@ export class ProjectModel {
 		title: string,
 		description: string,
 		image: string,
-		manager: User,
-		owner: User,
+		manager: UserModel,
+		owner: UserModel,
 		clients: any[],
 		editable: boolean,
 		isArchived: boolean,
@@ -50,7 +50,7 @@ export class ProjectModel {
 		this.date = date;
 	}
 
-	getAccess(user: User){
+	getAccess(user: UserModel){
 		if(user == null) return false;
 		return user.id == this.owner.id || user.id == this.manager.id;
 	}

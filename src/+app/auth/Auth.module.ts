@@ -10,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountRecoveryPageComponent, AccountRecovery } from './AccountRecovery';
 import { SignIn, LoginComponent } from './SignIn';
 import { SignUp, SignUpPage } from './SignUp';
+import { LoggedInGuard } from './LoggedGuard';
 
 const moduleRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,7 +26,6 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    FormHelperModule,
     SharedModule
   ],
   exports: [],
@@ -35,7 +35,7 @@ export class AuthServiceModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: AuthModule,
-      providers: [AuthService, UserAuthModel, FormMessageService, AppHeaders, AppHttp]
+      providers: [AuthService, UserAuthModel, AppHeaders, AppHttp, LoggedInGuard]
     }
   }
 }
@@ -55,6 +55,7 @@ export class AuthServiceModule {
     AccountRecoveryPageComponent, AccountRecovery,
     SignIn, LoginComponent,
     SignUp, SignUpPage
-  ]
+  ],
+  providers: [FormMessageService]
 })
 export class AuthModule {}
