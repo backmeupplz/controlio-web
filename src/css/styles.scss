@@ -29,3 +29,16 @@
 .link-block .author .photo-mini {
   border-width: 0;
 }
+
+.js-is-used-limit {
+    color: #ff8d8d;
+    font-weight: bold;
+}
+
+.menu-block::hover {
+  background: #edeeef;
+}
+
+.active .menu-block {
+  background: red;
+}

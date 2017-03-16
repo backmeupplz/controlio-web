@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
-
-import { MomentModule } from 'angular2-moment';
 import { BemModule } from 'angular-bem';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
 import { routing, appRoutingProviders }  from './app.routing';
 import { AuthService, AuthModule, AuthServiceModule } from './auth';
 
-import { MBootstrapModule } from './helpers/bootstrap-components/MBootstrapModule.module';
+import { BootstrapHelperModule } from './BootstrapHelper';
 import { SharedModule } from './shared/shared.module';
 import { NavigationModule } from './Navigation';
 
@@ -29,10 +26,8 @@ import { ProjectModule } from './projects';
     AuthServiceModule.forRoot(),
     SharedModule,
     routing,
-    MomentModule,
     BemModule,
-    MBootstrapModule,
-    InfiniteScrollModule,
+    BootstrapHelperModule,
     NavigationModule,
     UserModule,
     ProjectModule

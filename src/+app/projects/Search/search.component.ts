@@ -85,8 +85,34 @@ import { GlobalValidator } from '../../FormHelper';
 })
 export class SearchComponent implements OnInit {
   public myForm: FormGroup;
-  private typeProjects: any[] = ["active", "all projects","archived"];
-  private typeOrders: any[] = ["recent", "old"];
+  private typeProjects: any[] = [
+    {
+      id: 0,
+      title: "active",
+      ischecked: true
+    },
+    {
+      id: 1,
+      title: "all projects"
+    },
+    {
+      id: 2,
+      title: "archived"
+    }
+  ];
+
+  private typeOrders: any[] = [
+    {
+      id: 0,
+      title: "recent",
+      ischecked: true
+    },
+    {
+      id: 1,
+      title: "old"
+    }
+  ];
+
   @Output() valueChange = new EventEmitter(true);
   private isSetText: boolean = false;
   private typeProject: any;
@@ -100,6 +126,7 @@ export class SearchComponent implements OnInit {
     this.myForm.valueChanges.subscribe(data => {
       this.valueChange.emit(data);
       this.isSetText = data.text.length > 0;
+      console.log('search', data);
     })
   }
 

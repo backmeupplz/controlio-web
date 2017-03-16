@@ -7,16 +7,18 @@ import { EmailComponent, TagInputComponent, TagInputItemComponent } from './Emai
 import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 import { BemModule } from 'angular-bem';
 
+import { MessageForm } from './Message';
 import { SelectUser } from './SelectUser';
 import { SelectComponent } from 'ng2-select/ng2-select';
 import { OffClickDirective } from 'ng2-select/components/select/off-click';
 import { HighlightPipe } from 'ng2-select/components/select/select-pipes';
-
+import { DropDownModule } from '../Navigation/DropDownList';
 import { LimitInput } from './LimitInput';
 import { ButtonComponent } from './Button/Button.component';
+import { FHSelect } from './SelectDropDown';
 
 @NgModule({
-      imports: [CommonModule, FormsModule,  ReactiveFormsModule, BemModule],
+      imports: [CommonModule, FormsModule,  ReactiveFormsModule, BemModule, DropDownModule],
       exports: [
         ErrorMessageComponent,
         InvalidErrorMessageComponent,
@@ -24,9 +26,12 @@ import { ButtonComponent } from './Button/Button.component';
         EmailComponent,
         SelectUser,
         LimitInput,
-        ButtonComponent
+        ButtonComponent,
+        MessageForm,
+        FHSelect
       ],
       declarations: [
+        MessageForm,
         SelectComponent,
         OffClickDirective,
         HighlightPipe,
@@ -36,7 +41,8 @@ import { ButtonComponent } from './Button/Button.component';
         EmailComponent, TagInputComponent, TagInputItemComponent,
         SelectUser,
         LimitInput,
-        ButtonComponent
+        ButtonComponent,
+        FHSelect
       ],
       providers: [],
 })

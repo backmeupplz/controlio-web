@@ -8,7 +8,7 @@
   },
   "scripts": {
     "watch": "webpack --watch",
-    "watch:dev": "npm run server & npm run watch",
+    "watch:dev": "npm run watch",
     "clean:dist": "rimraf dist",
     "clean:ngc": "rimraf **/*.ngfactory.ts **/*.css.shim.ts",
     "prebuild": "npm run clean:dist",

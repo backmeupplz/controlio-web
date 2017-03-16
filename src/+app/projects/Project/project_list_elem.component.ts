@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AppSettings } from '../../app.config';
+import { AppConfig } from '../../app.config';
 
 @Component({
   selector: 'project-list-elem',
@@ -26,7 +26,7 @@ export class ProjectListElem {
   @Input() manager: any = null;
   @Input() isOpenSettings: boolean = false;
   componentName: "ProjectListElem";
-  private defaultImage: string = AppSettings.DEFAUL_IMG;
+  private defaultImage: string = AppConfig.DEFAUL_IMG;
   constructor() {
 
   }

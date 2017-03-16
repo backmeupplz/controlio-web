@@ -1,7 +1,7 @@
-div.menu-block([ngClass]="{'checked': ischecked }")
-  a(*ngIf="url != undefined", [routerLink]="url", routerLinkActive="active") 
+div.menu-block([ngClass]="{'checked': ischecked }", (click)="onClick()")
+  a(*ngIf="url != undefined", [routerLink]="url", routerLinkActive="active")
     img([src]="icon", *ngIf="icon != undefined", class="icon")
     p.text-label {{title}}
-  a(*ngIf="action != undefined", (click)="action()")
+  a(*ngIf="action != undefined")
     img([src]="icon", *ngIf="icon != undefined", class="icon")
     p.text-label {{title}}

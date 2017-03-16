@@ -1,64 +1,119 @@
-import { Component, Output, EventEmitter, ElementRef, Input } from '@angular/core';
-
+import { Component, Output, EventEmitter, ElementRef, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
 
 @Component({
   selector: 'limit-input',
-  template: `
-		<label class="context" for="description">{{ label }} <span class="limit-str">{{ use }} / {{ limit }}</span></label>
-		<textarea
-		type="text"
-		id="description"
-		[(ngModel)]="inputValue"
-		name="inputValue"
-		(paste)="inputPaste($event)"
-		(keydown)="inputChanged($event)"
-		(blur)="inputBlurred($event)"
-		ngDefaultControl row="3"></textarea>
-  `,
-})
+  styles: [`
+    :host {
+      position: relative;
+    }
 
-export class LimitInput {
-  componentName: "LimitInput";
-  public inputValue: string = '';
-  public limit: number = 210;
-  public use: number = 0;
+    #hiddenDivTextarea {
+      z-index: 1;
+      opacity: 0;
+      position: absolute;
+      background: red;
+      word-wrap: break-word;
+    }
+
+    #description {
+      z-index: 2;
+      position: relative;
+      height: 56px;
+    }
+
+    .mytextarea {
+      padding: 10px 20px;
+      resize: none;
+      overflow: hidden;
+      padding-right: 47px;
+      background: #fff;
+      margin-top: 0px;
+      padding-left: 20px;
+      font-size: 1em;
+      border-radius: 3px;
+      color: #585d6c;
+      width: 100%;
+      border: 1px solid #eceff3;
+    }
+  `],
+  template: `
+    <label class="context" for="description">{{ label }} <span class="limit-str" *ngIf="limit < InfinityValue" [ngClass]="{ 'js-is-used-limit': use >= limit }">{{ use }} / {{ limit }}</span></label>
+    <div class="mytextarea" id="hiddenDivTextarea">{{ inputValue }}</div>
+    <textarea
+      type="text"
+      class="mytextarea"
+      placeholder="Message"
+      id="description"
+      [(ngModel)]="inputValue"
+      name="inputValue"
+      (paste)="inputPaste($event)"
+      (keydown)="inputChanged($event)"
+      (blur)="inputBlurred($event)"
+      ngDefaultControl row="3">
+    </textarea>
+  `,
+  providers: [
+  {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => LimitInput),
+    multi: true,
+  }]
+})
+export class LimitInput implements ControlValueAccessor {
+
+  private InfinityValue: number = Infinity;
+  private inputValue: string = '';
+  private use: number = 0;
+
+  @Input() limit: number = 210;
+  @Input() shorten: boolean = true;
 
   @Input() label: string;
-  @Output() inputChange = new EventEmitter();
-  @Input()
-  set value( str: string ){
-    if( str ) this.onChange( str );
-  }
+  @Input() minHeight: number = 46;
+  @Input() addDown: number = 10;
+
+
+  constructor(private elementRef: ElementRef) {}
 
   onChange( str: string ){
-  	this.inputValue = str.slice( 0, this.limit );
-    this.inputChange.emit( this.inputValue );
-  	this.use = this.inputValue.length;
+    if(this.shorten === true){
+      this.inputValue = str.slice( 0, this.limit );
+    }
+    this.use = this.inputValue.length;
     this.adjustHeight( this.elementRef.nativeElement );
+    this.propagateChange(this.inputValue);
   }
 
+  // ControlValueAccessor
+
+  private propagateChange = (_: any) => {};
+  public writeValue(obj: string) {
+    if (obj) {
+        this.inputValue = obj;
+    }
+  }
+  public registerOnChange(fn: any) {
+      this.propagateChange = fn;
+  }
+  public registerOnTouched() {}
+
   public adjustHeight(textarea){
+    let minHeight = this.minHeight;
+    let addDown = this.addDown;
     let childs = textarea.children;
     if( childs.description ){
       let clild = childs.description;
-      let dif = clild.scrollHeight - clild.clientHeight;
-      if (dif){
-          if (isNaN(parseInt(clild.style.height))){
-              clild.style.height = clild.scrollHeight + "px";
-          }else{
-              clild.style.height = parseInt(clild.style.height) + dif  + "px";
-          }
-      }
+      let hiddenDiv = childs.hiddenDivTextarea;
+
+      clild.style.height = (((hiddenDiv.clientHeight) > minHeight ? hiddenDiv.clientHeight: minHeight ) + addDown ) + "px";
     }
   }
-  constructor(private elementRef: ElementRef) { }
+
+  // Input
+
   inputChanged(event) {
-    let key = event.keyCode;
-    if( key != 8 ){
-    	this.onChange( this.inputValue );
-    } else {
-    	this.use = this.inputValue.length;
-    }
+    this.onChange( this.inputValue );
   }
 
   inputBlurred(event) {
@@ -68,4 +123,5 @@ export class LimitInput {
   inputPaste(event) {
   	this.onChange( this.inputValue );
   }
+
 }

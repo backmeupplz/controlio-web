@@ -41,7 +41,7 @@ load('https://checkout.stripe.com/checkout.js')
 })
 
 // enable prod for faster renders
-//enableProdMode();
+enableProdMode();
 
 import { MainModule } from './browser.module';
 

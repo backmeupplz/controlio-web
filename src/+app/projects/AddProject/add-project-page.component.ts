@@ -32,17 +32,17 @@ export class AddProjectPage {
   private users: any = [];
   constructor(private userService: UserService ){}
   public ngOnInit() {
-    this.userService.getUsers().subscribe((result) => {
+  //   this.userService.getUsers().subscribe((result) => {
 
-        let index = 0;
-        let users = result.map(elem=>{
-          index++;
-          console.log(elem);
-          return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
-        });
+  //       let index = 0;
+  //       let users = result.map(elem=>{
+  //         index++;
+  //         console.log(elem);
+  //         return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
+  //       });
 
-        this.users = users;
-      });
+  //       this.users = users;
+  //     });
 
   }
 }

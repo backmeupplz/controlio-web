@@ -1,9 +1,9 @@
 import { Component, OnInit,  Output, Input, EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { GlobalValidator } from '../../FormHelper';
-
+import { FileCollection } from '../../Collection';
+import { FileModel } from '../../Files/models';
 import { Router } from '@angular/router';
-// import { UserService } from '../../users/UserServices/user.service';
 
 import { ProjectService } from '../../projects/ProjectServices/project.service';
 // import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
@@ -17,6 +17,7 @@ import { ProjectService } from '../../projects/ProjectServices/project.service';
 @Injectable()
 export class AddProject implements OnInit {
 
+  public collectionFiles: FileCollection<FileModel> = new FileCollection<FileModel>();
 	public myForm: FormGroup;
 	public submitted: boolean;
 	public events: any[] = [];
@@ -27,6 +28,9 @@ export class AddProject implements OnInit {
 	private callback_upload: any = null;
 	private photoExt = ["png","jpg","jpeg"];
 	private isEdit: boolean = false;
+
+  private clients: string[] = [];
+  private managers: string[] = [];
 
 	imageKeyChange( obj ){
 		this.imageKey = obj.key;
@@ -50,12 +54,6 @@ export class AddProject implements OnInit {
     obj.description = text;
     this.myForm.setValue( obj );
   }
-
-	changeClients( emails ){
-    let obj = this.myForm.value;
-    obj.clients = emails;
-    this.myForm.setValue( obj );
-	}
 
 	@Input()
 	set event(event: any) {
@@ -91,13 +89,18 @@ export class AddProject implements OnInit {
 		// }
 
 		    this.myForm = new FormGroup({
+            clients: new FormControl([]),
+            managers: new FormControl([]),
 		        title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
-		        manager: new FormControl( '' ),
-		        description: new FormControl(''),
-		        clients: new FormControl(''),
+		        description: new FormControl('', [<any>Validators.maxLength(400)]),
 		        status: new FormControl(''),
 		    });
 
+        this.myForm.valueChanges.subscribe(data => {
+          console.log(data);
+          // this.valueChange.emit(data);
+          // this.isSetText = data.text.length > 0;
+        })
 	}
 
 	public managerGet(value){
@@ -107,8 +110,9 @@ export class AddProject implements OnInit {
 
 	save( data, isValid: boolean) {
 
+    if( data.managers ) data.managerEmail = data.managers[0];
+    console.log( data, isValid );
 
-		console.log( data, isValid );
     this.submitted = true;
     if( isValid ) {
 
@@ -120,12 +124,14 @@ export class AddProject implements OnInit {
     		this.callback_upload = (err, data)=>{
     			console.log( err, data );
     		}
-		    this.projectService.create( data ).subscribe((result) => {
 
-			  });
 		  } else {
 		  	console.log("Картинка не выбрана!");
 		  }
+
+      this.projectService.create( data ).subscribe((result) => {
+        console.log(result);
+      });
 	  }
 	}
 }

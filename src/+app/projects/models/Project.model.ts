@@ -7,7 +7,7 @@ export class ProjectModel {
 	public image: string;
 	public title: string;
 	public description: string;
-	public manager: UserModel;
+	public managers: UserModel[];
 	public owner: UserModel;
 	public clients: string[];
 	public editable: boolean;
@@ -22,7 +22,7 @@ export class ProjectModel {
 		title: string,
 		description: string,
 		image: string,
-		manager: UserModel,
+		managers: UserModel[],
 		owner: UserModel,
 		clients: any[],
 		editable: boolean,
@@ -36,12 +36,12 @@ export class ProjectModel {
 		this.title = title;
 		this.description= description;
 		this.image = image;
-		this.manager = manager;
+		this.managers = managers;
 		this.owner = owner;
-		this.clients = clients.map((client)=>{
+		this.clients = (clients) ? clients.map((client)=>{
       if(typeof client === "string") return client;
       else return client.email;
-    });
+    }) : [];
 		this.lastStatus = lastStatus;
 		this.lastPost = lastPost;
 		this.editable = editable;
@@ -52,6 +52,6 @@ export class ProjectModel {
 
 	getAccess(user: UserModel){
 		if(user == null) return false;
-		return user.id == this.owner.id || user.id == this.manager.id;
+		return user.id == this.owner.id || this.managers.findIndex((elem)=>{ return elem.id == user.id }) > -1;
 	}
 }

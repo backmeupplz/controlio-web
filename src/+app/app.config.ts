@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 export class AppConfig {
 
   // change
-  private static get DEBUG_MODE(): boolean { return false; }
+  private static get DEBUG_MODE(): boolean { return true; }
   public static get API_ENDPOINT(): string { return AppConfig.DEBUG_MODE ? 'http://localhost:8443' : 'https://test.controlio.co' }
 
   public get API_ENDPOINT(): string { return AppConfig.DEBUG_MODE ? 'http://localhost:8443' : 'https://test.controlio.co' }

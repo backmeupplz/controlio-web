@@ -1,14 +1,14 @@
 import { Component,  Output, Input, EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GlobalValidator } from '../validation/global-validator';
+// import { GlobalValidator } from '../validation/global-validator';
 
-import { UserService } from '../users/user.service';
-import { Email } from '../helpers/form-elements/email.component';
-import { LimitInput } from '../helpers/form-elements/limit.component';
-import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
-import { ProjectService } from './project.service';
+// import { UserService } from '../users/user.service';
+// import { Email } from '../helpers/form-elements/email.component';
+// import { LimitInput } from '../helpers/form-elements/limit.component';
+// import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
+// import { ProjectService } from './project.service';
 
-import { ImageModel } from '../helpers/imgb/imgb.model';
+// import { ImageModel } from '../helpers/imgb/imgb.model';
 
 @Component({
   selector: 'edit-project',
@@ -29,7 +29,7 @@ export class EditProject {
 	private callback_upload: any = null;
 	private photoExt = ["png","jpg","jpeg"];
 	private description: string = "";
-	private image: ImageModel;
+	// private image: ImageModel;
 	private isEdit: boolean = true;
 	private projectVal: any;
 	private clients: string[] = [];
@@ -51,12 +51,6 @@ export class EditProject {
     }
     this.myForm.setValue( obj );
 
-  }
-
-  inputChange( text ){
-    let obj = this.myForm.value;
-    obj.description = text;
-    this.myForm.setValue( obj );
   }
 
 	changeClients( emails ){
@@ -94,18 +88,18 @@ export class EditProject {
 	constructor(
 		private _fb: FormBuilder,
 		private userService: UserService,
-		private projectService: ProjectService) {
+		private projectService: ProjectService) {}
 
-	    this.myForm = new FormGroup({
-	        title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
-	        manager: new FormControl( '' ),
-	        description: new FormControl(''),
-	        clients: new FormControl(''),
-	        status: new FormControl(''),
-	    });
 
-	}
-
+  ngOnInit(){
+    this.myForm = new FormGroup({
+      title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
+      manager: new FormControl( '' ),
+      description: new FormControl('', [<any>Validators.maxLength(400)]),
+      clients: new FormControl(''),
+      status: new FormControl(''),
+    });
+  }
 	public managerGet(value){
 		console.log(value);
 	}
