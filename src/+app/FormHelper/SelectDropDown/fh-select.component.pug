@@ -1,0 +1,4 @@
+div.material-input((click)="openDropDownList()")
+  p {{ (selected) ? selected.title : "" }}
+  img.icon(src="assets/arrow-drop-down.svg")
+burger-drop-down-list([data]="elements", #list)
