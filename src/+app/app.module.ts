@@ -18,11 +18,14 @@ import { AboutControlio } from './pages/about_controlio.component';
 import { UserModule } from './users';
 import { SupportModule } from './support';
 import { ProjectModule } from './projects';
+import { PostModule } from './posts';
+import { PaymentsModule } from './payments';
 
 @NgModule({
   imports:      [
     SupportModule,
     AuthModule,
+    PaymentsModule.forRoot(),
     AuthServiceModule.forRoot(),
     SharedModule,
     routing,
@@ -30,7 +33,8 @@ import { ProjectModule } from './projects';
     BootstrapHelperModule,
     NavigationModule,
     UserModule,
-    ProjectModule
+    ProjectModule,
+    PostModule.forRoot()
   ],
   declarations: [
     AppComponent,

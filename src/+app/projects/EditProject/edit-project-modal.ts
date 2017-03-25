@@ -67,7 +67,7 @@ export class EditProjectModal extends ModalWindow {
     //       //   const self = this;
     //       //   this.projectService.get( route.params.value.id ).subscribe( res => {
     //       //     self.project = res;
-    //       //     console.log("get project")
+    //       //     
     //       //   });
     //       // }
     //     }

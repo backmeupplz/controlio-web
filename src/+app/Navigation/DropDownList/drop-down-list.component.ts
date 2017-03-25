@@ -13,7 +13,7 @@ export class DropDownList {
   private  _data: any = null;
   @Input('data')
   set data(data: any){
-    console.log("data", data)
+    
     this._data = data;
   }
   get data(){

@@ -19,23 +19,23 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 @Injectable()
 export class EditProject {
   componentName: "EditProject";
-	public myForm: FormGroup;
-	public typeWindow: string = "Edit Project";
-	public submitted: boolean;
-	public events: any[] = [];
-	private event_click: any;
-	public manager: any = null;
-	private imageKey: string;
-	private callback_upload: any = null;
-	private photoExt = ["png","jpg","jpeg"];
-	private description: string = "";
-	// private image: ImageModel;
-	private isEdit: boolean = true;
-	private projectVal: any;
-	private clients: string[] = [];
-	imageKeyChange( obj ){
-		this.imageKey = obj.key;
-	}
+  public myForm: FormGroup;
+  public typeWindow: string = "Edit Project";
+  public submitted: boolean;
+  public events: any[] = [];
+  private event_click: any;
+  public manager: any = null;
+  private imageKey: string;
+  private callback_upload: any = null;
+  private photoExt = ["png","jpg","jpeg"];
+  private description: string = "";
+  // private image: ImageModel;
+  private isEdit: boolean = true;
+  private projectVal: any;
+  private clients: string[] = [];
+  imageKeyChange( obj ){
+    this.imageKey = obj.key;
+  }
 
   valueChange(user) {
 
@@ -44,51 +44,51 @@ export class EditProject {
 
     let obj = this.myForm.value;
     if( user ) {
-    	let userId = this.users.findIndex( elem => { return elem.id == user.id  });
-    	obj.manager = user != -1 ? this.users[ userId ].userId : null;
+      let userId = this.users.findIndex( elem => { return elem.id == user.id  });
+      obj.manager = user != -1 ? this.users[ userId ].userId : null;
     } else {
-    	obj.manager = null;
+      obj.manager = null;
     }
     this.myForm.setValue( obj );
 
   }
 
-	changeClients( emails ){
+  changeClients( emails ){
     let obj = this.myForm.value;
     obj.clients = emails;
     this.myForm.setValue( obj );
-	}
+  }
 
-	@Input()
-	set event(event: any) {
+  @Input()
+  set event(event: any) {
     this.event_click = event || null;
   }
 
   @Input()
   set project( project: any ){
-  	if( project ){
-  		this.projectVal = project;
+    if( project ){
+      this.projectVal = project;
 
-	  	let obj = this.myForm.value;
-	    obj.title = project.title;
+      let obj = this.myForm.value;
+      obj.title = project.title;
 
-	    this.description = project.description;
+      this.description = project.description;
 
-	    project.manager.text = project.manager.email;
-	    this.manager = project.manager;
+      project.manager.text = project.manager.email;
+      this.manager = project.manager;
 
-	    this.image = new ImageModel(project.image, true);
-	    if( project.clients ) this.clients = project.clients;
-    	this.myForm.setValue(obj);
-  	}
+      this.image = new ImageModel(project.image, true);
+      if( project.clients ) this.clients = project.clients;
+      this.myForm.setValue(obj);
+    }
   }
 
-	@Input() users: Array<any> = [];
+  @Input() users: Array<any> = [];
 
-	constructor(
-		private _fb: FormBuilder,
-		private userService: UserService,
-		private projectService: ProjectService) {}
+  constructor(
+    private _fb: FormBuilder,
+    private userService: UserService,
+    private projectService: ProjectService) {}
 
 
   ngOnInit(){
@@ -100,41 +100,41 @@ export class EditProject {
       status: new FormControl(''),
     });
   }
-	public managerGet(value){
-		console.log(value);
-	}
+  public managerGet(value){
+    ;
+  }
 
-	removeProject(){
-		// remove project
-		console.log("remove project:", this.projectVal );
-	}
+  removeProject(){
+    // remove project
+    
+  }
 
-	archiveProject(){
-		//this.projectService()
-		console.log("archive project:", this.projectVal );
-	}
+  archiveProject(){
+    //this.projectService()
+    
+  }
 
-	save( data, isValid: boolean) {
+  save( data, isValid: boolean) {
 
     this.submitted = true;
     if( isValid ) {
 
-    	console.log( data );
+      ;
 
-    	if( this.imageKey ){
-    		data.image = this.imageKey;
+      if( this.imageKey ){
+        data.image = this.imageKey;
 
-    		this.callback_upload = (err, data)=>{
-    			console.log( err, data );
-    		}
+        this.callback_upload = (err, data)=>{
+          ;
+        }
 
-    		data.projectid = this.projectVal.id;
-		    this.projectService.update( data ).subscribe((result) => {
+        data.projectid = this.projectVal.id;
+        this.projectService.update( data ).subscribe((result) => {
 
-			  });
-		  } else {
-		  	console.log("Картинка не выбрана!");
-		  }
-	  }
-	}
+        });
+      } else {
+        ;
+      }
+    }
+  }
 }

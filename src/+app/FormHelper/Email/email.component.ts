@@ -35,6 +35,7 @@ export class EmailComponent implements ControlValueAccessor {
 
   private propagateChange = (_: any) => {};
   public writeValue(value: string[]) {
+    ;
     this._emails = value;
   }
   public registerOnChange(fn: any) {
@@ -43,11 +44,11 @@ export class EmailComponent implements ControlValueAccessor {
   public registerOnTouched() {}
 
   onChange( value: { value: string[], isChanged: boolean } ){
-    console.log(value)
+    
     if( value.isChanged ){
       this._emails = value.value;
       this.emailsChange.emit( this._emails );
-      console.log(this._emails, "emailsChanges");
+      ;
       this.propagateChange(this._emails);
     }
   }
@@ -65,7 +66,7 @@ export class EmailComponent implements ControlValueAccessor {
   private _emails: string[];
   @Input()
   set emails( emails: string[] ){
-    console.log(this._emails, emails);
+    ;
     this.settings = { recipients: emails };
     this._emails = emails;
     if(!this.isSet ){

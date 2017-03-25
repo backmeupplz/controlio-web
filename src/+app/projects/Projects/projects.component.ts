@@ -32,7 +32,7 @@ export class Projects {
   }
 
   onSearch(value: any){
-    console.log(value);
+    ;
   }
 
   ngOnInit() {
@@ -42,11 +42,11 @@ export class Projects {
       this.projectService.getProjects( 0, 10 ).subscribe( res => {
         this.loading = false;
         this.projects = res;
-        console.log(res);
+        ;
       }, (err)=>{
         this.loading = false;
         this.title = "Error!"
-        console.log("err", err)
+        
       });
     });
   }

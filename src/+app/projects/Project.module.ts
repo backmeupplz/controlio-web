@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll/angular2-infinite-scroll';
 import { MenuBlockModule } from '../Navigation/MenuBlock';
-
+import { BemModule } from 'angular-bem';
 import { LoggedInGuard } from '../auth';
 import { SvgModule } from '../Svg';
 import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 import { BootstrapHelperModule } from '../BootstrapHelper';
 import { AddProject, AddProjectPage } from './AddProject';
+import { ImageModule } from '../Image';
 
 // import { EditProject, EditProjectPage } from './EditProject';
 import { Project } from './Project';
@@ -19,6 +20,7 @@ import { FormHelperModule } from '../FormHelper';
 import { ProjectService } from './ProjectServices';
 import { ProjectListElem } from './Project/project_list_elem.component';
 import { FIleUploaderModule } from '../FileUploader';
+import { PostModule } from '../posts';
 
 const moduleRoutes: Routes = [
   { path: 'projects', component: Projects, canActivate: [LoggedInGuard] },
@@ -29,6 +31,8 @@ const moduleRoutes: Routes = [
 
 @NgModule({
   imports: [
+    ImageModule,
+    BemModule,
     MenuBlockModule,
     MomentModule,
     BootstrapHelperModule,
@@ -39,7 +43,8 @@ const moduleRoutes: Routes = [
     CommonModule,
     SvgModule,
     RouterModule.forRoot(moduleRoutes),
-    FIleUploaderModule
+    FIleUploaderModule,
+    PostModule
   ],
   exports: [
     SearchComponent,

@@ -21,7 +21,12 @@ export class ProjectListElem {
   @Input() subtitle: string = "Default";
   @Input() image: string;
   @Input() id: any;
-  @Input() post: any;
+  private _post: any;
+  @Input()
+  set post(post: any){
+    console.log(post);
+    if(post) this._post = post;
+  }
   @Input() date: any;
   @Input() manager: any = null;
   @Input() isOpenSettings: boolean = false;

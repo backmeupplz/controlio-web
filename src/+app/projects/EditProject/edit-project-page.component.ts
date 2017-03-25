@@ -53,7 +53,7 @@ export class EditProjectPage {
       this.isLoading = true;
       this.projectService.get( params['id'] ).subscribe( res => {
         this.project = res;
-        console.log("project", this.project, this);
+        ;
         if(!this.project == null ){
           this.isLoading = false;
           this.title = `This is project deleted or not exist`;
@@ -70,7 +70,7 @@ export class EditProjectPage {
           let index = 0;
           let users = result.map(elem=>{
             index++;
-            console.log(elem);
+            ;
             return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
           });
 

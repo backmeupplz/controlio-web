@@ -42,7 +42,7 @@ export class FileUploadButton {
 
   // @Input()
   // set fileGallery(fileGallery: FilesGalleryModel){
-  //   console.log("fileGallery", fileGallery)
+  //   
   //   this._fileGallery = fileGallery;
   //   this.fileGalleryChange.emit(fileGallery);
   // }
@@ -60,7 +60,7 @@ export class FileUploadButton {
   //   if( callback != undefined && this._files.length > 0 ){
   //     this._files.forEach((file: any)=>{
   //       this.fileUploadService.uploadOn( file.key, file.file, (err, data)=>{
-  //         console.log("callback FileUploadButton", new Date())
+  //         
   //         if(!err) pull.push({ res: data, key: file.key });
   //         else pull.push({ file: file, err: err });
   //         if(count == pull.length){
@@ -70,7 +70,7 @@ export class FileUploadButton {
   //         if(progress == 100){
   //           uploadPull.push({ key: file.key });
   //           if(count == uploadPull.length){
-  //             console.log("uploadCallback FileUploadButton", new Date())
+  //             
   //             uploadCallback(null, uploadPull);
   //           }
   //         }

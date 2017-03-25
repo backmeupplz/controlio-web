@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { UserService } from '../users/user.service';
-import { PaymentsService } from './payments.service';
-import { User } from '../users/user.model';
-import { Customer } from './customer.model';
+import { UserAuthModel } from '../../auth';
+import { PaymentsService } from '../PaymentsServices/payments.service';
+import { UserModel } from '../../users/models/user.model';
+import { Customer } from '../models/customer.model';
 
 @Component({
   selector: "cards",
@@ -45,12 +45,12 @@ export class Cards {
   private cards: any[] = [];
   private source: any;
   private customer: Customer;
-  private user: User;
+  private user: UserModel | UserAuthModel;
   private default: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
+    private userService: UserAuthModel,
     private paymentsService: PaymentsService
   ){}
 
@@ -59,9 +59,9 @@ export class Cards {
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setDefaultPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      console.log("setPayments", res);
+      ;
     }, (err)=>{
-      console.log( "setPayments", err )
+
     })
   }
 
@@ -71,21 +71,21 @@ export class Cards {
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      console.log("setPayments", res);
+      ;
     }, (err)=>{
-      console.log( "setPayments", err )
+
     })
   }
 
 
   ngOnInit(){
 
-    this.user = this.userService.getAuthUser();
+    this.user = this.userService;
     this.paymentsService.getCustomer( this.user.stripeId ).subscribe((res)=>{
        this.customer = res;
        this.cards = this.customer.sources.data;
        this.default = res.default_source;
-       console.log(res);
+       ;
     })
 
   }

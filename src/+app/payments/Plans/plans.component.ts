@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { UserService } from '../users/user.service';
-import { PaymentsService } from './payments.service';
-import { User } from '../users/user.model';
-import { Customer } from './customer.model';
+import { UserAuthModel } from '../../auth';
+import { PaymentsService } from '../PaymentsServices/payments.service';
+import { UserModel } from '../../users/models/user.model';
+import { Customer } from '../models/customer.model';
 
 
 @Component({
@@ -210,7 +210,7 @@ import { Customer } from './customer.model';
         <stripe class="col-md-12 d-flex jc-c" [value]="priceValue" [subsciption]="subsciption" (sourceData)="setSource($event)"></stripe>
       </div>
     </div>
-    <div class="container card-data" *ngIf="!loading">
+    <div class="container card-data" *ngIf="!loading && card">
       <div class="col-md-4">
         <div class="block-mask block-common-style"></div>
         <div class="card active" *ngIf="card">
@@ -233,7 +233,7 @@ And don‘t worry, you can upgrade, downgrade or cancel your plan at any time!</
             <p class="username">Nikita Kolmogorov</p>
             <p class="info">co-founder at Controlio</p>
           </div>
-          <div class="photo-mini"><imgb str="assets/ava.png"></imgb></div>
+          <div class="photo-mini"><img src="assets/ava.png"/></div>
         </span>
       </div>
     </div>
@@ -254,9 +254,9 @@ export class Plans {
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setDefaultPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      console.log("setPayments", res);
+      ;
     }, (err)=>{
-      console.log( "setPayments", err )
+
     })
   }
 
@@ -265,7 +265,7 @@ export class Plans {
 
   private source: any;
   private customer: Customer;
-  private user: User;
+  private user: UserModel | UserAuthModel;
   private default: string;
 
   setSource( source: any ){
@@ -275,9 +275,9 @@ export class Plans {
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      console.log("setPayments", res);
+      ;
     }, (err)=>{
-      console.log( "setPayments", err )
+
     })
   }
 
@@ -304,7 +304,7 @@ export class Plans {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
+    private userService: UserAuthModel,
     private paymentsService: PaymentsService
   ){}
 
@@ -312,7 +312,7 @@ export class Plans {
     if(!type) return;
     // if( !this.card ){
     //   // this.isAddCard = true;
-    //   // console.log("type", type, this.getPlan(type))
+    //   //
     //   // let subscription = this.getPlan(type);
     //   // this.priceValue = (subscription.price||0) * 100;
     // }
@@ -329,20 +329,20 @@ export class Plans {
 
   ngOnInit(){
 
-    this.user = this.userService.getAuthUser();
+    this.user = this.userService;
     this.subsciption = this.user.plan;
 
-    console.log( this.user );
+    ;
     this.paymentsService.getCustomer( this.user.stripeId ).subscribe((res)=>{
 
        this.customer = res;
-       console.log(this.customer);
+       ;
        this.card = this.customer.default;
 
-       console.log(this.card)
+
        this.loading = false;
     }, (err)=>{
-      console.log(err);
+      ;
     })
 
   }

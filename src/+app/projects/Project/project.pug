@@ -12,22 +12,22 @@ div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrott
             form.form-block.row([formGroup]="myForm")
               div.col-xs-12.row(*ngIf="actionCheckedID == 0")
                 div.input-block.col-sm-9.col-xs-12
-                  message-form(shorten="false", limit="10", formControlName="message", name="message")
-                  invalid-message([errors]="myForm.controls.message.errors", [list]="listMessages.message")
+                  message-form(shorten="false", [limit]="congif.MESSAGE_MAX_LENGTH", formControlName="text", name="text")
+                  invalid-message([errors]="myForm.controls.text.errors", [list]="listMessages.message")
                 div.col-sm-3.col-xs-12.f-right
                   button.cbutton((click)="addPost(myForm.value, myForm.valid)") Add post
-            form.form-block.row
+            form.form-block.row([formGroup]="myFormStatus")
               div.col-xs-12.row(*ngIf="actionCheckedID == 1")
                 div.input-block.col-xs-12.col-sm-9
-                  //-input(name="text", placeholder="New status", type="text", formControlName="text", id="text", [value]="(project.lastStatus) ? project.lastStatus.status : '23'")
+                  input(name="text", placeholder="New status", type="text", formControlName="text", id="text", [value]="(project.lastStatus) ? project.lastStatus.status : ''")
                 div.col-sm-3.col-xs-12.f-right
-                  //-button.cbutton((click)="changeStatus(myForm.value, myForm.valid)") Change status
-            form.form-block.row
+                  button.cbutton((click)="changeStatus(myFormStatus.value, myFormStatus.valid)") Change status
+            form.form-block.row([formGroup]="myFormClients")
               div.col-xs-12.row(*ngIf="actionCheckedID == 2")
                 div.input-block.col-xs-12.col-sm-9
-                  //-email-tag(name="clients", placeholder="Title", type="clients", id="clients", (valueChange)="changeClients($event)", [setEmails]="clients")
+                  email-tag(placeholder="Add manager clients", id="clients", formControlName="clients", name="clients")
                 div.col-sm-3.col-xs-12.f-right
-                  //-button.cbutton((click)="updateClients(true)", [disabled]="!isChangeClients", [ngClass]="{disabled: !isChangeClients }") Update
-    //-div.row.jc-fe
+                  button.cbutton((click)="updateClients(myFormClients.value, myFormClients.valid)") Update
+    div.row.jc-fe
       div.common-block.col-sm-9.col-xs-12.post.action-post(*ngFor="let post of posts")
         post([post]="post")

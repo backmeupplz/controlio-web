@@ -25,6 +25,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
 
     :host >>> .windows-options {
       width: 160px;
+      z-index: 20;
     }
     :host >>> .windows-options ul {
       margin-bottom: 0;

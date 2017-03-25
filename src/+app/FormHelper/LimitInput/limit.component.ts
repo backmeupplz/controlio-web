@@ -6,6 +6,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
   styles: [`
     :host {
       position: relative;
+      display: inline-block;
+      width: 100%;
     }
 
     #hiddenDivTextarea {
@@ -36,10 +38,25 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
       width: 100%;
       border: 1px solid #eceff3;
     }
+
+    .limit-output {
+      position: relative;
+      z-index: 4;
+      font-size: .8em;
+      font-weight: bolder;
+      opacity: .5;
+      margin: -2.3em .8em 0 .8em;
+    }
+
+    .limit-output .limit-str {
+      position: absolute;
+      right: 0;
+      text-align: right;
+    }
   `],
   template: `
-    <label class="context" for="description">{{ label }} <span class="limit-str" *ngIf="limit < InfinityValue" [ngClass]="{ 'js-is-used-limit': use >= limit }">{{ use }} / {{ limit }}</span></label>
-    <div class="mytextarea" id="hiddenDivTextarea">{{ inputValue }}</div>
+    <label class="context" for="description" *ngIf="label">{{ label }}</label>
+    <div class="mytextarea" id="hiddenDivTextarea">{{ inputValue + checkStr }}</div>
     <textarea
       type="text"
       class="mytextarea"
@@ -52,6 +69,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
       (blur)="inputBlurred($event)"
       ngDefaultControl row="3">
     </textarea>
+    <p class="limit-output"><span class="limit-str" *ngIf="(limit < InfinityValue) && showLimit" [ngClass]="{ 'js-is-used-limit': use >= limit }">{{ use }} / {{ limit }}</span></p>
   `,
   providers: [
   {
@@ -62,12 +80,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
 })
 export class LimitInput implements ControlValueAccessor {
 
+  private checkStr: string = "";
   private InfinityValue: number = Infinity;
   private inputValue: string = '';
   private use: number = 0;
 
   @Input() limit: number = 210;
   @Input() shorten: boolean = true;
+  @Input() showLimit: boolean = true;
 
   @Input() label: string;
   @Input() minHeight: number = 46;
@@ -85,7 +105,9 @@ export class LimitInput implements ControlValueAccessor {
     this.propagateChange(this.inputValue);
   }
 
-  // ControlValueAccessor
+  ngAfterViewChecked(){
+    this.onChange(this.inputValue);
+  }
 
   private propagateChange = (_: any) => {};
   public writeValue(obj: string) {
@@ -106,8 +128,10 @@ export class LimitInput implements ControlValueAccessor {
       let clild = childs.description;
       let hiddenDiv = childs.hiddenDivTextarea;
 
+      this.checkStr = "checkStr";
       clild.style.height = (((hiddenDiv.clientHeight) > minHeight ? hiddenDiv.clientHeight: minHeight ) + addDown ) + "px";
     }
+    this.checkStr = "";
   }
 
   // Input

@@ -33,7 +33,7 @@ export class ImageGallery {
    for (var i = 0; i < images.length; i++) {
           if (imageSrc === images[i].img) {
             imageModalPointer = i;
-            console.log('jhhl',i);
+            ;
             break;
           }
      }

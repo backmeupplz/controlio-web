@@ -39,7 +39,7 @@ export class FileUploadService {
   // uploadGallery( gallery: FilesGalleryModel ){
   //   if(!gallery) return;
   //   gallery.files.forEach((file)=>{
-  //     console.log("set upload", file);
+  //     ;
   //     if(!file.isUploaded){
   //       file.setLoad();
   //       this.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress );
@@ -57,7 +57,7 @@ export class FileUploadService {
         if(callabackUploadProgress) callabackUploadProgress(-1)
       }
       this.bucketService.uploadImage( key, file, callabackUploadProgress ).subscribe((res)=>{
-        console.log("callback FileUploadService", new Date())
+        
         callback(null, res);
       }, (err)=>{
         callback(err, null);

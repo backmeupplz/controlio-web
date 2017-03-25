@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
-import { ImageModel } from '../helpers/imgb/imgb.model';
-import { PostService } from './posts.service';
-import { PostModel } from './Post.model';
-import { PostStatusModel } from './PostStatus.model';
-import { FileImage } from '../helpers/form-elements/FileImage.model';
-import { FileModel } from '../helpers/form-elements/File.model';
+// import { FilesGalleryModel } from '../helpers/image-galery/FilesGallery.model';
+// import { ImageModel } from '../helpers/imgb/imgb.model';
+import { PostService } from '../PostServices/posts.service';
+import { PostModel } from '../models/Post.model';
+import { PostStatusModel } from '../models/PostStatus.model';
+// import { FileImage } from '../helpers/form-elements/FileImage.model';
+// import { FileModel } from '../helpers/form-elements/File.model';
 
 @Component({
   styles:[`
@@ -105,10 +105,10 @@ export class PostComponent {
     this.editMode = false;
   }
 
-  private files: FileModel[] = [];
-  changeFiles(files: FileModel[]){
-    this.files = files;
-  }
+  // private files: FileModel[] = [];
+  // changeFiles(files: FileModel[]){
+  //   this.files = files;
+  // }
 
   private resetAll: any;
 
@@ -116,21 +116,24 @@ export class PostComponent {
   private _post: PostModel;
   @Input()
   set post(post: PostModel | PostStatusModel ){
-    console.log("Установлен пост", new Date())
+    
     if(post instanceof PostModel || post instanceof PostStatusModel ){
       this._post = post;
       if( this.post instanceof PostStatusModel && this.post.sender != null){
         this.data = {
           title: 'Updated status',
-          text: this.post.status,
+          text: this.post.text,
           photo: this.post.project.image
         }
       } else if( this.post instanceof PostModel && this.post.project != null) {
+
+        
+
         this.data = {
-          title: this.post.sender.role,
-          subtitle: this.post.sender.name,
-          text: this.post.message,
-          photo: this.post.sender.photo
+          title: (this.post.sender) ? (this.post.sender.role||'user') : "No role",
+          subtitle: (this.post.sender) ? (this.post.sender.name ||this.post.sender.email) : "No name",
+          text: this.post.text,
+          photo: (this.post.sender) ? this.post.sender.photo : null
         }
       }
     }
@@ -141,16 +144,16 @@ export class PostComponent {
   }
 
   postMessageInput( message: string ){
-    this.post.message = message;
+    this.post.text = message;
   }
 
   constructor(private postService: PostService){
-    console.log("Constructor postService", new Date())
+    
   }
 
   removePost(){
     this.postService.delete(this.post.id).subscribe((res)=>{
-      console.log(res);
+      ;
     })
   }
 
@@ -172,11 +175,11 @@ export class PostComponent {
     /*
     this.setUploadFiles = {
       callback: (err: any, images: any )=>{
-        console.log("Пришел ответ от сервера! Нужно проверить данные и отметить, если произошла ошибка! В посте!")
+        
       },
       uploadCallback: (err: any, images: any )=>{
         if(!err){
-          console.log("upload!!!", images );
+          ;
 
           let prevKeys = this.post.gallery.files.filter((elem)=>{
             if(elem.iskey) return true;

@@ -1,9 +1,16 @@
 import { NgModule } from '@angular/core';
+import { ImageComponent, ImageKeyComponent } from './ImageComponent';
 
 @NgModule({
       imports: [],
-      exports: [],
-      declarations: [],
+      exports: [
+      ImageComponent,
+      ImageKeyComponent
+      ],
+      declarations: [
+      ImageComponent,
+      ImageKeyComponent
+      ],
       providers: [],
 })
-export class ImageModule { classCode }
+export class ImageModule {}

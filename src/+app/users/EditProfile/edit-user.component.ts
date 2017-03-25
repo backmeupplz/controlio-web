@@ -18,56 +18,56 @@ import { ImageModel } from '../helpers/imgb/imgb.model';
 
 export class EditUser {
   componentName: string = "EditUser";
-	public myForm: FormGroup;
-	public typeWindow: string = "Edit User";
-	private imageKey: string;
-	private callback_upload: any = null;
-	private photoExt = ["png","jpg","jpeg"];
-	private image: ImageModel;
-	private isEdit: boolean = true;
-	private user: User = new User({"_id":"", "email": ""});
-	imageKeyChange( obj ){
-		this.imageKey = obj.key;
-	}
+  public myForm: FormGroup;
+  public typeWindow: string = "Edit User";
+  private imageKey: string;
+  private callback_upload: any = null;
+  private photoExt = ["png","jpg","jpeg"];
+  private image: ImageModel;
+  private isEdit: boolean = true;
+  private user: User = new User({"_id":"", "email": ""});
+  imageKeyChange( obj ){
+    this.imageKey = obj.key;
+  }
 
-	@Input()
-	set setUser( user: User ){
-		if( user ){
-		 this.user = user;
-	    let obj = this.myForm.value;
-	    obj.name = user.name || "";
-	    obj.phone = user.phone || "";
-	    if( user.photo ) this.image = new ImageModel(user.photo, true);
-	    this.myForm.setValue( obj );
-		}
-	}
+  @Input()
+  set setUser( user: User ){
+    if( user ){
+     this.user = user;
+      let obj = this.myForm.value;
+      obj.name = user.name || "";
+      obj.phone = user.phone || "";
+      if( user.photo ) this.image = new ImageModel(user.photo, true);
+      this.myForm.setValue( obj );
+    }
+  }
 
-	constructor(
-		private _fb: FormBuilder,
-		private userService: UserService) {
+  constructor(
+    private _fb: FormBuilder,
+    private userService: UserService) {
 
-	    this.myForm = new FormGroup({
-	        name: new FormControl(''),
-	        phone: new FormControl('')
-	    });
+      this.myForm = new FormGroup({
+          name: new FormControl(''),
+          phone: new FormControl('')
+      });
 
-	}
+  }
 
-	save( data, isValid: boolean) {
+  save( data, isValid: boolean) {
 
 
-		console.log( data, isValid );
+    ;
 
     if( isValid ) {
 
-    	this.userService.editProfile( data.name, data.phone, this.imageKey ).subscribe((result) => { console.log( result ); });
+      this.userService.editProfile( data.name, data.phone, this.imageKey ).subscribe((result) => { ; });
 
-    	if( this.imageKey ){
-    		data.image = this.imageKey;
-    		this.callback_upload = (err, data)=>{
-    			console.log( err, data );
-    		}
-		  }
-	  }
-	}
+      if( this.imageKey ){
+        data.image = this.imageKey;
+        this.callback_upload = (err, data)=>{
+          ;
+        }
+      }
+    }
+  }
 }

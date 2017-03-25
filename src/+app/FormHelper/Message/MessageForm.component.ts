@@ -82,9 +82,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
       <limit-input
         (ngModelChange)="onChange($event)"
         [ngModel]="inputValue"
-        label="Message"
+        [label]="label"
         [limit]="limit"
-        [shorten]="shorten">
+        [shorten]="shorten"
+        [showLimit]="inputValue.length / limit > .8">
       </limit-input>
 
       <!--div class="message-gallery">
@@ -122,14 +123,14 @@ export class MessageForm implements ControlValueAccessor {
 
   private styles: string = "my-thumbnail";
 
-
+  @Input() label: string;
   @Input() inputValue: string = '';
   @Input() limit: number = 240;
   @Input() shorten: boolean = true;
   @Input() use: number = 0;
 
   getData(data: any, isValid: boolean){
-    console.log(data, isValid)
+    
   }
   // @Output() filesGalleryChanges = new EventEmitter();
 
@@ -167,7 +168,7 @@ export class MessageForm implements ControlValueAccessor {
   // @Input()
   // set resetAll(reset: any){
   //   if(reset){
-  //     console.log("reset MessageForm", new Date())
+  //     
   //     this.resetFiles = ()=>{
   //       this.files = [];
   //       this.gallery = new ImageGalleryModel();
@@ -182,7 +183,7 @@ export class MessageForm implements ControlValueAccessor {
   // @Input()
   // set gallery(gallery: ImageGalleryModel){
   //   if(gallery != null) this._gallery = gallery;
-  //   console.log("set gallery MessageForm", new Date())
+  //   
   // }
   // get gallery(){
   //   return this._gallery;
@@ -217,7 +218,7 @@ export class MessageForm implements ControlValueAccessor {
   //       callback: (err, res)=>{
   //         if(!err){
   //           this._uploadFiles = true;
-  //           console.log("callback MessageForm", new Date())
+  //           
   //           //this.isUpload.emit(true);
   //           callback(null, res);
   //         }
@@ -225,7 +226,7 @@ export class MessageForm implements ControlValueAccessor {
   //       },
   //       uploadCallback: (err,res)=>{
   //         if(!err){
-  //           console.log("uploadCallback MessageForm", new Date())
+  //           
   //           this._uploadFiles = true;
   //           //this.isUpload.emit(true);
   //           uploadCallback(null, res);
@@ -238,7 +239,7 @@ export class MessageForm implements ControlValueAccessor {
   // }
 
   // uploadFilesVoid(){
-  //   console.log("uploadFilesVoid")
+  //   
   // }
 
   // @Output() isUpload = new EventEmitter(true);

@@ -141,7 +141,7 @@ export class MessageForm {
   @Input()
   set resetAll(reset: any){
     if(reset){
-      console.log("reset MessageForm", new Date())
+      
       this.resetFiles = ()=>{
         this.files = [];
         this.gallery = new ImageGalleryModel();
@@ -156,7 +156,7 @@ export class MessageForm {
   @Input()
   set gallery(gallery: ImageGalleryModel){
     if(gallery != null) this._gallery = gallery;
-    console.log("set gallery MessageForm", new Date())
+    
   }
   get gallery(){
     return this._gallery;
@@ -191,7 +191,7 @@ export class MessageForm {
         callback: (err, res)=>{
           if(!err){
             this._uploadFiles = true;
-            console.log("callback MessageForm", new Date())
+            
             //this.isUpload.emit(true);
             callback(null, res);
           }
@@ -199,7 +199,7 @@ export class MessageForm {
         },
         uploadCallback: (err,res)=>{
           if(!err){
-            console.log("uploadCallback MessageForm", new Date())
+            
             this._uploadFiles = true;
             //this.isUpload.emit(true);
             uploadCallback(null, res);
@@ -211,7 +211,7 @@ export class MessageForm {
   }
 
   uploadFilesVoid(){
-    console.log("uploadFilesVoid")
+    
   }
 
   @Output() isUpload = new EventEmitter(true);

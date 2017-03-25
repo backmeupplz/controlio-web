@@ -118,7 +118,7 @@ export class CollectionComponent {
   @Input('gallery')
   set gallery(gallery: FilesGalleryModel){
     if(!gallery) return;
-    console.log("gallery change!!");
+    ;
     this._gallery = gallery;
     this._gallery.files.forEach((elem)=>{
       if( elem instanceof FileImage){
@@ -126,10 +126,10 @@ export class CollectionComponent {
       }
       if(!elem.isUploaded){
         elem.callbackProgress = (progress)=>{
-          console.log("gallery", elem.progress);
+          ;
         };
         elem.callbackAfter = (err, res)=>{
-          console.log("Load from galleryChange isUpload!");
+          ;
         }
       }
     })
@@ -146,12 +146,12 @@ export class CollectionComponent {
   }
 
   ngOnInit(){
-    //console.log("gallery", this.gallery );
+    //;
   }
 
   @Output() removeEvent = new EventEmitter<any>();
   removeFile(file: FileModel){
-    console.log("remove file:", file);
+    
     this.gallery.removefile(file);
     this.removeEvent.emit(file);
   }

@@ -77,10 +77,10 @@ export class TopNavComponent implements OnInit {
   }
   ngOnInit() {
 
-    console.log("Message!")
+    
     this.authService.loggedIn$.subscribe((value) => {
 
-      console.log("authService top nav",value);
+      ;
 
       this.isAccess = value;
       this.changeView( this.isAccess );

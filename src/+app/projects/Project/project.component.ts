@@ -1,9 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
+import { UserAuthModel } from '../../auth';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ProjectModel } from '../models/Project.model';
 import { ProjectService } from '../ProjectServices';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { FormMessageService } from '../../FormHelper';
+import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
+import { PostModel, PostStatusModel } from '../../posts/models';
+import { PostService } from '../../posts/PostServices';
 // import { ProjectListElem } from './project_list_elem.component.js';
 // import { ProjectService } from '../ProjectServices/project.service';
 // import { PostService } from '../../posts/PostServices/posts.service';
@@ -32,8 +36,14 @@ import { FormMessageService } from '../../FormHelper';
 
 export class Project {
 
+  private congif: any  = {
+    MESSAGE_MAX_LENGTH: VALIDATOR_CONFIG_PROJECT.MESSAGE_MAX_LENGTH
+  }
+
   // @ViewChild('messageForm') messageForm: MessageForm;
   public myForm: FormGroup;
+  public myFormClients: FormGroup;
+  public myFormStatus: FormGroup;
 
   private title: string = "Not found project";
   private project: ProjectModel;
@@ -72,8 +82,9 @@ export class Project {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-   private message: FormMessageService
-    // private postService: PostService,
+   private message: FormMessageService,
+   private user: UserAuthModel,
+    private postService: PostService,
     // private fileUploadService: FileUploadService
   ){
     this.listMessages = message.createList(["message"]);
@@ -94,21 +105,30 @@ export class Project {
           this.setStatusLoading(this.StatusLoading.noFoundProject)
         } else {
           if( this.project.clients ) this.clients = this.project.clients;
-          // this.loadPosts();
+          this.loadPosts();
         }
       });
     });
 
     this.myForm = new FormGroup({
-      message: new FormControl('', [<any>Validators.required, <any>Validators.maxLength(10)]),
-      text: new FormControl(''),
+      text: new FormControl('', [<any>Validators.maxLength(this.congif.MESSAGE_MAX_LENGTH)]),
+      // managers: new FormControl([]),
     });
+
+    this.myFormClients = new FormGroup({
+      clients: new FormControl([])
+    })
+
+
+    this.myFormStatus = new FormGroup({
+      text: new FormControl(''),
+    })
   }
 
   // Posts
 
   onScroll () {
-    console.log("start")
+    
     //this.loadPosts();
   }
 
@@ -129,54 +149,66 @@ export class Project {
   }
 
   addPost(_data, isValid: boolean){
-    console.log(_data, isValid, this.myForm.controls, this.listMessages)
-     // let data = _data || {};
-     // data.type = "post";
-     // this.save( data, isValid );
+    let data = _data || {};
+    data.type = "post";
+    
+    this.save( data, isValid );
+  }
+
+  updateClients(_data, isValid: boolean){
+    
   }
 
   createPost(_data: any){
 
-    // let data = _data || {};
-    // data.projectid = this.project.id;
-    // this.myForm.reset()
+    let data = _data || {};
+    data.projectid = this.project.id;
 
-    // let post = this.postService.create( this.project, {
-    //           text: data.text,
-    //           type: data.type
-    //         });
+    
 
-    // console.log(post);
-    // this.posts.unshift(post);
-    // this.resetAll = ()=>{};
-    // this.setUploadFiles = ()=>{};
-    // if( post instanceof PostStatusModel ) this.project.lastStatus = post;
+    let post = this.postService.create( this.project, {
+              text: data.text,
+              type: data.type
+            });
+
+    ;
+
+    this.myForm.reset()
+    this.posts.unshift(post);
+    if( post instanceof PostStatusModel ) this.project.lastStatus = post;
 
 
-    // console.log("Create post!", new Date());
-    // this.postService.save( this.project, data ).subscribe( res => {
-    //   //
-    //   //  Тут нужно обработать ошибку!
-    //   //
+    ;
+    this.postService.save( this.project, data ).subscribe( res => {
+      //
+      //  Тут нужно обработать ошибку!
+      //
 
-    //   console.log("Save post!", new Date());
-    //   post.save(res);
-    //   //this.resetAll = ()=>{};
-    //   //this.setUploadFiles = ()=>{};
-    //   //if( res.type == "status" ) this.project.lastStatus = res;
-    // });
+      ;
+      post.save(res);
+      //this.resetAll = ()=>{};
+      //this.setUploadFiles = ()=>{};
+      //if( res.type == "status" ) this.project.lastStatus = res;
+    });
 
 
   }
 
+  private posts: any = [];
 
+  private limitPostLoad = 10;
+  private skipPosts = 0;
 
-
+  loadPosts(){
+    this.postService.getPosts( this.project, this.skipPosts, this.limitPostLoad ).subscribe( res => {
+      this.skipPosts += this.limitPostLoad;
+      this.posts = this.posts.concat(res);
+      this.isLoading = false;
+    });
+  }
 
 
   /*
-
-  private posts: any = [];
   private strings: any = {
     'UPDATED_STATUS': 'UPDATED STATUS'
   };
@@ -220,16 +252,6 @@ export class Project {
   }
 
 
-  private limitPostLoad = 10;
-  private skipPosts = 0;
-  loadPosts(){
-    this.postService.getPosts( this.project, this.skipPosts, this.limitPostLoad ).subscribe( res => {
-      this.skipPosts += this.limitPostLoad;
-      this.posts = this.posts.concat(res);
-      this.isLoading = false;
-    });
-  }
-
   addPost(_data, isValid: boolean){
      let data = _data || {};
      data.type = "post";
@@ -242,63 +264,22 @@ export class Project {
      this.save( data, isValid );
   }
 
-  createPost(_data: any){
-
-    let data = _data || {};
-    data.projectid = this.project.id;
-    this.myForm.reset()
-
-    let post = this.postService.create( this.project, {
-              text: data.text,
-              type: data.type
-            });
-
-    console.log(post);
-    this.posts.unshift(post);
-    this.resetAll = ()=>{};
-    this.setUploadFiles = ()=>{};
-    if( post instanceof PostStatusModel ) this.project.lastStatus = post;
-
-
-    console.log("Create post!", new Date());
-    this.postService.save( this.project, data ).subscribe( res => {
-      //
-      //  Тут нужно обработать ошибку!
-      //
-
-      console.log("Save post!", new Date());
-      post.save(res);
-      //this.resetAll = ()=>{};
-      //this.setUploadFiles = ()=>{};
-      //if( res.type == "status" ) this.project.lastStatus = res;
-    });
-
-
-  }
-
-
-  updateClients(isValid: boolean){
-    let data = {
-      clients: this.clients,
-      projectid: this.project.id
-    };
-
-    this.projectService.updateClients( data ).subscribe( res => {
-      console.log(res);
-    });
-  }
+*/
 
   save( _data, isValid: boolean ){
-    console.log(_data,isValid)
+    if(!isValid) return;
+
     let self = this;
     if(this.actionCheckedID == 0){
+
+      self.createPost(_data);
       //this.messageForm.uploadFilesVoid();
 
-      this.fileUploadService.uploadGallery(this.messageForm.fileGallery);
+      //this.fileUploadService.uploadGallery(this.messageForm.fileGallery);
       /*
       this.setUploadFiles = {
         callback: (err: any, images: any )=>{
-          console.log("Callback file upload")
+          
           // if(!err){
           //   let keys = images.filter((elem)=>{
           //     if(!elem.err) return elem;
@@ -336,9 +317,9 @@ export class Project {
             console.error(err);
           }
         }
-      };
+      };*/
     } else if(isValid && this.actionCheckedID == 1){
       this.createPost({ status: self.message, type: status });
     }
-  }*/
+  }
 }

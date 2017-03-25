@@ -49,11 +49,11 @@ export class BucketService {
         formData.append('image', file, file.name);
         formData.append('key', key );
 
-        console.log("start!")
+        
         xhr.upload.onprogress = (event:any) => {
           let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
 
-          console.log("onprogress BucketService", new Date())
+          
 
           // callabackUploadProgress(40);
           // setTimeout(()=>{
@@ -74,7 +74,7 @@ export class BucketService {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    console.log('----')
+                    
                     resolve(JSON.parse(xhr.response))
                 } else {
                     reject(xhr.response)
@@ -104,8 +104,8 @@ export class BucketService {
     /*
     return this.http.postFile( 'upload', formData, false, headers )
             .map((res)=>{
-              console.log(res);
-              console.log("вызов store_data");
+              ;
+              ;
               return res;
             },(err)=>{
               console.error("Failed to retrieve an object: " + err );

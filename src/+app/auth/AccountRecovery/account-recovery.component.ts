@@ -54,7 +54,7 @@ export class AccountRecovery {
         if( status < 200 ) {
           this.error = "Connect to server error";
         } else if( status >= 400 && status < 500 ) {
-          console.log( error );
+          ;
           this.error = error.message;
         } else if( status >= 500  ) {
           this.error = "Server error";

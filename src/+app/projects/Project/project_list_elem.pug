@@ -21,10 +21,11 @@ div.container
           span.description
             p.context Description
             p.text {{ description }}
-          span.author(*ngIf="post != null && post.sender != null")
+          span.author(*ngIf="_post != null && _post.sender != null")
             div.thumbnail
-              //-imgb.photo-mini([key]="post.sender.photo", styles="ng-thumb")
+              cn-img.photo-mini(styles="ng-thumb")
+              //-[key]="post.sender.photo"
             div.text-block.three-line
-              p.context {{ post.sender.role }}
-              p.username {{ post.sender.name }}
-              p.message {{ post.message || post.status }}
+              p.context {{ _post.sender.role }}
+              p.username {{ _post.sender.name }}
+              p.message {{ _post.text }}

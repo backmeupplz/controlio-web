@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   setLoggedIn(loggedIn: boolean) {
-    console.log("Value");
+    ;
     this.loggedInChange.next(loggedIn);
   }
 
@@ -33,7 +33,7 @@ export class AuthService {
     let headers = this.headers.getHeader();
     return this.http.post( '/users/recoverPassword', { email }, true, headers )
                     .map((res)=>{
-                      console.log(res);
+                      ;
                       return res.success;
                     })
   }
@@ -47,7 +47,7 @@ export class AuthService {
                         this.userAuthModel.setUser(res);
                         this.loggedIn = true;
                         this.loggedInChange.next( true );
-                        console.log(res);
+                        ;
                         return true;
                       }
                       return false;
@@ -63,7 +63,7 @@ export class AuthService {
                         this.userAuthModel.setUser(res);
                         this.loggedIn = true;
                         this.loggedInChange.next( true );
-                        console.log(res);
+                        ;
                         return true;
                       }
                       return false;
@@ -78,7 +78,7 @@ export class AuthService {
 
     return this.http.post( '/users/login', { webPushToken } )
                     .map((res)=>{
-                      console.log(res);
+                      ;
                       return true;
                     })
   }
