@@ -6,9 +6,13 @@
     "type": "git",
     "url": "https://github.com/angular/universal-starter.git"
   },
+  "engines": {
+    "node": "7.0.0"
+  },
   "scripts": {
+    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress",
     "watch": "webpack --watch",
-    "watch:dev": "npm run server & npm run watch",
+    "watch:dev": "npm run watch",
     "clean:dist": "rimraf dist",
     "clean:ngc": "rimraf **/*.ngfactory.ts **/*.css.shim.ts",
     "prebuild": "npm run clean:dist",
@@ -82,9 +86,7 @@
     "pug-html-loader": "^1.1.0",
     "rxjs": "5.0.0-beta.12",
     "webfontloader": "^1.6.26",
-    "zone.js": "~0.6.26"
-  },
-  "devDependencies": {
+    "zone.js": "~0.6.26",
     "@ngtools/webpack": "~1.1.7",
     "@types/body-parser": "0.0.29",
     "@types/compression": "0.0.29",
