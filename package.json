@@ -10,7 +10,7 @@
     "node": "7.0.0"
   },
   "scripts": {
-    "heroku-postbuild": "webpack --config webpack.prod.config.ts --progress",
+    "heroku-postbuild": "webpack --config webpack.config.ts --progress",
     "watch": "webpack --watch",
     "watch:dev": "npm run watch",
     "clean:dist": "rimraf dist",
