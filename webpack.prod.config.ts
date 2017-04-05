@@ -83,8 +83,8 @@ export const commonConfig = {
       },
       {
         test: /\.(pug|jade)$/,
-        loader: 'pug-html-loader',
-        query: { doctype: 'html', plugins: ['pug-plugin-ng'] },
+        loader: 'pug-ng-html',
+        // query: { doctype: 'html', plugins: ['pug-plugin-ng'] },
       },
       {
         test: /\.less$/,
