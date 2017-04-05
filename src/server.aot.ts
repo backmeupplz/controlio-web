@@ -14,16 +14,23 @@ import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import * as compression from 'compression';
 
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+
 // Angular 2
 import { enableProdMode } from '@angular/core';
 // Angular 2 Universal
 import { createEngine } from 'angular2-express-engine';
 
 // App
-import { MainModuleNgFactory } from './node.module.ngfactory';
+//MainModuleNgFactory
+import { MainModule } from './node.module';
 
 // Routes
 import { routes } from './server.routes';
+
+// Bucket service
+import { BucketService } from './bucket.service';
 
 // enable prod for faster renders
 enableProdMode();
@@ -34,7 +41,7 @@ const ROOT = path.join(path.resolve(__dirname, '..'));
 // Express View
 app.engine('.html', createEngine({
   precompile: false, // this needs to be false when using ngFactory
-  ngModule: MainModuleNgFactory,
+  ngModule: MainModule,
   providers: [
     // use only if you have shared state between users
     // { provide: 'LRU', useFactory: () => new LRU(10) }
@@ -65,18 +72,16 @@ function cacheControl(req, res, next) {
 }
 // Serve static files
 app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
-app.use('/css', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
-app.use('/fonts', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
 app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
 //
 /////////////////////////
 // ** Example API
 // Notice API should be in aseparate process
-import { serverApi, createTodoApi } from './backend/api';
+// import { serverApi, createTodoApi } from './backend/api';
 // Our API for demos only
-app.get('/data.json', serverApi);
-app.use('/api', createTodoApi());
+// app.get('/data.json', serverApi);
+// app.use('/api', createTodoApi());
 
 process.on('uncaughtException', function (err) {
   console.error('Catching uncaught errors to avoid process crash', err);
@@ -113,10 +118,56 @@ routes.forEach(route => {
   app.get(`/${route}/*`, ngApp);
 });
 
-app.get('images',function(req,res){
-  var json = JSON.stringify({ content: 'Hi!' });
-  res.send(json);
+
+const bucket = new BucketService();
+app.get('/img', function(req, res) {
+  let key = req.query.key;
+  if(!key){
+    let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
+    res.status(400).send(json);
+    return;
+  }
+  bucket.getImage(key,(err, ans)=>{
+    if(err){
+      let json = JSON.stringify({ key: key, err: err });
+      res.status(400).send(json);
+    }
+    else {
+      //let json = JSON.stringify({ key: key, res: ans });
+      res.send(ans);
+    }
+  });
 });
+
+
+app.post('/upload', multipartMiddleware, function(req: express.Request & { files: any }, res) {
+  let key = req.body.key;
+  if(!req.files){
+    let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });
+    res.status(400).send(json);
+    return;
+  }
+
+  if(!key){
+    let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
+    res.status(400).send(json);
+    return;
+  }
+
+
+  let file = req.files.image;
+  bucket.uploadImage(key, file, (err, ans)=>{
+    if(err){
+      let json = JSON.stringify({ key: key, err: err });
+      res.status(400).send(json);
+    }
+    else {
+      res.send(ans);
+    }
+  });
+  // don't forget to delete all req.files when done
+});
+
 
 app.get('*', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
@@ -124,6 +175,7 @@ app.get('*', function(req, res) {
   var json = JSON.stringify(pojo, null, 2);
   res.status(404).send(json);
 });
+
 
 // Server
 let server = app.listen(app.get('port'), () => {
