@@ -54,7 +54,7 @@ export var commonConfig = {
       },
       {
         test: /\.(pug|jade)$/,
-        loader: 'pug-ng-html',
+        loader: 'pug-ng-html-loader',
         // query: { doctype: 'html', plugins: ['pug-plugin-ng'] },
       },
       {
