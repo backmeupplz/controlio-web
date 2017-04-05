@@ -6,6 +6,8 @@ const V8LazyParseWebpackPlugin = require('v8-lazy-parse-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 import webpackConfig, { root,  includeClientPackages } from './webpack.config';
 // const CompressionPlugin = require('compression-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('main.css');
 
 
 export const commonPlugins = [
@@ -47,10 +49,73 @@ export const commonPlugins = [
 
 ];
 export const commonConfig = {
+  resolve: {
+    modules: [root('node_modules') ],
+    alias: {
+      app: path.resolve(__dirname, 'src/+app/'),
+      npm: '/',
+      template: path.resolve(__dirname, 'src/template/'),
+      rxjs_lib: 'rxjs',
+      img: path.resolve(__dirname, 'src/assets/'),
+      css: path.resolve(__dirname, 'src/css'),
+      fonts_path: path.resolve(__dirname, 'src/fonts/'),
+    },
+    extensions: ['.js','.jsx', '.ts', '.json', '.css', '.scss', '.sass', '.pug']
+  },
+  context: __dirname,
+  // output: {
+  //   publicPath: '',
+  //   filename: '[name].bundle.js'
+  // },
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[chunkhash].js'
   },
+  module: {
+    rules: [
+      // TypeScript
+      { test: /\.ts$/,   use: ['awesome-typescript-loader', 'angular2-template-loader'] },
+      { test: /\.html$/, use: 'raw-loader' },
+      { test: /\.json$/, use: 'json-loader' },
+      {
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.(pug|jade)$/,
+        loader: 'pug-html-loader',
+        query: { doctype: 'html', plugins: ['pug-plugin-ng'] },
+      },
+      {
+        test: /\.less$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader!less-loader",
+        })
+        //'csslint-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader",
+        })
+      },
+      // Apply loader
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: "style-loader",
+          loader: "css-loader!sass-loader",
+          //use: ['style-loader','css-loader', 'sass-loader'],
+        }),
+      },
+    ],
+  },
+  plugins: [
+    // Use commonPlugins.
+    extractCSS
+  ],
 };
 
 // Client.
