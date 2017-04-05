@@ -3,5 +3,5 @@ div.user-block.menu-block.in-flex(*ngIf="user")
     img.icon(src="assets/arrow-drop-down.svg")
     p.text-label {{ user.name || user.email }}
   div.thumbnail((click)="openDropDownList()")
-    //-imgb.col-xs-2-15.photo([key]="user.photo", (click)="menuCenter.openMenuOrClose(menuCenter.MENU.UserMenu)", styles="ng-thumb")
+    cn-img-key.col-xs-2-15.photo([key]="user.photo", styles="ng-thumb")
   user-drop-down-list([data]="user", #list)

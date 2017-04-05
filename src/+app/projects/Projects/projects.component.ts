@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ProjectService } from '../ProjectServices/project.service';
+import { ErrorCommon } from '../../ErrorHandler';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class Projects {
   private projects: Array<any> = [];
   private loading: boolean = false;
   private title: string = "";
+  private error: ErrorCommon;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,23 +33,18 @@ export class Projects {
     this.title = "You don't have projects yet, create your first one!";
   }
 
-  onSearch(value: any){
-    ;
-  }
+  onSearch(value: any){}
 
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
-
       this.loading = true;
       this.projectService.getProjects( 0, 10 ).subscribe( res => {
         this.loading = false;
         this.projects = res;
-        ;
-      }, (err)=>{
+      }, (err: ErrorCommon)=>{
         this.loading = false;
-        this.title = "Error!"
-        
-      });
+        this.error = err;
+      })
     });
   }
 }

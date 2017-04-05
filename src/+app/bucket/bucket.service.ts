@@ -11,8 +11,9 @@ export class BucketService {
   private progressObserver: any;
 
 	constructor(private http: AppHttp, private headers: AppHeaders, @Inject(LocalStorage) private localStorage){
+    let self = this;
     this.progress$ = Observable.create(observer => {
-        this.progressObserver = observer
+        self.progressObserver = observer
     }).share();
   }
 
@@ -49,11 +50,11 @@ export class BucketService {
         formData.append('image', file, file.name);
         formData.append('key', key );
 
-        
+
         xhr.upload.onprogress = (event:any) => {
           let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
 
-          
+
 
           // callabackUploadProgress(40);
           // setTimeout(()=>{
@@ -63,7 +64,8 @@ export class BucketService {
           //   callabackUploadProgress(100);
           // }, 2000)
 
-          self.progressObserver.next({key, progress});
+          console.log("self.progressObserver", self.progressObserver)
+          if(self.progressObserver) self.progressObserver.next({key, progress});
           if(callabackUploadProgress) callabackUploadProgress(progress);
         };
 
@@ -74,9 +76,13 @@ export class BucketService {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    
+                    let res = xhr.response
+                    let isUploaded = true;
+                    self.progressObserver.next({key, res, isUploaded});
                     resolve(JSON.parse(xhr.response))
                 } else {
+                    let error = xhr.response
+                    self.progressObserver.next({key, error});
                     reject(xhr.response)
                 }
             }
@@ -114,7 +120,7 @@ export class BucketService {
 	}
 
 	getImage( key ){
-		if( key.length > 0 ){
+		if( key && key.length > 0 ){
 		let self = this;
     return this.http.get( 'img', { key }, false )
             .map((res)=>{

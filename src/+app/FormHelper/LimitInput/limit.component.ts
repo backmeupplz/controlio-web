@@ -45,13 +45,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR  } from '@angular/forms';
       font-size: .8em;
       font-weight: bolder;
       opacity: .5;
-      margin: -2.3em .8em 0 .8em;
+      margin: -2em 0 0 -1em;
+      width: 100%;
     }
 
     .limit-output .limit-str {
       position: absolute;
       right: 0;
       text-align: right;
+    }
+
+    .limit-output, .mytextarea, .context {
+      float: left;
     }
   `],
   template: `
@@ -91,7 +96,7 @@ export class LimitInput implements ControlValueAccessor {
 
   @Input() label: string;
   @Input() minHeight: number = 46;
-  @Input() addDown: number = 10;
+  @Input() addDown: number = 15;
 
 
   constructor(private elementRef: ElementRef) {}

@@ -16,10 +16,8 @@ export class PostService {
 
   create( project: ProjectModel, data: any, sender?: UserModel | UserAuthModel ){
     if(!sender) sender = this.userModel;
-
-
     if(data.type == 'status'){
-      return new PostStatusModel( null, sender, project, null, data.status, false);
+      return new PostStatusModel( null, sender, project, null, data.text, false);
     }  else if(data.type == 'post'){
       return new PostModel( null, sender, project, null, data.text, true, true, data.attachments, false);
     }
@@ -126,8 +124,6 @@ export class PostService {
       .map((res) => {
         let posts = [];
         res.forEach((elem)=>{
-
-
           let author = new UserModel(elem.author)
           if(elem.type == 'status'){
             posts.push(new PostStatusModel(elem._id, author, project, elem.updatedAt, elem.text));

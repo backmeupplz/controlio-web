@@ -4,9 +4,8 @@ import { GlobalValidator } from '../../FormHelper';
 import { FileCollection } from '../../Collection';
 import { FileModel } from '../../Files/models';
 import { Router } from '@angular/router';
-
 import { ProjectService } from '../../projects/ProjectServices/project.service';
-// import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
+import { FileUploadService } from '../../FileUploader';
 
 @Component({
   selector: 'add-project',
@@ -17,27 +16,19 @@ import { ProjectService } from '../../projects/ProjectServices/project.service';
 @Injectable()
 export class AddProject implements OnInit {
 
-  public collectionFiles: FileCollection<FileModel> = new FileCollection<FileModel>();
+  private ext: string[] = ['image/jpeg','image/png','image/jpg'];
+  public typeWindow: string = "Add Project";
   public myForm: FormGroup;
   public submitted: boolean;
-  public events: any[] = [];
-  public manager: any = null;
-  private event_click: any;
-  public typeWindow: string = "Add Project";
   private imageKey: string;
-  private callback_upload: any = null;
   private photoExt = ["png","jpg","jpeg"];
   private isEdit: boolean = false;
-
-  private clients: string[] = [];
-  private managers: string[] = [];
 
   imageKeyChange( obj ){
     this.imageKey = obj.key;
   }
 
   valueChange(user) {
-
     let obj = this.myForm.value;
     if( user ) {
       let userId = this.users.findIndex( elem => { return elem.id == user.id  });
@@ -46,7 +37,6 @@ export class AddProject implements OnInit {
       obj.manager = null;
     }
     this.myForm.setValue( obj );
-
   }
 
   inputChange( text ){
@@ -55,83 +45,61 @@ export class AddProject implements OnInit {
     this.myForm.setValue( obj );
   }
 
-  @Input()
-  set event(event: any) {
-    this.event_click = event || null;
-  }
 
   @Input() users: Array<any> = [];
 
   constructor(
     private _fb: FormBuilder,
-    // private userService: UserService,
     private router: Router,
-    private projectService: ProjectService) {
+    private projectService: ProjectService,
+    private fileUploadService: FileUploadService) {
 
   }
 
   ngOnInit() {
-
-    // if( this.userService.isLoggedIn() ){
-    //  // this.userService.getAuthUsers().subscribe((result) => {
-
-    //  //    let index = 0;
-    //  //    let users = result.map(elem=>{
-    //  //      index++;
-    //  //      ;
-    //  //      return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
-    //  //    });
-
-    //  //    ;
-    //  //    this.users = users;
-    //  //   });
-
-    // }
-
-        this.myForm = new FormGroup({
-            clientEmails: new FormControl([]),
-            managers: new FormControl([]),
-            title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
-            description: new FormControl('', [<any>Validators.maxLength(400)]),
-            status: new FormControl(''),
-        });
-
-        this.myForm.valueChanges.subscribe(data => {
-          ;
-          // this.valueChange.emit(data);
-          // this.isSetText = data.text.length > 0;
-        })
+    this.myForm = new FormGroup({
+        clientEmails: new FormControl([]),
+        managers: new FormControl([]),
+        title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
+        description: new FormControl('', [<any>Validators.maxLength(400)]),
+        status: new FormControl(''),
+        image: new FormControl(new FileCollection<FileModel>())
+    });
   }
 
-  public managerGet(value){
-    ;
-  }
-
-
-  save( data, isValid: boolean) {
-
-    if( data.managers ) data.managerEmail = data.managers[0];
-    ;
-
+  save( data: { clientEmails: string[], managerEmail: string, managers: string[], title: string, description: string, status: string, image: any }, isValid: boolean) {
     this.submitted = true;
+    if(!data) return;
     if( isValid ) {
+      console.log(data);
 
-      ;
+      let image = data.image.map((file: FileModel)=>{
+        file.onFileProgress((err, res)=>{
+          console.log("after", res)
+        },(progress)=>{
+          console.log("progress", progress)
+        })
+        this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
+        return file.key;
+      })
 
-      if( this.imageKey ){
-        data.image = this.imageKey;
-
-        this.callback_upload = (err, data)=>{
-          ;
-        }
-
-      } else {
-        ;
+      if( data.managers ) data.managerEmail = data.managers[0];
+      data.image = (image[0]) ? image[0] : ""
+      let _data: any = {
+        managerEmail: data.managers[0],
+        title: data.title,
+        clientEmails: data.clientEmails
       }
-
-      this.projectService.create( data ).subscribe((result) => {
-        ;
-      });
+      if(data.image){
+        _data.image = data.image
+      }
+      if(data.description){
+        _data.description = data.description
+      }
+      if(data.status){
+        _data.status = data.status
+      }
+      this.projectService.create( _data ).subscribe();
     }
   }
 }

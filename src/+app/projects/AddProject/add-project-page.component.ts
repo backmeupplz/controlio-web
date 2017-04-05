@@ -21,7 +21,7 @@ import { UserService } from '../../users/UserServices/user.service';
   <div class="white-page">
     <div class="container">
       <div class="row">
-        <div class="col-xs-8 form-page">
+        <div class="col-lg-8 col-md-8 col-xs-12 form-page">
           <add-project  [users]="users"></add-project>
         </div>
       </div>

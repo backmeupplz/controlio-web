@@ -4,13 +4,13 @@ import { ImageElementModel } from './ImageElement.model';
 //import { AbstractElementModel } from '../models';
 
 @Component({
-  selector: 'ImageModal',
+  selector: 'fullPageImageSlider',
   template: require('./FullPageImageSlider.component.pug')
 })
-export class ImageModal implements OnInit {
+export class FullPageImageSlider implements OnInit {
 
   protected styles: string = "img-border-width";
-  protected opened: boolean = false;
+  @Input('opened') opened: boolean = false;
   protected image: ImageElementModel;
   protected loading: boolean = false;
   protected showRepeat: boolean = false;
@@ -43,6 +43,6 @@ export class ImageModal implements OnInit {
   }
   openGallery(index?: number) {
     if( !index ) index = 0;
-    this.image = this.gallery.getElementFromIndex(index);
+    this.loading = false;
   }
 }

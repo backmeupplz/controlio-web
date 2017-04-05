@@ -1,7 +1,7 @@
 div.center-block.you-dont-have-project(*ngIf="project == null")
   h1.text {{ title }}
 div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrottle]="300", (scrolled)="onScroll()", infinite-scroll)
-  project-list-elem([title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.status : null }}", [image]="project.image", [id]="project.id", [manager]="project.manager", [date]="project.date", [isOpenSettings]="project.editable")
+  project-list-elem([title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.text : null }}", [image]="project.image", [id]="project.id", [manager]="project.manager", [date]="project.date", [isOpenSettings]="project.editable")
   div.container.project-post-block
     div.row.jc-fe
       div.common-block.col-sm-9.col-xs-12.action-post.np(*ngIf="project.editable")
@@ -19,7 +19,7 @@ div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrott
             form.form-block.row([formGroup]="myFormStatus")
               div.col-xs-12.row(*ngIf="actionCheckedID == 1")
                 div.input-block.col-xs-12.col-sm-9
-                  input(name="text", placeholder="New status", type="text", formControlName="text", id="text", [value]="(project.lastStatus) ? project.lastStatus.status : ''")
+                  input(name="text", placeholder="New status", type="text", formControlName="text", id="text")
                 div.col-sm-3.col-xs-12.f-right
                   button.cbutton((click)="changeStatus(myFormStatus.value, myFormStatus.valid)") Change status
             form.form-block.row([formGroup]="myFormClients")

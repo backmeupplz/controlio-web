@@ -5,6 +5,9 @@ import { Component, Output, EventEmitter, ElementRef, Input, ViewChild, forwardR
 // import { FileUploadButton } from './file-upload-button.component';
 // import { FilesGalleryModel } from '../image-galery/FilesGallery.model';
 
+import { FileCollection } from '../../Collection';
+import { FileUploadButton } from '../../FileUploader/FileUploaderButton';
+import { FileModel } from '../../Files/models'
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms';
 
@@ -74,10 +77,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
       <!-- User -->
       <!--  name="text", placeholder="Message", type="text", formControlName="text", id="text"  -->
 
-
-      <!-- file-upload-button #fileUploadButton class="file-upload-button" [fileGallery]="_fileGallery" (fileGalleryChange)="fileGalleryChange($event)" [maxCount]="10">
+      <!-- [collection]="_collection" [maxCount]="10" -->
+      <file-upload-button [(collection)]="_collection" #fileUploadButton [maxCount]="10" class="file-upload-button">
         <img src="assets/photo-clip.svg"/>
-      </file-upload-button -->
+      </file-upload-button>
 
       <limit-input
         (ngModelChange)="onChange($event)"
@@ -88,11 +91,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
         [showLimit]="inputValue.length / limit > .8">
       </limit-input>
 
-      <!--div class="message-gallery">
-        <img src="assets/clip.svg" *ngIf="fileGallery._files.length> 0" class="clip-icon"/>
-        <ImageSmallGallery [stylesmain]="styles" [(gallery)]="_fileGallery" editable="{{ true }}" *ngIf="fileGallery._files.length > 0">
-        </ImageSmallGallery>
-      </div-->
+      <div class="message-gallery"  *ngIf="_collection.length > 0">
+        <img src="assets/clip.svg" *ngIf="_collection.length > 0" class="clip-icon"/>
+        <cn-collection [(collection)]="_collection" [editable]="editableImage" (removeChange)="removeChange($event)"></cn-collection>
+        <!-- ImageSmallGallery [stylesmain]="styles" [(gallery)]="_fileGallery" editable="{{ true }}" *ngIf="fileGallery._files.length > 0">
+        </ImageSmallGallery -->
+      </div>
   `,
   providers: [
   {
@@ -104,6 +108,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
 })
 
 export class MessageForm implements ControlValueAccessor {
+
+  @ViewChild('fileUploadButton') fileUploadButton: FileUploadButton;
 
   private propagateChange = (_: any) => {};
   public writeValue(obj: string) {
@@ -122,7 +128,7 @@ export class MessageForm implements ControlValueAccessor {
   }
 
   private styles: string = "my-thumbnail";
-
+  @Input() editableImage: boolean = true;
   @Input() label: string;
   @Input() inputValue: string = '';
   @Input() limit: number = 240;
@@ -130,7 +136,7 @@ export class MessageForm implements ControlValueAccessor {
   @Input() use: number = 0;
 
   getData(data: any, isValid: boolean){
-    
+
   }
   // @Output() filesGalleryChanges = new EventEmitter();
 
@@ -168,7 +174,7 @@ export class MessageForm implements ControlValueAccessor {
   // @Input()
   // set resetAll(reset: any){
   //   if(reset){
-  //     
+  //
   //     this.resetFiles = ()=>{
   //       this.files = [];
   //       this.gallery = new ImageGalleryModel();
@@ -183,7 +189,7 @@ export class MessageForm implements ControlValueAccessor {
   // @Input()
   // set gallery(gallery: ImageGalleryModel){
   //   if(gallery != null) this._gallery = gallery;
-  //   
+  //
   // }
   // get gallery(){
   //   return this._gallery;
@@ -218,7 +224,7 @@ export class MessageForm implements ControlValueAccessor {
   //       callback: (err, res)=>{
   //         if(!err){
   //           this._uploadFiles = true;
-  //           
+  //
   //           //this.isUpload.emit(true);
   //           callback(null, res);
   //         }
@@ -226,7 +232,7 @@ export class MessageForm implements ControlValueAccessor {
   //       },
   //       uploadCallback: (err,res)=>{
   //         if(!err){
-  //           
+  //
   //           this._uploadFiles = true;
   //           //this.isUpload.emit(true);
   //           uploadCallback(null, res);
@@ -239,9 +245,79 @@ export class MessageForm implements ControlValueAccessor {
   // }
 
   // uploadFilesVoid(){
-  //   
+  //
   // }
 
   // @Output() isUpload = new EventEmitter(true);
+
+
+
+
+  // @ViewChild('filesUploadComponent') filesUploadComponent: FilesUploadBaseComponent;
+  @Input() maxCount: number = Infinity;
+  @Input() ext: Array<string>;
+
+  private _collection: FileCollection<FileModel> = new FileCollection<FileModel>();
+  @Input()
+  get collection() {
+    return this._collection;
+  }
+
+  @Output() collectionChange = new EventEmitter();
+
+  set collection(collection: FileCollection<FileModel>) {
+    if(collection){
+      this._collection = this.setArrayCollection(new FileCollection<FileModel>(), collection);
+      this.collectionChange.emit(this._collection);
+      //if( !this.isCanUndo ) {
+        //this.oldState = this.setArrayCollection(new FileCollection<FileModel>(), collection);
+      //}
+    }
+  }
+
+
+  private oldState: FileCollection<FileModel> = null;
+
+  removeChange(file: FileModel){
+    if(this.collection){
+      if(!this.fileUploadButton) return;
+      this.collection.remove(file);
+      //this.collection = this.collection;
+      this.fileUploadButton.resetFiles();
+    }
+  }
+
+  resetFiles(){
+    // if(this.collection){
+    //   if(!this.filesUploadComponent) return;
+    //   if(this.oldState) this.isCanUndo = true;
+    //   this.oldState = this.setArrayCollection(new FileCollection<FileModel>(), this.collection);
+    //   this.collection.splice(0, this.collection.length);
+    //   this.onChange({ value: this.collection, isChanged: true })
+    //   this.filesUploadComponent.resetFiles();
+    // }
+  }
+
+  filesChange(files: FileModel[]){
+    // if(this.collection){
+    //   this.onChange({ value: this.setArrayCollection(this.collection, files), isChanged: true })
+    // }
+  }
+
+  setArrayCollection(collection, files: FileModel[]){
+    if(collection){
+      collection.splice(0, collection.length);
+      files.forEach((elem)=>{
+        if(collection.length < this.maxCount) collection.push(elem);
+      })
+    }
+    return collection;
+  }
+
+  undoRemoveFile(){
+    // this.isCanUndo = false;
+    // let collection = this.setArrayCollection(this.collection, this.oldState);
+    // this.onChange({ value: collection, isChanged: true })
+  }
 
 }

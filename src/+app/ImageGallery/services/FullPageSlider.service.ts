@@ -1,4 +1,3 @@
-import { AbsctractGalleryModel, AbstractElementModel } from '../models';
 import { IOpenableFullPageSlider } from './IOpenableFullPageSlider.interface';
 import { AbstractFullPageSliderService } from './AbstractFullPageSlider.service';
 import { ImageElementModel, ImageGalleryModel } from '../FullPageImageSlider';

@@ -21,6 +21,12 @@ import { ProjectModule } from './projects';
 import { PostModule } from './posts';
 import { PaymentsModule } from './payments';
 
+import { FormHelperModule } from './FormHelper';
+import { GalleryModule } from './ImageGallery';
+import { ImageModule } from './Image';
+import { FileUploaderServicesModule } from './FileUploader';
+import { HTTPHelperModule } from './HTTPHelper';
+
 @NgModule({
   imports:      [
     SupportModule,
@@ -34,7 +40,12 @@ import { PaymentsModule } from './payments';
     NavigationModule,
     UserModule,
     ProjectModule,
-    PostModule.forRoot()
+    PostModule.forRoot(),
+    FormHelperModule,
+    GalleryModule.forRoot(),
+    ImageModule.forRoot(),
+    FileUploaderServicesModule.forRoot(),
+    HTTPHelperModule.forRoot(),
   ],
   declarations: [
     AppComponent,

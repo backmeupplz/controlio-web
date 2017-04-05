@@ -82,7 +82,13 @@ export class FilesUploadBaseComponent {
 
       let addedFiles = temps.filter((curFile: any)=>{
         if(!this.getFileTempFromName( curFile.name )){ return curFile; }
-      }).map((file: any)=> self.fileFactoryService.createFile(file) );
+      }).map((file: any)=>{
+        if(!(file instanceof FileModel)){
+          return self.fileFactoryService.createFile(file)
+        } else {
+          return file
+        }
+      });
 
       // find removed files
       let removedFiles = this._files.filter((curFile: FileModel)=>{
@@ -90,7 +96,13 @@ export class FilesUploadBaseComponent {
       });
 
       // get all files
-      let newModels = temps.map((file: any)=> self.fileFactoryService.createFile(file) );
+      let newModels = temps.map((file: any)=>{
+        if(!(file instanceof FileModel)){
+          return self.fileFactoryService.createFile(file)
+        } else {
+          return file
+        }
+      });
 
       this._files = newModels;
 

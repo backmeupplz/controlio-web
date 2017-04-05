@@ -11,26 +11,31 @@ import { BootstrapHelperModule } from '../BootstrapHelper';
 import { AddProject, AddProjectPage } from './AddProject';
 import { ImageModule } from '../Image';
 
-// import { EditProject, EditProjectPage } from './EditProject';
+import { EditProject, EditProjectPage } from './EditProject';
 import { Project } from './Project';
 import { Projects } from './Projects';
 import { MomentModule } from 'angular2-moment';
 import { SearchComponent } from './Search';
-import { FormHelperModule } from '../FormHelper';
+import { FormHelperModule, MessageFormModule } from '../FormHelper';
 import { ProjectService } from './ProjectServices';
 import { ProjectListElem } from './Project/project_list_elem.component';
 import { FIleUploaderModule } from '../FileUploader';
 import { PostModule } from '../posts';
 
+import { EmptyDataSetModule } from '../EmptyDataSet';
+import { HTTPHelperModule } from '../HTTPHelper';
+
 const moduleRoutes: Routes = [
   { path: 'projects', component: Projects, canActivate: [LoggedInGuard] },
   { path: 'project/add', component: AddProjectPage, canActivate: [LoggedInGuard] },
   { path: 'project/:id', component: Project, canActivate: [LoggedInGuard] },
-  // { path: 'project/edit/:id', component: EditProjectPage, canActivate: [LoggedInGuard] },
+  { path: 'project/edit/:id', component: EditProjectPage, canActivate: [LoggedInGuard] },
 ];
 
 @NgModule({
   imports: [
+    HTTPHelperModule,
+    EmptyDataSetModule,
     ImageModule,
     BemModule,
     MenuBlockModule,
@@ -39,6 +44,7 @@ const moduleRoutes: Routes = [
     FormsModule,
     InfiniteScrollModule,
     FormHelperModule,
+    MessageFormModule,
     ReactiveFormsModule,
     CommonModule,
     SvgModule,
@@ -53,7 +59,8 @@ const moduleRoutes: Routes = [
     ProjectListElem,
     Project,
     Projects,
-    // EditProject
+    EditProject,
+    EditProjectPage
   ],
   declarations: [
     SearchComponent,
@@ -61,8 +68,9 @@ const moduleRoutes: Routes = [
     AddProjectPage,
     Project,
     Projects,
-    ProjectListElem
-    // EditProject
+    ProjectListElem,
+    EditProject,
+    EditProjectPage
   ],
   providers: [ProjectService],
 })

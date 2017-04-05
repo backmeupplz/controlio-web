@@ -9,7 +9,7 @@ import { AppConfig } from '../../app.config';
   <mh-button
   (click)="openCheckout()"
   title="Add card"
-  mods="big padding-big common radius margin"
+  mods="middle padding common radius margin"
   text-mods="common">
   </mh-button>
 `

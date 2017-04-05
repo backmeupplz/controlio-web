@@ -78,11 +78,6 @@ export class PostModel {
     return this._removable;
   }
 
-  private _role: string;
-  get role(){
-    return 'Manager';
-  }
-
   constructor( id: string, sender: UserModel | UserAuthModel, project: ProjectModel, date: string, text?: string, editable?: boolean, removable?: boolean, attachments?: string[], isSave?: boolean ){
     this._id = id;
     this._isSave = isSave === false ? false : true;

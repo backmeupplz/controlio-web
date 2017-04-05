@@ -17,6 +17,7 @@ export interface IServiceGallery<T> {
   currentElement: T;
 }
 
+
 export abstract class ServiceGallery<T> implements IServiceGallery<T> {
   protected _elements: T[] = [];
   get elements() : T[] {
@@ -26,7 +27,7 @@ export abstract class ServiceGallery<T> implements IServiceGallery<T> {
     this._elements = elements;
   }
 
-  protected _index: number;
+  protected _index: number = 0;
   get index(){
     return this._index;
   }
@@ -87,7 +88,6 @@ export class CircularGallery<T> extends ServiceGallery<T> {
   }
 }
 
-
 export abstract class AbsctractGalleryModel<T> implements IGalleryModel<T> {
 
   constructor(elements: T[], private service: ServiceGallery<T> ){
@@ -112,5 +112,9 @@ export abstract class AbsctractGalleryModel<T> implements IGalleryModel<T> {
 
   get currentElement() : T {
     return this.service.currentElement;
+  }
+
+  getElementFromIndex(index: number): T {
+    return this.service.getElementFromIndex(index)
   }
 }

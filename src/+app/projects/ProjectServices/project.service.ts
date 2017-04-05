@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map'
 import { Subject }    from 'rxjs/Subject';
 
 import { AppConfig } from '../../app.config';
-import { AppHeaders } from '../../HTTPHelper';
+import { AppHeaders, AppHttp } from '../../HTTPHelper';
 import { ProjectModel } from '../models/Project.model';
 import { UserModel } from '../../users/models/user.model';
 import { PostStatusModel } from '../../posts/models/PostStatus.model';
@@ -14,55 +14,44 @@ import { PostModel } from '../../posts/models/Post.model';
 export class ProjectService {
 
   private mainUrl: string;
-  constructor(private http: Http, private headers: AppHeaders ){
+  constructor(private http: AppHttp, private headers: AppHeaders ){
     this.mainUrl = AppConfig.API_ENDPOINT;
   }
 
   create( data ){
-
-    let headers = this.headers.getAuthHeader();
     let mainUrl = this.mainUrl;
     data.type = "manager";
     let request = this.http
-      .post(
-        mainUrl + '/projects',
-         JSON.stringify( data ),
-         { headers }
-      );
+      .post('/projects', data);
     return request
-      .map(res => res.json())
       .map((res) => {
-        ;
         return res.success;
       });
   }
 
   get( projectid ){
-    let headers = this.headers.getAuthHeader();
-    let mainUrl = this.mainUrl;
-
-
-
     let request = this.http
-      .get(
-        mainUrl + '/projects/project' + this.headers.getFormatURL({ projectid }),
-         { headers }
-      );
+      .get('/projects/project', { projectid });
     return request
-      .map(res => res.json())
       .map((res) => {
 
-        ;
         let managers = [];
         if( res.managers ) managers = res.managers.map((elem)=>{ return new UserModel(elem) });
         let owner = new UserModel(res.owner);
 
-        let post = res.lastPost;
-        let lastPost = (post) ? new PostModel(post._id, post.author, null, post.updatedAt, post.text) : null;
+        let post = res.lastPost, lastPost = null;
 
-        let status = res.lastStatus;
-        let lastStatus = (status) ? new PostStatusModel(status._id, status.author, null,status.updatedAt,status.text ) : null;
+        if(post){
+          let postAuthor = new UserModel(post.author)
+          lastPost = (post) ? new PostModel(post._id, postAuthor, null, post.updatedAt, post.text) : null;
+        }
 
+        let status = res.lastStatus, lastStatus = null;
+
+        if(status){
+          let statusAuthor = new UserModel(status.author)
+          lastStatus = (status) ? new PostStatusModel(status._id, statusAuthor, null,status.updatedAt,status.text ) : null;
+        }
 
         let project = new ProjectModel(
           res._id,
@@ -85,18 +74,12 @@ export class ProjectService {
 
 
   update( data: any ){
-    let headers = this.headers.getAuthHeader();
     let mainUrl = this.mainUrl;
 
     let request = this.http
-      .put(
-        mainUrl + '/projects',
-         JSON.stringify( data ),
-         { headers }
-      );
+      .put('/projects', data);
 
     return request
-      .map(res => res.json())
       .map((res) => {
         return res.success;
       });
@@ -107,14 +90,9 @@ export class ProjectService {
     let mainUrl = this.mainUrl;
 
     let request = this.http
-      .post(
-        mainUrl + '/projects/clients',
-         JSON.stringify( data ),
-         { headers }
-      );
+      .post('/projects/clients', data);
 
     return request
-      .map(res => res.json())
       .map((res) => {
         return res;
       });
@@ -124,14 +102,9 @@ export class ProjectService {
     let headers = this.headers.getAuthHeader();
     let mainUrl = this.mainUrl;
     let request = this.http
-      .get(
-        mainUrl + '/projects' + this.headers.getFormatURL({ skip, limit }),
-         { headers }
-      );
+      .get('/projects', { skip, limit });
     return request
-      .map(res => res.json())
       .map((data) => {
-        ;
         let projects = [];
         data.forEach((res)=>{
 
@@ -139,11 +112,19 @@ export class ProjectService {
           if( res.managers ) managers = res.managers.map((elem)=>{ return new UserModel(elem) });
           let owner = new UserModel(res.owner);
 
-          let post = res.lastPost;
-          let lastPost = (post) ? new PostModel(post._id, post.author, null, post.updatedAt, post.text) : null;
+          let post = res.lastPost, lastPost = null;
 
-          let status = res.lastStatus;
-          let lastStatus = (status) ? new PostStatusModel(status._id, status.author, null,status.updatedAt,status.text ) : null;
+          if(post){
+            let postAuthor = new UserModel(post.author)
+            lastPost = (post) ? new PostModel(post._id, postAuthor, null, post.updatedAt, post.text) : null;
+          }
+
+          let status = res.lastStatus, lastStatus = null;
+
+          if(status){
+            let statusAuthor = new UserModel(status.author)
+            lastStatus = (status) ? new PostStatusModel(status._id, statusAuthor, null,status.updatedAt,status.text ) : null;
+          }
 
           let project = new ProjectModel(
             res._id,
@@ -163,8 +144,6 @@ export class ProjectService {
 
           projects.push(project);
         })
-
-        ;
         return projects;
       });
   }

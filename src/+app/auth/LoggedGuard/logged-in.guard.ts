@@ -19,3 +19,20 @@ export class LoggedInGuard implements CanActivate {
   }
 
 }
+
+@Injectable()
+export class NotLoggedInGuard implements CanActivate {
+
+  constructor(private auth: AuthService, private router:Router, private location: Location) {}
+
+  canActivate(next:ActivatedRouteSnapshot, state:RouterStateSnapshot) {
+
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/projects']);
+      return false;
+    }
+
+    return true;
+  }
+
+}

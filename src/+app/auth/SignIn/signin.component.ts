@@ -41,7 +41,7 @@ export class SignIn implements OnInit {
     });
 
      this.authService.loggedIn$.subscribe((res)=>{
-       ;
+
      })
   }
 

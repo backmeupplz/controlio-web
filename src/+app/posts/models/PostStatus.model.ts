@@ -5,9 +5,8 @@ import { UserAuthModel } from '../../auth';
 
 export class PostStatusModel extends PostModel {
 	constructor( id: string, sender: UserModel | UserAuthModel, project: ProjectModel, date: string, text: string, isSave?: boolean ){
-		super(id, sender, project, date);
+		super(id, sender, project, date, text);
     this._isSave = isSave === false ? false : true;
-		this._text = text;
 		this._type = 'status';
 		this._editable = false;
 	}

@@ -12,23 +12,24 @@ div
       div.input-block.col-sm-6
         label.context(for="title") Title
         input(name="title", placeholder="New project", type="text", formControlName="title", id="title")
-      div.input-block.col-sm-6
-        label.context(for="manager") Project manager
-        select-user([event]="event_click", name="manager", class="select-user-block", type="manager", id="manager", [input]="manager", (valueChange)="valueChange($event)", [users]="users")
+      div.input-block.col-sm-6(*ngIf="!isEdit")
+        label.context(for="status") Initial status
+        input(name="status"  placeholder="Status", type="status", formControlName="status", id="status")
+    div.row
+      div.input-block.col-xs-12
+        label.context(for="managers") Project manager
+        //-select-user([event]="event_click", name="manager", class="select-user-block", type="manager", id="manager", [input]="manager", (valueChange)="valueChange($event)", [users]="users")
+        email-tag(placeholder="Add manager emails", id="managers", formControlName="managers", name="managers")
     div.row
       div.input-block.col-xs-12
         limit-input([label]="'Description'", formControlName="description", name="description")
     div.row.jc-sb
       div.input-block.col-xs-12
         label.context(for="clients") Clients
-        email-tag([event]="event_click", name="clients", placeholder="Title", type="clients", id="clients", (valueChange)="changeClients($event)", [setEmails]="clients")
-    div.row.jc-sb
-      div.input-block.col-sm-6(*ngIf="!isEdit")
-        label.context(for="status") Initial status
-        input(name="status"  placeholder="Status", type="status", formControlName="status", id="status", [value]="status")
+        email-tag(placeholder="Add client emails", id="clients", formControlName="clientEmails", name="clientEmails")
     div.row.jc-sb
       div.input-block.col-sm-8.col-xs-12
         label.context Thumnail
-        file-upload([upload]="callback_upload", (valueChange)="imageKeyChange($event)", [ext]="photoExt", [image]="image")
+        file-upload([(collection)]="collectionFiles", maxCount="1")
       div.input-block.col-sm-3.col-xs-12.f-right.align-center
         mh-button((click)="save(myForm.value, myForm.valid)",[title]="typeWindow",mods="big padding common radius margin all-width",text-mods="common")

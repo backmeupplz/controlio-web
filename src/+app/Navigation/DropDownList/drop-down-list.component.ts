@@ -13,7 +13,7 @@ export class DropDownList {
   private  _data: any = null;
   @Input('data')
   set data(data: any){
-    
+
     this._data = data;
   }
   get data(){
@@ -22,7 +22,7 @@ export class DropDownList {
 
   @Output() closedChange = new EventEmitter(true);
 
-  private setOpen: boolean = false;
+  protected setOpen: boolean = false;
   protected _close: boolean = true;
   get close(){
     return this._close;
@@ -35,6 +35,7 @@ export class DropDownList {
   }
 
   open(){
+    console.log("open", this._close, this.setOpen)
     if(!this._close){
       this._close = true;
       this.setOpen = false;
@@ -44,8 +45,8 @@ export class DropDownList {
     }
   }
   setClose(){
-      this.setOpen = false;
-      this._close = true;
+    this.setOpen = false;
+    this._close = true;
   }
 
   onClick(event) {
@@ -55,6 +56,10 @@ export class DropDownList {
 
   handleClick(event){
     if (!this.elementRef.nativeElement.contains(event.target)){
+      this._close = true;
+      this.setOpen = false;
+      this.onChanges(true);
+    } else {
       this._close = true;
       this.setOpen = false;
       this.onChanges(true);

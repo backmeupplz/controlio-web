@@ -9,6 +9,11 @@ import { Component } from '@angular/core';
     .top-block {
       display: block;
     }
+    cn-img {
+      width: 64px;
+      height: 64px;
+      justify-content: center;
+    }
   `],
   template: require('./support.component.pug'),
 })

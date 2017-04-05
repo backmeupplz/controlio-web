@@ -1,16 +1,26 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ImageComponent, ImageKeyComponent } from './ImageComponent';
+import { ImageService } from './services';
+import { FIleImageUploadService } from '../FileUploader/services';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-      imports: [],
+      imports: [CommonModule],
       exports: [
-      ImageComponent,
-      ImageKeyComponent
+        ImageComponent,
+        ImageKeyComponent
       ],
       declarations: [
-      ImageComponent,
-      ImageKeyComponent
-      ],
-      providers: [],
+        ImageComponent,
+        ImageKeyComponent
+      ]
 })
-export class ImageModule {}
+export class ImageModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: ImageModule,
+      providers: [ImageService, FIleImageUploadService]
+    }
+  }
+}
+

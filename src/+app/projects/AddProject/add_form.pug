@@ -9,10 +9,10 @@ div
         p Delete project
     h1 {{ typeWindow }}
     div.row
-      div.input-block.col-sm-6
+      div.input-block.col-sm-6.col-xs-12
         label.context(for="title") Title
         input(name="title", placeholder="New project", type="text", formControlName="title", id="title")
-      div.input-block.col-sm-6(*ngIf="!isEdit")
+      div.input-block.col-sm-6.col-xs-12(*ngIf="!isEdit")
         label.context(for="status") Initial status
         input(name="status"  placeholder="Status", type="status", formControlName="status", id="status")
     div.row
@@ -30,6 +30,6 @@ div
     div.row.jc-sb
       div.input-block.col-sm-8.col-xs-12
         label.context Thumnail
-        file-upload([(collection)]="collectionFiles", maxCount="1")
+        file-upload(maxCount="1", formControlName="image", name="image", [ext]="ext")
       div.input-block.col-sm-3.col-xs-12.f-right.align-center
         mh-button((click)="save(myForm.value, myForm.valid)",[title]="typeWindow",mods="big padding common radius margin all-width",text-mods="common")

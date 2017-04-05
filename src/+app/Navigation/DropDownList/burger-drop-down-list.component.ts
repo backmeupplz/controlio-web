@@ -12,7 +12,13 @@ import { DropDownList } from './drop-down-list.component';
 export class BurgerDropDownList extends DropDownList {
 	constructor( protected elementRef: ElementRef ){
 		super( elementRef );
-		// this.data = [];
 	}
+  action(callback: ()=> void){
+    return ()=>{
+      this._close = true;
+      this.setOpen = false;
+      if(callback) callback()
+    }
+  }
 }
 

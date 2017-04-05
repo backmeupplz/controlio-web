@@ -25,7 +25,8 @@ export class UserModel {
   }
   protected _role: string;
   get role(): string  {
-    return this._role;
+    //-return this._role;
+    return 'Manager';
   }
   protected _stripeSubscriptionId: number;
   get stripeSubscriptionId(): number  {

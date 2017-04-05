@@ -7,7 +7,10 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 // import { FileModel } from '../form-elements/File.model';
 // import { FileImage } from '../form-elements/FileImage.model';
 import { FileCollection } from '../models';
-import { FileModel } from '../../Files/models';
+import { FileModel, FileImageModel } from '../../Files/models';
+import { ImageGalleryService } from '../../ImageGallery';
+// import { ImageGalleryModel } from '../../ImageGallery/FullPageImageSlider/ImageGallery.model';
+import { CircularGallery, ImageGalleryModel } from '../../ImageGallery';
 
 @Component({
   selector: 'cn-collection',
@@ -16,7 +19,6 @@ import { FileModel } from '../../Files/models';
         display: inline-flex;
         flex-basis: 100%;
         justify-content: flex-start;
-        min-height: 60px;
       }
 
       .remove-icon {
@@ -38,13 +40,12 @@ import { FileModel } from '../../Files/models';
         justify-content: center;
       }
 
-      .ng-gallery .file-block:hover .remove-icon {
+      .file-block:hover .remove-icon {
         display: flex;
       }
 
       .file-block {
         position: relative;
-        margin-left: 15px;
       }
 
       .file-type {
@@ -74,23 +75,70 @@ import { FileModel } from '../../Files/models';
         height: 60%;
         overflow: hidden;
       }
+
+      .file-block {
+        height: 100%;
+      }
+
+      .photo-mini {
+        height: 60px;
+        width: 60px;
+      }
+
+      .photo-mini >>> img {
+        border-radius: 2px;
+      }
+
+      .collection-main {
+        display: inline-flex;
+      }
+
+      .file-block {
+        margin-right: 15px;
+      }
      `],
    template: `
-   <div *ngIf="collection" class="{{ _stylesMain }}">
+   <div *ngIf="collection" class="collection-main {{ _stylesMain }}">
      <div *ngFor ="let file of collection; let index = index" class="file-block">
-        <!-- file-image [file]="file" *ngIf="file.image"></file-image -->
-        <div *ngIf="!file.image" class="file-title">
+        <div *ngIf="!file.preview" class="file-title">
           <p class="file-name">{{ file.shortName }}</p>
           <p class="file-type">{{ file.type }}</p>
         </div>
-      <!-- span class="remove-icon glyphicon glyphicon-remove" aria-hidden="true" (click)="removeFile(file)" *ngIf="editable && !file.isLoad"></span -->
+        <file-image [file]="file" [image]="file.preview" *ngIf="file.preview" (click)="openGallery(index)"></file-image>
+        <!--cn-img *ngIf="file.preview" [image]="file.preview" class="photo-mini" styles="ng-thumb"></cn-img-->
+        <span class="remove-icon glyphicon glyphicon-remove" aria-hidden="true" (click)="removeFile(file)" *ngIf="editable && !file.isLoad"></span>
       </div>
    </div>
        `
 })
 export class CollectionComponent {
 
-  @Input('collection') fileCollection: FileCollection<FileModel>;
+  constructor(private imageGalleryService: ImageGalleryService, private circularGallery: CircularGallery<FileModel>) {}
+
+  @Input() editable: boolean = true;
+  private _collection: FileCollection<FileModel>;
+  @Input('collection')
+  set collection(collection: FileCollection<FileModel>){
+    this._collection = collection;
+    this._collection.forEach((file)=>{
+      if(file instanceof FileImageModel){
+        file.loadPreview()
+      }
+    })
+    /*
+      newFile.loadImageMethod = ( file, callback )=>{
+        // newFile.getImagePreview( file, ( err: any, img: ImageModel )=>{
+        //   newFile.image = img;
+        //   if(callback) callback(null, img);
+        // }, newFile.key );
+      };
+    */
+  }
+  get collection(){
+    return this._collection;
+  }
+
+
 
   public _styles: string = "ng-thumb";
   @Input()
@@ -98,7 +146,15 @@ export class CollectionComponent {
     this._styles += " " + styles;
   }
 
+  removeFile(file: FileModel){
 
+    this.removeChange.emit(file);
+
+    // this.collection.remove(file)
+    // this.collectionChange.emit(this.collection)
+  }
+  @Output() collectionChange = new EventEmitter(true);
+  @Output() removeChange = new EventEmitter(true);
 /*
   public _stylesMain: string = "ng-gallery";
   @Input()
@@ -151,7 +207,7 @@ export class CollectionComponent {
 
   @Output() removeEvent = new EventEmitter<any>();
   removeFile(file: FileModel){
-    
+
     this.gallery.removefile(file);
     this.removeEvent.emit(file);
   }
@@ -169,4 +225,20 @@ export class CollectionComponent {
     //   }
     // }
   }*/
+
+  openGallery(index) {
+    console.log(index);
+    // this.gallery.index = index;
+    let files = this._collection.filterType<FileImageModel>()
+    let gallery = new ImageGalleryModel(files, this.circularGallery )
+    this.imageGalleryService.setImages(gallery)
+    // this.opened = true;
+    // for (var i = 0; i < this.gallery.images.length; i++) {
+    //   if (i === this.currentImageIndex ) {
+    //     this.imgSrc = this.gallery.images[i].str;
+    //     this.loading = false;
+    //     break;
+    //   }
+    // }
+  }
 }

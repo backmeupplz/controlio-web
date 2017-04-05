@@ -7,7 +7,6 @@ import { EmailComponent, TagInputComponent, TagInputItemComponent } from './Emai
 import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 import { BemModule } from 'angular-bem';
 
-import { MessageForm } from './Message';
 import { SelectUser } from './SelectUser';
 import { SelectComponent } from 'ng2-select/ng2-select';
 import { OffClickDirective } from 'ng2-select/components/select/off-click';
@@ -27,11 +26,9 @@ import { FHSelect } from './SelectDropDown';
         SelectUser,
         LimitInput,
         ButtonComponent,
-        MessageForm,
         FHSelect
       ],
       declarations: [
-        MessageForm,
         SelectComponent,
         OffClickDirective,
         HighlightPipe,

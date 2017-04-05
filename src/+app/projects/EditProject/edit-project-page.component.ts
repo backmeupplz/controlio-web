@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { UserService } from '../users/user.service';
+import { UserService } from '../../users';
 
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
-import { ProjectService } from '../projects/project.service';
-import { ProjectModel } from './Project.model';
+import { ProjectService } from '../ProjectServices';
+import { ProjectModel } from '../models/Project.model';
+import { AuthService } from '../../auth';
 
 @Component({
   styles: [`
@@ -41,19 +42,17 @@ export class EditProjectPage {
   private isLoading: boolean = false;
   private title: string = "Loading ...";
 
-  constructor(private userService: UserService,
+  constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
               private projectService: ProjectService ){}
 
 
   public ngOnInit() {
-
     this.route.params.forEach((params: Params) => {
       this.isLoading = true;
       this.projectService.get( params['id'] ).subscribe( res => {
         this.project = res;
-        ;
         if(!this.project == null ){
           this.isLoading = false;
           this.title = `This is project deleted or not exist`;
@@ -63,20 +62,5 @@ export class EditProjectPage {
         }
       });
     });
-
-    if( this.userService.isLoggedIn() ){
-      this.userService.getAuthUsers().subscribe((result) => {
-
-          let index = 0;
-          let users = result.map(elem=>{
-            index++;
-            ;
-            return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
-          });
-
-          this.users = users;
-        });
-
-    }
   }
 }

@@ -6,6 +6,7 @@ import { FileUploadService } from '../services';
 // import { FileImage } from './FileImage.model';
 import { FileModel } from '../../Files/models';
 import { FilesUploadBaseComponent } from '../FileUploaderBase';
+import { FileCollection } from '../../Collection';
 
 @Component({
   styles: [`
@@ -18,7 +19,7 @@ import { FilesUploadBaseComponent } from '../FileUploaderBase';
    <div class="file_block">
      <label class="file_upload">
       <ng-content></ng-content>
-      <files-upload #filesUploadComponent [exts]="ext" [max]="maxCount" (addedFiles)="addedFiles($event)"></files-upload>
+      <files-upload-base #filesUploadComponent [exts]="ext" [max]="maxCount" (filesChange)="filesChange($event)"></files-upload-base>
      </label>
    </div>`
 })
@@ -26,23 +27,27 @@ import { FilesUploadBaseComponent } from '../FileUploaderBase';
 export class FileUploadButton {
 
   @ViewChild(FilesUploadBaseComponent) filesUploadComponent: FilesUploadBaseComponent;
-
   @Input() maxCount: number = 1;
   @Input() ext: Array<string>;
 
-  @Output() fileGalleryChange = new EventEmitter();
-
-  private loadImages: boolean = false;
-  get files(){
-    if(!this.filesUploadComponent) return null;
-    return this.filesUploadComponent.files;
+  private _collection: FileCollection<FileModel> = new FileCollection<FileModel>();
+  @Input()
+  get collection() {
+    return this._collection;
   }
 
-  // private _fileGallery: FilesGalleryModel;
+  @Output() collectionChange = new EventEmitter();
+
+  set collection(collection: FileCollection<FileModel>) {
+    if(collection){
+      this._collection = collection;
+      this.collectionChange.emit(this._collection);
+    }
+  }
 
   // @Input()
   // set fileGallery(fileGallery: FilesGalleryModel){
-  //   
+  //
   //   this._fileGallery = fileGallery;
   //   this.fileGalleryChange.emit(fileGallery);
   // }
@@ -60,7 +65,7 @@ export class FileUploadButton {
   //   if( callback != undefined && this._files.length > 0 ){
   //     this._files.forEach((file: any)=>{
   //       this.fileUploadService.uploadOn( file.key, file.file, (err, data)=>{
-  //         
+  //
   //         if(!err) pull.push({ res: data, key: file.key });
   //         else pull.push({ file: file, err: err });
   //         if(count == pull.length){
@@ -70,7 +75,7 @@ export class FileUploadButton {
   //         if(progress == 100){
   //           uploadPull.push({ key: file.key });
   //           if(count == uploadPull.length){
-  //             
+  //
   //             uploadCallback(null, uploadPull);
   //           }
   //         }
@@ -92,11 +97,19 @@ export class FileUploadButton {
     this.filesUploadComponent.removeFileFormKey(key);
   }
 
-  addedFiles(files: FileModel[]){
-    // if(!this.fileGallery) return;
-    // files.forEach((file: FileModel)=>{
-    //   this.fileGallery.addfile(file);
-    // })
-    // this.fileGalleryChange.emit(this.fileGallery);
+  setArrayCollection(collection, files: FileModel[]){
+    if(collection){
+      collection.splice(0, collection.length);
+      files.forEach((elem)=>{
+        if(collection.length < this.maxCount) collection.push(elem);
+      })
+    }
+    return collection;
+  }
+
+  filesChange(files: FileModel[]){
+    if(this.collection){
+      this.collection = this.setArrayCollection(this.collection, files)
+    }
   }
 }

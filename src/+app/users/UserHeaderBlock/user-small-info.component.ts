@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { AppConfig } from '../../app.config';
 import { UserDropDownList } from '../../Navigation/DropDownList/user-drop-down-list.component';
 @Component({
+  styles: [`:host { cursor: pointer; }`],
   selector: 'user-small-info',
   template: require("./user_block.pug")
 })
@@ -22,6 +23,7 @@ export class UserSmallInfoComponent {
   }
 
   openDropDownList(){
+    console.log("openDropDownList")
     this.list.open();
   }
 }

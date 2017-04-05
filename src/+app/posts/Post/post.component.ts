@@ -116,19 +116,17 @@ export class PostComponent {
   private _post: PostModel;
   @Input()
   set post(post: PostModel | PostStatusModel ){
-    
+
     if(post instanceof PostModel || post instanceof PostStatusModel ){
       this._post = post;
       if( this.post instanceof PostStatusModel && this.post.sender != null){
         this.data = {
           title: 'Updated status',
           text: this.post.text,
-          photo: this.post.project.image
+          photo: this.post.project.image,
+          subtitle: (this.post.sender) ? (this.post.sender.name ||this.post.sender.email) : "No name",
         }
       } else if( this.post instanceof PostModel && this.post.project != null) {
-
-        
-
         this.data = {
           title: (this.post.sender) ? (this.post.sender.role||'user') : "No role",
           subtitle: (this.post.sender) ? (this.post.sender.name ||this.post.sender.email) : "No name",
@@ -148,7 +146,7 @@ export class PostComponent {
   }
 
   constructor(private postService: PostService){
-    
+
   }
 
   removePost(){
@@ -175,7 +173,7 @@ export class PostComponent {
     /*
     this.setUploadFiles = {
       callback: (err: any, images: any )=>{
-        
+
       },
       uploadCallback: (err: any, images: any )=>{
         if(!err){

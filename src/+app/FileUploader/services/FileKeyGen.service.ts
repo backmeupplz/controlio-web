@@ -7,8 +7,9 @@ import { LocalStorage } from '../../helpers/local-storage';
 export class FileKeyGenService {
   constructor( @Inject(LocalStorage) private localStorage ) {}
 
-  checkKey(key: string){
-    return true;
+  checkExt( name: string, formats: string[] ){
+    let format = name.split(".");
+    return formats.indexOf(format[1]) > -1;
   }
 
   generateKey( file: any ){

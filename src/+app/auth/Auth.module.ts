@@ -10,23 +10,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { AccountRecoveryPageComponent, AccountRecovery } from './AccountRecovery';
 import { SignIn, LoginComponent } from './SignIn';
 import { SignUp, SignUpPage } from './SignUp';
-import { LoggedInGuard } from './LoggedGuard';
+import { LoggedInGuard, NotLoggedInGuard } from './LoggedGuard';
 
 const moduleRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'signin', component: LoginComponent },
-  { path: 'account-recovery', component: AccountRecoveryPageComponent },
-  { path: 'signup', component: SignUpPage },
+  { path: 'login', component: LoginComponent, canActivate: [NotLoggedInGuard] },
+  { path: 'signin', component: LoginComponent, canActivate: [NotLoggedInGuard] },
+  { path: 'account-recovery', component: AccountRecoveryPageComponent, canActivate: [NotLoggedInGuard] },
+  { path: 'signup', component: SignUpPage, canActivate: [NotLoggedInGuard] },
 ];
 
-import { AppHeaders, AppHttp } from '../HTTPHelper';
+import { HTTPHelperModule } from '../HTTPHelper';
 import { AuthService } from './AuthServices';
 import { UserAuthModel } from './models';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    SharedModule
+    SharedModule,
+    HTTPHelperModule
   ],
   exports: [],
   declarations: []
@@ -35,7 +36,7 @@ export class AuthServiceModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: AuthModule,
-      providers: [AuthService, UserAuthModel, AppHeaders, AppHttp, LoggedInGuard]
+      providers: [AuthService, UserAuthModel, LoggedInGuard, NotLoggedInGuard]
     }
   }
 }

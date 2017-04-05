@@ -35,7 +35,6 @@ export class EmailComponent implements ControlValueAccessor {
 
   private propagateChange = (_: any) => {};
   public writeValue(value: string[]) {
-    ;
     this._emails = value;
   }
   public registerOnChange(fn: any) {
@@ -44,11 +43,9 @@ export class EmailComponent implements ControlValueAccessor {
   public registerOnTouched() {}
 
   onChange( value: { value: string[], isChanged: boolean } ){
-    
     if( value.isChanged ){
       this._emails = value.value;
       this.emailsChange.emit( this._emails );
-      ;
       this.propagateChange(this._emails);
     }
   }

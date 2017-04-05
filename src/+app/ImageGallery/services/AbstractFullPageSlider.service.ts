@@ -1,7 +1,8 @@
-import { AbsctractGalleryModel, AbstractElementModel } from '../models';
+import { AbsctractGalleryModel } from '../models';
 import { IOpenableFullPageSlider } from './IOpenableFullPageSlider.interface';
+import { IHaveImage } from '../../Image';
 
-export abstract class AbstractFullPageSliderService <B extends AbstractElementModel, T extends AbsctractGalleryModel<B>> implements
+export abstract class AbstractFullPageSliderService <B extends IHaveImage, T extends AbsctractGalleryModel<B>> implements
 IOpenableFullPageSlider<B,T> {
   constructor() {}
   protected _gallery: T;

@@ -76,17 +76,13 @@ export class TopNavComponent implements OnInit {
 
   }
   ngOnInit() {
-
-    
     this.authService.loggedIn$.subscribe((value) => {
-
-      ;
-
       this.isAccess = value;
       this.changeView( this.isAccess );
     });
   }
   openBurger(){
+    console.log("openBurger")
     this.burger.open();
   }
 }

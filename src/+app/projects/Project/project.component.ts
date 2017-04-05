@@ -35,7 +35,6 @@ import { PostService } from '../../posts/PostServices';
 
 
 export class Project {
-
   private congif: any  = {
     MESSAGE_MAX_LENGTH: VALIDATOR_CONFIG_PROJECT.MESSAGE_MAX_LENGTH
   }
@@ -128,7 +127,7 @@ export class Project {
   // Posts
 
   onScroll () {
-    
+
     //this.loadPosts();
   }
 
@@ -143,55 +142,37 @@ export class Project {
   }
 
   changeStatus(_data, isValid: boolean ){
-     // let data = _data || {};
-     // data.type = "status";
-     // this.save( data, isValid );
+     let data = _data || {};
+     data.type = "status";
+     this.save( data, isValid );
   }
 
   addPost(_data, isValid: boolean){
     let data = _data || {};
     data.type = "post";
-    
     this.save( data, isValid );
   }
 
   updateClients(_data, isValid: boolean){
-    
+
   }
 
   createPost(_data: any){
-
     let data = _data || {};
     data.projectid = this.project.id;
-
-    
 
     let post = this.postService.create( this.project, {
               text: data.text,
               type: data.type
             });
 
-    ;
-
-    this.myForm.reset()
     this.posts.unshift(post);
+    this.myForm.reset()
     if( post instanceof PostStatusModel ) this.project.lastStatus = post;
 
-
-    ;
     this.postService.save( this.project, data ).subscribe( res => {
-      //
-      //  Тут нужно обработать ошибку!
-      //
-
-      ;
       post.save(res);
-      //this.resetAll = ()=>{};
-      //this.setUploadFiles = ()=>{};
-      //if( res.type == "status" ) this.project.lastStatus = res;
     });
-
-
   }
 
   private posts: any = [];
@@ -268,58 +249,10 @@ export class Project {
 
   save( _data, isValid: boolean ){
     if(!isValid) return;
-
-    let self = this;
     if(this.actionCheckedID == 0){
-
-      self.createPost(_data);
-      //this.messageForm.uploadFilesVoid();
-
-      //this.fileUploadService.uploadGallery(this.messageForm.fileGallery);
-      /*
-      this.setUploadFiles = {
-        callback: (err: any, images: any )=>{
-          
-          // if(!err){
-          //   let keys = images.filter((elem)=>{
-          //     if(!elem.err) return elem;
-          //   }).map((elem)=>{
-          //     return elem.key;
-          //   });
-
-          //   let data = {
-          //     attachments: keys,
-          //     text: this.message,
-          //     type: "post"
-          //   }
-          //   this.createPost(data);
-          // }
-          // else {
-          //   console.error(err);
-          // }
-        },
-        uploadCallback(err: any, images: any){
-          if(!err){
-            let keys = images.filter((elem)=>{
-              if(!elem.err) return elem;
-            }).map((elem)=>{
-              return elem.key;
-            });
-
-            let data = {
-              attachments: keys,
-              text: self.message,
-              type: "post"
-            }
-            self.createPost(data);
-          }
-          else {
-            console.error(err);
-          }
-        }
-      };*/
+      this.createPost(_data);
     } else if(isValid && this.actionCheckedID == 1){
-      this.createPost({ status: self.message, type: status });
+      this.createPost(_data);
     }
   }
 }

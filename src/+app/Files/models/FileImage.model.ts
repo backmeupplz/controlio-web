@@ -19,7 +19,7 @@ export class FileImageModel extends FileModel implements IHaveImage {
   */
   protected _image: AbstractImageModel;
   get image() : AbstractImageModel {
-    return this._image;
+    return this._image || this.preview;
   }
   set image(image: AbstractImageModel){
     this._image = image;
@@ -47,6 +47,7 @@ export class FileImageModel extends FileModel implements IHaveImage {
     reader.onerror = (err)=>{
       if( callback ) callback(err, null)
     }
+    console.log(this._file)
     reader.readAsDataURL( this._file );
   }
 }

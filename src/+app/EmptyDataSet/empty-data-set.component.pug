@@ -1,0 +1,7 @@
+div.center-block.you-dont-have-project(*ngIf="!error || loading")
+  h1.text(*ngIf="!loading") {{ title }}
+  h1.text(*ngIf="loading") Loading...
+div.center-block(*ngIf="error")
+  img([src]="image" *ngIf="image")
+  p.title.text(*ngIf="error.title") {{ error.title }}
+  p.subtitle.text(*ngIf="error.message") {{ error.message }}

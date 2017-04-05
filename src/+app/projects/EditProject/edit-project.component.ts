@@ -2,11 +2,8 @@ import { Component,  Output, Input, EventEmitter, Injectable } from '@angular/co
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 // import { GlobalValidator } from '../validation/global-validator';
 
-// import { UserService } from '../users/user.service';
-// import { Email } from '../helpers/form-elements/email.component';
-// import { LimitInput } from '../helpers/form-elements/limit.component';
-// import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
-// import { ProjectService } from './project.service';
+import { UserService } from '../../users';
+import { ProjectService } from '../ProjectServices';
 
 // import { ImageModel } from '../helpers/imgb/imgb.model';
 
@@ -77,7 +74,7 @@ export class EditProject {
       project.manager.text = project.manager.email;
       this.manager = project.manager;
 
-      this.image = new ImageModel(project.image, true);
+      // this.image = new ImageModel(project.image, true);
       if( project.clients ) this.clients = project.clients;
       this.myForm.setValue(obj);
     }
@@ -100,41 +97,18 @@ export class EditProject {
       status: new FormControl(''),
     });
   }
-  public managerGet(value){
-    ;
-  }
+  public managerGet(value){}
 
-  removeProject(){
-    // remove project
-    
-  }
+  removeProject(){}
 
-  archiveProject(){
-    //this.projectService()
-    
-  }
+  archiveProject(){}
 
   save( data, isValid: boolean) {
-
     this.submitted = true;
     if( isValid ) {
+      this.projectService.update( data ).subscribe((result) => {
 
-      ;
-
-      if( this.imageKey ){
-        data.image = this.imageKey;
-
-        this.callback_upload = (err, data)=>{
-          ;
-        }
-
-        data.projectid = this.projectVal.id;
-        this.projectService.update( data ).subscribe((result) => {
-
-        });
-      } else {
-        ;
-      }
+      });
     }
   }
 }
