@@ -1,13 +1,12 @@
 import { Component, OnInit,  Output, Input, EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GlobalValidator } from '../validation/global-validator';
-
+import { GlobalValidator } from '../../FormHelper';
+import { FileCollection } from '../../Collection';
+import { FileModel } from '../../Files/models';
 import { Router } from '@angular/router';
-import { UserService } from '../users/user.service';
-import { Email } from '../helpers/form-elements/email.component';
-import { LimitInput } from '../helpers/form-elements/limit.component';
-import { ProjectService } from '../projects/project.service';
-import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
+
+import { ProjectService } from '../../projects/ProjectServices/project.service';
+// import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
 
 @Component({
   selector: 'add-project',
@@ -17,30 +16,34 @@ import { ImportFileElement } from '../helpers/form-elements/file-upload.componen
 
 @Injectable()
 export class AddProject implements OnInit {
-  componentName: "AddProject";
-	public myForm: FormGroup; // our model driven form
-	public submitted: boolean; // keep track on whether form is submitted
-	public events: any[] = []; // use later to display form changes
-	public manager: any = null;
-	private event_click: any;
-	public typeWindow: string = "Add Project";
-	private imageKey: string;
-	private callback_upload: any = null;
-	private photoExt = ["png","jpg","jpeg"];
-	private isEdit: boolean = false;
 
-	imageKeyChange( obj ){
-		this.imageKey = obj.key;
-	}
+  public collectionFiles: FileCollection<FileModel> = new FileCollection<FileModel>();
+  public myForm: FormGroup;
+  public submitted: boolean;
+  public events: any[] = [];
+  public manager: any = null;
+  private event_click: any;
+  public typeWindow: string = "Add Project";
+  private imageKey: string;
+  private callback_upload: any = null;
+  private photoExt = ["png","jpg","jpeg"];
+  private isEdit: boolean = false;
+
+  private clients: string[] = [];
+  private managers: string[] = [];
+
+  imageKeyChange( obj ){
+    this.imageKey = obj.key;
+  }
 
   valueChange(user) {
 
     let obj = this.myForm.value;
     if( user ) {
-    	let userId = this.users.findIndex( elem => { return elem.id == user.id  });
-    	obj.manager = user != -1 ? this.users[ userId ].userId : null;
+      let userId = this.users.findIndex( elem => { return elem.id == user.id  });
+      obj.manager = user != -1 ? this.users[ userId ].userId : null;
     } else {
-    	obj.manager = null;
+      obj.manager = null;
     }
     this.myForm.setValue( obj );
 
@@ -52,81 +55,83 @@ export class AddProject implements OnInit {
     this.myForm.setValue( obj );
   }
 
-	changeClients( emails ){
-    let obj = this.myForm.value;
-    obj.clients = emails;
-    this.myForm.setValue( obj );
-	}
-
-	@Input()
-	set event(event: any) {
+  @Input()
+  set event(event: any) {
     this.event_click = event || null;
   }
 
-	@Input() users: Array<any> = [];
+  @Input() users: Array<any> = [];
 
-	constructor(
-		private _fb: FormBuilder,
-		private userService: UserService,
-		private router: Router,
-		private projectService: ProjectService) {
+  constructor(
+    private _fb: FormBuilder,
+    // private userService: UserService,
+    private router: Router,
+    private projectService: ProjectService) {
 
-	}
+  }
 
-	ngOnInit() {
+  ngOnInit() {
 
-		if( this.userService.isLoggedIn() ){
-			// this.userService.getAuthUsers().subscribe((result) => {
+    // if( this.userService.isLoggedIn() ){
+    //  // this.userService.getAuthUsers().subscribe((result) => {
 
-			// 		let index = 0;
-			// 		let users = result.map(elem=>{
-			// 			index++;
-			// 			console.log(elem);
-			// 			return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
-			// 		});
+    //  //    let index = 0;
+    //  //    let users = result.map(elem=>{
+    //  //      index++;
+    //  //      ;
+    //  //      return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
+    //  //    });
 
-			// 		console.log( users );
-			// 		this.users = users;
-			//   });
+    //  //    ;
+    //  //    this.users = users;
+    //  //   });
 
-		}
+    // }
 
-		    this.myForm = new FormGroup({
-		        title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
-		        manager: new FormControl( '' ),
-		        description: new FormControl(''),
-		        clients: new FormControl(''),
-		        status: new FormControl(''),
-		    });
+        this.myForm = new FormGroup({
+            clientEmails: new FormControl([]),
+            managers: new FormControl([]),
+            title: new FormControl('', [<any>Validators.required, <any>Validators.minLength(6)]),
+            description: new FormControl('', [<any>Validators.maxLength(400)]),
+            status: new FormControl(''),
+        });
 
-	}
+        this.myForm.valueChanges.subscribe(data => {
+          ;
+          // this.valueChange.emit(data);
+          // this.isSetText = data.text.length > 0;
+        })
+  }
 
-	public managerGet(value){
-		console.log(value);
-	}
+  public managerGet(value){
+    ;
+  }
 
 
-	save( data, isValid: boolean) {
+  save( data, isValid: boolean) {
 
+    if( data.managers ) data.managerEmail = data.managers[0];
+    ;
 
-		console.log( data, isValid );
     this.submitted = true;
     if( isValid ) {
 
-    	console.log( data );
+      ;
 
-    	if( this.imageKey ){
-    		data.image = this.imageKey;
+      if( this.imageKey ){
+        data.image = this.imageKey;
 
-    		this.callback_upload = (err, data)=>{
-    			console.log( err, data );
-    		}
-		    this.projectService.create( data ).subscribe((result) => {
+        this.callback_upload = (err, data)=>{
+          ;
+        }
 
-			  });
-		  } else {
-		  	console.log("Картинка не выбрана!");
-		  }
-	  }
-	}
+      } else {
+        ;
+      }
+
+      this.projectService.create( data ).subscribe((result) => {
+        ;
+      });
+    }
+  }
 }

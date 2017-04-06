@@ -8,8 +8,12 @@ import { Component, Input } from '@angular/core';
 export class MenuBlockComponent {
   @Input() title: string;
   @Input() ischecked = false;
-  @Input() url = "/";
+  @Input() url: string;
   @Input() icon: string;
   @Input() action: any;
+  onClick(){
+    if(this.action) return this.action();
+    else return null;
+  }
   constructor() {}
 }

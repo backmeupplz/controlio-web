@@ -175,7 +175,7 @@ export class CircleProgressComponent implements OnInit {
   }
 
   public animate() {
-    console.log("start animate")
+    
     if(this.canAnimate) {
       this.canAnimate = false;
       let time = this.time * 1000 / this._percent;
@@ -198,16 +198,16 @@ export class CircleProgressComponent implements OnInit {
   }
 
   private animationLoop(i, time) {
-    //console.log("animationLoop")
+    //
     if (i <= this._percent) {
       setTimeout(()=> {
-        //console.log("animationLoop", i, time)
+        //
         //this.angle = this.percToAngle(i);
         //this.radian = this.angleToRad(this.angle);
         //this.setArcSet(this.angle);
         //this.setColor(i);
         this.circleText = i + '%';
-        //console.log(this.circleText);
+        //;
         //this.calculateAngle(this.radius, this.radian);
         i++;
         //this.ref.detectChanges();

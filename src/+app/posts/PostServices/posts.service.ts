@@ -2,20 +2,21 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Http, RequestOptions, RequestMethod, Request } from '@angular/http';
 import 'rxjs/add/operator/map'
 import { Subject }    from 'rxjs/Subject';
-import { AppHeaders } from '../helpers/http/AppHeaders.service';
-import { PostStatusModel } from './PostStatus.model';
-import { PostModel } from './Post.model';
-import { ProjectModel } from '../projects/Project.model';
-import { UserService } from '../users/user.service';
-import { User } from '../users/user.model';
+import { AppHeaders } from '../../HTTPHelper';
+import { PostStatusModel } from '../models/PostStatus.model';
+import { PostModel } from '../models/Post.model';
+import { ProjectModel } from '../../projects/models/Project.model';
+import { UserService, UserModel } from '../../users';
+import { UserAuthModel } from '../../auth';
 
 @Injectable()
 export class PostService {
 
-  constructor( private http: Http, private headers: AppHeaders, private userService: UserService ){}
+  constructor( private http: Http, private headers: AppHeaders, private userModel: UserAuthModel ){}
 
-  create( project: ProjectModel, data: any, sender?: User ){
-    if(!sender) sender = this.userService.getAuthUser();
+  create( project: ProjectModel, data: any, sender?: UserModel | UserAuthModel ){
+    if(!sender) sender = this.userModel;
+
 
     if(data.type == 'status'){
       return new PostStatusModel( null, sender, project, null, data.status, false);
@@ -40,11 +41,11 @@ export class PostService {
       .map(res => res.json())
       .map((res) => {
         let post;
-        let sender = project.manager;
+        let author = new UserModel(res.author)
         if(res.type == 'status'){
-          post = new PostStatusModel(res._id, sender, project, res.updatedAt, res.text);
+          post = new PostStatusModel(res._id, author, project, res.updatedAt, res.text);
         }  else if(res.type == 'post'){
-          post = new PostModel(res._id, sender,project,res.updatedAt,res.text, true, true, res.attachments);
+          post = new PostModel(res._id, author,project,res.updatedAt,res.text, true, true, res.attachments);
         }
         return post;
       });
@@ -65,11 +66,12 @@ export class PostService {
       .map(res => res.json())
       .map((res) => {
         let post;
-        let sender = project.manager;
+
+        let author = new UserModel(res.author)
         if(res.type == 'status'){
-          post = new PostStatusModel(res._id, sender, project, res.updatedAt, res.text);
+          post = new PostStatusModel(res._id, author, project, res.updatedAt, res.text);
         }  else if(res.type == 'post'){
-          post = new PostModel(res._id, sender,project,res.updatedAt,res.text, true, true, res.attachments);
+          post = new PostModel(res._id, author,project,res.updatedAt,res.text, true, true, res.attachments);
         }
         return post;
       });
@@ -124,10 +126,13 @@ export class PostService {
       .map((res) => {
         let posts = [];
         res.forEach((elem)=>{
+
+
+          let author = new UserModel(elem.author)
           if(elem.type == 'status'){
-            posts.push(new PostStatusModel(elem._id, elem.manager, project, elem.updatedAt, elem.text));
+            posts.push(new PostStatusModel(elem._id, author, project, elem.updatedAt, elem.text));
           }  else if(elem.type == 'post'){
-            posts.push(new PostModel(elem._id,project.manager,project,elem.updatedAt,elem.text, true, true, elem.attachments));
+            posts.push(new PostModel(elem._id, author,project,elem.updatedAt,elem.text, true, true, elem.attachments));
           }
         })
         return posts;

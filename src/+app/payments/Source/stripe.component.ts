@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PaymentsService } from './payments.service';
+import { PaymentsService } from '../PaymentsServices/payments.service';
+import { AppConfig } from '../../app.config';
 
 @Component({
 	selector: 'stripe',
@@ -27,16 +28,15 @@ export class Stripe {
     let self = this;
 
     var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_QUk0bgtsbIfR67SVr0EHnIpx',
+      key: AppConfig.STRIPE_KEY(),
       locale: 'auto',
       token: function (token: any) {
-        console.log( token );
         self.sourceData.emit( token );
       }
     });
 
     handler.open({
-    	key: "pk_test_QUk0bgtsbIfR67SVr0EHnIpx",
+    	key: AppConfig.STRIPE_KEY(),
       class: "stripe-button",
     	// image: "https://stripe.comassets/documentation/checkout/marketplace.png",
       name: 'Controlio',

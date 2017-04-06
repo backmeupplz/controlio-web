@@ -35,7 +35,7 @@ export class UserModel {
   get plan(): number  {
     return this._plan;
   }
-  constructor( obj: any ){
+  constructor( obj: { _id: string, name?: string, photo?: string, phone?: string, email?: string, stripeId?: string, stripeSubscriptionId?: number, plan?: number } ){
     if( typeof obj === "object" ){
       this._id = obj._id;
       if(obj.name) this._name = obj.name;

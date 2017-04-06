@@ -8,7 +8,7 @@ import {TagInputItemComponent} from './tag-input-item.component';
   selector: 'tag-input',
   template:
   `
-    <div class="undo" *ngIf="isChanged && lasttagsList.length > 0">
+    <div class="undo" *ngIf="isChanged && lasttagsList">
       <span class="glyphicon glyphicon-share-alt" aria-hidden="true" (click)="undo()"></span>
     </div>
     <div class="tags">
@@ -16,7 +16,7 @@ import {TagInputItemComponent} from './tag-input-item.component';
         class="tag-input-item"
         [text]="tag"
         [index]="index"
-        [selected]="selectedTag === index"
+        [selected]="selecletedTag === index"
         (tagRemoved)="_removeTag($event)"
         *ngFor="let tag of tagsList; let index = index; trackBy: trackByFn">
       </tag-input-item>

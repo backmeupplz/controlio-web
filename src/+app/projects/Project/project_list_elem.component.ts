@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AppSettings } from '../../app.config';
+import { AppConfig } from '../../app.config';
 
 @Component({
   selector: 'project-list-elem',
@@ -21,12 +21,17 @@ export class ProjectListElem {
   @Input() subtitle: string = "Default";
   @Input() image: string;
   @Input() id: any;
-  @Input() post: any;
+  private _post: any;
+  @Input()
+  set post(post: any){
+    console.log(post);
+    if(post) this._post = post;
+  }
   @Input() date: any;
   @Input() manager: any = null;
   @Input() isOpenSettings: boolean = false;
   componentName: "ProjectListElem";
-  private defaultImage: string = AppSettings.DEFAUL_IMG;
+  private defaultImage: string = AppConfig.DEFAUL_IMG;
   constructor() {
 
   }

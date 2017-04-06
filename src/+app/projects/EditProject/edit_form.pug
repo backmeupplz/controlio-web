@@ -17,7 +17,7 @@ div
         select-user([event]="event_click", name="manager", class="select-user-block", type="manager", id="manager", [input]="manager", (valueChange)="valueChange($event)", [users]="users")
     div.row
       div.input-block.col-xs-12
-        limit-input( [label]="'Description'", [value]="description", (inputChange)="inputChange($event)")
+        limit-input([label]="'Description'", formControlName="description", name="description")
     div.row.jc-sb
       div.input-block.col-xs-12
         label.context(for="clients") Clients

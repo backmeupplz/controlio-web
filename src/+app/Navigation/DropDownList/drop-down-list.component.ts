@@ -10,7 +10,16 @@ import { Component, Input, ElementRef, Output, EventEmitter } from '@angular/cor
 
 export class DropDownList {
 
-  @Input() data: any = null;
+  private  _data: any = null;
+  @Input('data')
+  set data(data: any){
+    
+    this._data = data;
+  }
+  get data(){
+    return this._data;
+  }
+
   @Output() closedChange = new EventEmitter(true);
 
   private setOpen: boolean = false;
@@ -33,6 +42,10 @@ export class DropDownList {
       this.setOpen = true;
       this._close = false;
     }
+  }
+  setClose(){
+      this.setOpen = false;
+      this._close = true;
   }
 
   onClick(event) {

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AbstractImageModel } from '../AbstractImage.model';
-import { ImageService } from '../services';
+// import { ImageService } from '../services';
 
 @Component({
   selector: 'cn-img-key',
-  templateUrl: 'ImageKey.component.html'
+  template: require('./ImageKey.component.pug')
 })
 export class ImageKeyComponent implements OnInit {
 
@@ -21,14 +21,14 @@ export class ImageKeyComponent implements OnInit {
   @Input()
   set key(key: string){
     this._key = key;
-    this.imageService.downloadImage(this._key).subscribe((image)=>{
-      this._image = image;
-    })
+    // this.imageService.downloadImage(this._key).subscribe((image)=>{
+    //   this._image = image;
+    // })
   }
   get key(){
     return this._key;
   }
 
-  constructor(private imageService: ImageService) {}
+  // constructor(private imageService: ImageService) {}
   ngOnInit() {}
 }

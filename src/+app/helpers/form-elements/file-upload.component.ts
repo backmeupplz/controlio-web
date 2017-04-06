@@ -83,7 +83,7 @@ export class ImportFileElement {
   @Input()
   set upload(callback:any){
     if( callback != undefined && this.file_key.length > 0 && this.file != undefined ){
-      console.log("start");
+      ;
       this.fileUploadService.uploadOn(this.file_key, this.file, callback);
     }
   }
@@ -99,7 +99,7 @@ export class ImportFileElement {
     if( this.file ) this.file = null;
     this.file_key = "";
     this.valueChange.emit({ key: undefined  })
-    console.log("remove file");
+    ;
     this.useOld = false;
   }
 

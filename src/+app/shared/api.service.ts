@@ -21,7 +21,7 @@ export class ApiService {
     return this._http.get(url, options)
       .map(res => res.json())
       .catch(err => {
-        console.log('Error: ', err);
+        
         return Observable.throw(err);
       });
   }

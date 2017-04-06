@@ -16,7 +16,7 @@ export class FileUploadService {
 
 
   checkExt(fileName: string, ext: string[]){
-    console.log("checkExt", fileName, ext)
+    
   	let str = fileName.split(".");
   	let format = str[str.length - 1];
   	let res = ext.findIndex( val => { return val == format; });
@@ -40,7 +40,7 @@ export class FileUploadService {
       };
     } else newFile = new FileModel(this.generateKey( file ), file, false, fileName);
 
-    console.log(newFile);
+    ;
     return newFile;
   }
 
@@ -49,7 +49,7 @@ export class FileUploadService {
   uploadGallery( gallery: FilesGalleryModel ){
     if(!gallery) return;
     gallery.files.forEach((file)=>{
-      console.log("set upload", file);
+      ;
       if(!file.isUploaded){
         file.setLoad();
         this.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress );
@@ -67,7 +67,7 @@ export class FileUploadService {
         if(callabackUploadProgress) callabackUploadProgress(-1)
       }
       this.bucketService.uploadImage( key, file, callabackUploadProgress ).subscribe((res)=>{
-        console.log("callback FileUploadService", new Date())
+        
         callback(null, res);
       }, (err)=>{
         callback(err, null);

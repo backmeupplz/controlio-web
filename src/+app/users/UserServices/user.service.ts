@@ -12,10 +12,16 @@ export class UserService {
         });
   }
 
+  getUsers(){
+    return this.http.get('/users/managers').map((res) => {
+          return res;
+        });
+  }
+
   getProfile() {
     return this.http.get('/users/profile').map((res) => {
           let user = new UserModel(res);
-          console.log(user)
+          
           return user;
         });
   }
@@ -23,7 +29,7 @@ export class UserService {
   editProfile( name: string, phone: string, photo: string ){
     return this.http.post('/users/profile', { name, phone, photo }).map((res) => {
           let user = new UserModel(res);
-          console.log(user)
+          
           return user;
         });
   }

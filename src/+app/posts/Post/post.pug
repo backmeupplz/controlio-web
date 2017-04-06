@@ -7,25 +7,25 @@ div.content.block-common-style(*ngIf="post", block="mb-post", mod="{{ post.galle
           svg-icon(src="assets/edit.svg", block="mh-svg", mod="common awesome")
           p Cancel
         div.in-flex(*ngIf="post.editable && !editMode", elem="edit-button", (click)="setEditMode()")
-          div.edit(block="mh-svg", mod="common awesome",style="width:10px")
-          //-svg-icon(src="assets/edit.svg", (click)="setEditMode()", block="mh-svg", mod="common awesome")
+          //-div.edit(block="mh-svg", mod="common awesome",style="width:10px")
+          svg-icon(src="assets/edit.svg", (click)="setEditMode()", block="mh-svg", mod="common awesome")
           p Edit
         div.in-flex(*ngIf="post.removable && editMode", elem="delete-button", (click)="removePost()")
           svg-icon(src="assets/delete.svg", block="mh-svg", mod="common awesome", style="width:10px")
           p Delete
     span.author.all-width(*ngIf="data", elem="author", mod="{{ post.gallery != null && post.gallery.images.length > 0 ? 'post' : 'status' }}")
       div.thumbnail
-        imgb.photo-mini([key]="data.photo", styles="ng-thumb")
+        cn-img.photo-mini(styles="ng-thumb")
       div.text-block.three-line(elem="message")
         p.context {{ data.title }}
         p.username(*ngIf="data.subtitle") {{ data.subtitle }}
         p.message(*ngIf="!editMode") {{ data.text }}
-        div.row(*ngIf="editMode", elem="edit-block")
+        //-div.row(*ngIf="editMode", elem="edit-block")
           div.col-sm-9.col-xs-12
             message-form([value]="data.text",[gallery]="post.gallery", (inputChange)="postMessageInput($event)", [uploadFiles]="setUploadFiles", (changeFiles)="changeFiles($event)", [resetAll]="resetAll")
           div.col-sm-3.col-xs-12.f-right
             mh-button((click)="edit()", title="Edit post",mods="big padding common radius margin all-width",text-mods="common")
-  div.bottom-block(*ngIf="post.gallery && !editMode && post.gallery.images.length > 0 && post.isSave")
+  //-div.bottom-block(*ngIf="post.gallery && !editMode && post.gallery.images.length > 0 && post.isSave")
     div.row.jc-fs
       div.col-xs-1.clip-icon
         img(src="assets/clip.svg")

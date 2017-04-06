@@ -37,7 +37,7 @@ export class FileModel extends AbstractFile {
   public loadFile: any = (err, res)=>{
     if(!err) this._isUploaded = true;
     this._isLoad = false;
-    console.log("loadFile");
+    ;
     this.callbackAfter(err, res);
   };
 
@@ -54,7 +54,7 @@ export class FileModel extends AbstractFile {
   public callbackProgress: any = function(err, res){};
   private _progress: number = 0;
   set progress(progress: number){
-    console.log(progress);
+    ;
     this._progress = progress >= 0 ? progress : 0;
   }
   get progress(){
@@ -63,7 +63,7 @@ export class FileModel extends AbstractFile {
   public loadFileProgress: any = (progress: number)=>{
     this._isLoad = true;
     this._progress = progress;
-    console.log(progress);
+    ;
     this.callbackProgress(progress);
   };
 

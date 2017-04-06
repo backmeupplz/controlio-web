@@ -31,4 +31,38 @@ export class FileUploadService {
   // Отправить файл (файлы)
   // Передаем файл который является наследников FileModel
   // Получаем ключ
+
+
+
+
+
+  // uploadGallery( gallery: FilesGalleryModel ){
+  //   if(!gallery) return;
+  //   gallery.files.forEach((file)=>{
+  //     ;
+  //     if(!file.isUploaded){
+  //       file.setLoad();
+  //       this.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress );
+  //     }
+  //   });
+  // }
+
+
+  // For upload file on server
+  // callback (err, res)=>{}
+  uploadOn( key: string, file: any, callback: any, callabackUploadProgress?: any ){
+    if( callback != undefined && callback != null && key.length > 0 && file != undefined ){
+      if( file == undefined || key == undefined ){
+        callback( true, null);
+        if(callabackUploadProgress) callabackUploadProgress(-1)
+      }
+      this.bucketService.uploadImage( key, file, callabackUploadProgress ).subscribe((res)=>{
+        
+        callback(null, res);
+      }, (err)=>{
+        callback(err, null);
+      });
+    }
+  }
+
 }
