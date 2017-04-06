@@ -3,6 +3,7 @@ import { AppHttp, AppHeaders } from '../HTTPHelper';
 import { LocalStorage } from '../helpers/local-storage';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
+import 'rxjs/add/observable/fromPromise';
 
 @Injectable()
 export class BucketService {
