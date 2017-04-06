@@ -4,7 +4,8 @@
  */
 
 /* tslint:disable */
-let __compiler__ = require('@angular/compiler');
+//let __compiler__ = require('@angular/compiler');
+/*
 import { __platform_browser_private__ } from '@angular/platform-browser';
 import { __core_private__ } from '@angular/core';
 let patch = false;
@@ -36,9 +37,10 @@ __platform_browser_private__.HammerGesturesPlugin.prototype.supports = universal
 // End Fix Material Support
 
 // Fix Universal Style
-import { NodeDomRootRenderer, NodeDomRenderer } from 'angular2-universal/node';
+import { NodeDomRootRenderer, NodeDomRenderer } from 'angular2-universal/node/node.d';
 function renderComponentFix(componentProto: any) {
   return new NodeDomRenderer(this, componentProto, this._animationDriver);
 }
 NodeDomRootRenderer.prototype.renderComponent = renderComponentFix;
 // End Fix Universal Style
+*/

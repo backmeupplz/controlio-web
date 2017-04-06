@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { LocalStorage } from '../../helpers/local-storage';
+import { LocalStorage } from '../../LocalStorage/local-storage';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Subject }    from 'rxjs/Subject';
 import { AppHeaders, AppHttp } from '../../HTTPHelper';

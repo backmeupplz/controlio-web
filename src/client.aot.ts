@@ -15,7 +15,8 @@ import { load as loadWebFont } from 'webfontloader';
 // enable prod for faster renders
 enableProdMode();
 
-import { MainModuleNgFactory } from './browser.module.ngfactory';
+// import { MainModuleNgFactory } from './browser.module.ngfactory';
+import { MainModule } from './browser.module';
 
 export const platformRef = platformBrowser();
 
@@ -29,7 +30,8 @@ export function main() {
     }
   });
 
-  return platformRef.bootstrapModuleFactory(MainModuleNgFactory);
+  //return platformRef.bootstrapModuleFactory(MainModuleNgFactory);
+    return platformRef.bootstrapModule(MainModule);
 }
 
 // support async tag or hmr

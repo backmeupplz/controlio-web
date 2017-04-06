@@ -1,7 +1,7 @@
 import { Headers } from '@angular/http';
 import { Injectable, Inject } from '@angular/core'
 import { AppConfig } from '../app.config';
-import { LocalStorage } from '../helpers/local-storage';
+import { LocalStorage } from '../LocalStorage/local-storage';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Injectable()

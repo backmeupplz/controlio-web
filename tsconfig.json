@@ -16,7 +16,8 @@
     "lib": ["es6", "dom"]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "archived"
   ],
   "angularCompilerOptions": {
     "debug": false

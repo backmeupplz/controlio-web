@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { AppHttp, AppHeaders } from '../HTTPHelper';
-import { LocalStorage } from '../helpers/local-storage';
+import { LocalStorage } from '../LocalStorage/local-storage';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 import 'rxjs/add/observable/fromPromise';

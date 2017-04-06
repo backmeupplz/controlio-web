@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UserService } from '../users/user.service';
+import { UserService } from '../../users';
 
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
-import { ProjectService } from '../projects/project.service';
-import { ProjectModel } from './Project.model';
+import { ProjectService } from '../ProjectServices';
+import { ProjectModel } from '../models';
 
 @Component({
   styles: [`
@@ -64,19 +64,19 @@ export class EditProjectPage {
       });
     });
 
-    if( this.userService.isLoggedIn() ){
-      this.userService.getAuthUsers().subscribe((result) => {
+    // if( this.userService.isLoggedIn() ){
+    //   // this.userService.getAuthUsers().subscribe((result) => {
 
-          let index = 0;
-          let users = result.map(elem=>{
-            index++;
-            ;
-            return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
-          });
+    //   //     let index = 0;
+    //   //     let users = result.map(elem=>{
+    //   //       index++;
+    //   //       ;
+    //   //       return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
+    //   //     });
 
-          this.users = users;
-        });
+    //   //     this.users = users;
+    //   //   });
 
-    }
+    // }
   }
 }

@@ -5,7 +5,7 @@ import './__workaround.browser'; // temporary until 2.1.1 things are patched in 
 
 // Angular 2
 import { enableProdMode } from '@angular/core';
-import { platformUniversalDynamic } from 'angular2-universal/browser';
+import { platformUniversalDynamic } from 'angular2-universal/browser/browser.d';
 import { bootloader } from '@angularclass/bootloader';
 
 import { load as loadWebFont } from 'webfontloader';

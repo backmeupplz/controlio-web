@@ -8,7 +8,7 @@
 
 import {Injectable} from '@angular/core';
 // es6-modules are used here
-import {DomAdapter, getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
+import {DomAdapter, getDOM} from '@angular/platform-browser/src/dom/dom_adapter.d';
 
 /**
  * Represent meta element.
@@ -92,7 +92,7 @@ export class Meta {
    */
   getTag(selector: string): HTMLMetaElement {
     if (!selector) return null;
-    return this._dom.query(`meta[${selector}]`);
+    return this._dom.querySelector({},`meta[${selector}]`);
   }
 
   /**
@@ -169,7 +169,7 @@ export class Meta {
   }
 
   private _appendMetaElement(meta: HTMLMetaElement): void {
-    const head = this._dom.getElementsByTagName(this._dom.defaultDoc(), 'head')[0];
+    const head = this._dom.getElementsByTagName(this._dom.createHtmlDocument(), 'head')[0];
     this._dom.appendChild(head, meta);
   }
 

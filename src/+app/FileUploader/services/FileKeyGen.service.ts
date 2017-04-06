@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 
 //@todo перенести LocalStorage
-import { LocalStorage } from '../../helpers/local-storage';
+import { LocalStorage } from '../../LocalStorage/local-storage';
 
 @Injectable()
 export class FileKeyGenService {

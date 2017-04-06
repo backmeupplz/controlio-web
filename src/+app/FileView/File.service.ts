@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IFileLoader } from './IFileLoader.interface';
-import { FileModel } from '../FileUploader/models';
+import { FileModel } from '../Files';
 import { FileUploadService } from '../FileUploader/services';
 
 @Injectable()

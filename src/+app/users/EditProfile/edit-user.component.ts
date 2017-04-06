@@ -1,14 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GlobalValidator } from '../validation/global-validator';
-
-import { UserService } from './user.service';
-import { Email } from '../helpers/form-elements/email.component';
-import { LimitInput } from '../helpers/form-elements/limit.component';
-import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
-
-import { User } from './user.model';
-import { ImageModel } from '../helpers/imgb/imgb.model';
+import { GlobalValidator } from '../../FormHelper';
+import { UserService, UserModel } from '../../users';
+import { ImageModel } from '../../Image';
 
 @Component({
   selector: 'edit-user',
@@ -25,19 +19,19 @@ export class EditUser {
   private photoExt = ["png","jpg","jpeg"];
   private image: ImageModel;
   private isEdit: boolean = true;
-  private user: User = new User({"_id":"", "email": ""});
+  private user: UserModel = new UserModel({"_id":"", "email": ""});
   imageKeyChange( obj ){
     this.imageKey = obj.key;
   }
 
   @Input()
-  set setUser( user: User ){
+  set setUser( user: UserModel ){
     if( user ){
      this.user = user;
       let obj = this.myForm.value;
       obj.name = user.name || "";
       obj.phone = user.phone || "";
-      if( user.photo ) this.image = new ImageModel(user.photo, true);
+      // if( user.photo ) this.image = new ImageModel(obj: { user.photo, true });
       this.myForm.setValue( obj );
     }
   }
@@ -54,20 +48,14 @@ export class EditUser {
   }
 
   save( data, isValid: boolean) {
-
-
-    ;
-
     if( isValid ) {
-
       this.userService.editProfile( data.name, data.phone, this.imageKey ).subscribe((result) => { ; });
-
-      if( this.imageKey ){
-        data.image = this.imageKey;
-        this.callback_upload = (err, data)=>{
-          ;
-        }
-      }
+      // if( this.imageKey ){
+      //   data.image = this.imageKey;
+      //   this.callback_upload = (err, data)=>{
+      //     ;
+      //   }
+      // }
     }
   }
 }

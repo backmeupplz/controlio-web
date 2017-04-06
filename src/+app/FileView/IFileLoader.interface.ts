@@ -1,6 +1,6 @@
-import { FileModel, AFile } from '../FileUploader/models';
+import { FileModel, AbstractFile } from '../Files';
 import { Observable } from 'rxjs/Observable';
 
 export interface IFileLoader {
-  loadFile(key: string) : Observable<AFile>;
+  loadFile(key: string) : Observable<AbstractFile>;
 }

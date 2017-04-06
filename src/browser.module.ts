@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UniversalModule, isBrowser, isNode, AUTO_PREBOOT } from 'angular2-universal/browser'; // for AoT we need to manually split universal packages
+import { UniversalModule, isBrowser, isNode } from 'angular2-universal/browser/browser.d'; // for AoT we need to manually split universal packages
 import { IdlePreload, IdlePreloadModule } from '@angularclass/idle-preload';
 
 import { AppModule, AppComponent } from './+app/app.module';
@@ -31,7 +31,7 @@ export function getResponse() {
 
 // TODO(gdi2290): refactor into Universal
 export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';
-import {LocalStorage} from './+app/helpers/local-storage';
+import {LocalStorage} from './+app/LocalStorage/local-storage';
 
 @NgModule({
   bootstrap: [ AppComponent ],

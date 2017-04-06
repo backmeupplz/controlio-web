@@ -1,14 +1,9 @@
 import { Component,  Output, Input, EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-// import { GlobalValidator } from '../validation/global-validator';
-
-// import { UserService } from '../users/user.service';
-// import { Email } from '../helpers/form-elements/email.component';
-// import { LimitInput } from '../helpers/form-elements/limit.component';
-// import { ImportFileElement } from '../helpers/form-elements/file-upload.component';
-// import { ProjectService } from './project.service';
-
-// import { ImageModel } from '../helpers/imgb/imgb.model';
+import { GlobalValidator } from '../../FormHelper';
+import { UserService } from '../../users';
+import { ProjectService } from '../ProjectServices';
+import { ImageModel } from '../../Image';
 
 @Component({
   selector: 'edit-project',
@@ -29,7 +24,7 @@ export class EditProject {
   private callback_upload: any = null;
   private photoExt = ["png","jpg","jpeg"];
   private description: string = "";
-  // private image: ImageModel;
+  private image: ImageModel;
   private isEdit: boolean = true;
   private projectVal: any;
   private clients: string[] = [];
@@ -77,7 +72,7 @@ export class EditProject {
       project.manager.text = project.manager.email;
       this.manager = project.manager;
 
-      this.image = new ImageModel(project.image, true);
+      // this.image = new ImageModel(project.image, true);
       if( project.clients ) this.clients = project.clients;
       this.myForm.setValue(obj);
     }
@@ -106,12 +101,12 @@ export class EditProject {
 
   removeProject(){
     // remove project
-    
+
   }
 
   archiveProject(){
     //this.projectService()
-    
+
   }
 
   save( data, isValid: boolean) {

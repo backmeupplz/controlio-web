@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node'; // for AoT we need to manually split universal packages
+import { UniversalModule, isBrowser, isNode } from 'angular2-universal/node/node.d'; // for AoT we need to manually split universal packages
 
 import { AppModule, AppComponent } from './+app/app.module';
 import { SharedModule } from './+app/shared/shared.module';
@@ -23,7 +23,7 @@ export function getResponse() {
 
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { CookieBackendService } from 'angular2-cookie/services/cookies.backend.service';
-import {LocalStorage} from './+app/helpers/local-storage';
+import { LocalStorage } from './+app/LocalStorage/local-storage';
 
 // TODO(gdi2290): refactor into Universal
 export const UNIVERSAL_KEY = 'UNIVERSAL_CACHE';

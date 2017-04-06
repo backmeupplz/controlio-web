@@ -113,4 +113,8 @@ export abstract class AbsctractGalleryModel<T> implements IGalleryModel<T> {
   get currentElement() : T {
     return this.service.currentElement;
   }
+
+  getElementFromIndex(index: number) : T {
+    return this.getElementFromIndex(index)
+  }
 }

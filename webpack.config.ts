@@ -35,7 +35,7 @@ export var commonConfig = {
       css: path.resolve(__dirname, 'src/css'),
       fonts_path: path.resolve(__dirname, 'src/fonts/'),
     },
-    extensions: ['.js','.jsx', '.ts', '.json', '.css', '.scss', '.sass', '.pug']
+    extensions: ['.js','.jsx', '.ts', '.d.ts', '.json', '.css', '.scss', '.sass', '.pug']
   },
   context: __dirname,
   output: {

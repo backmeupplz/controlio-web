@@ -19,6 +19,9 @@
     "./src/**/*.module.ts",
     "./src/*.d.ts"
   ],
+  "exclude": [
+    "archived"
+  ],
   "angularCompilerOptions": {
     "debug": false
   },
