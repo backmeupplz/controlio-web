@@ -1,1 +1,1 @@
-web: npm start
+web: nodemon dist/server/index.js
