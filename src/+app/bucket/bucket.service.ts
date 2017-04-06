@@ -3,6 +3,7 @@ import { AppHttp, AppHeaders } from '../HTTPHelper';
 import { LocalStorage } from '../helpers/local-storage';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
+import 'rxjs/add/observable/fromPromise';
 
 @Injectable()
 export class BucketService {
@@ -49,11 +50,11 @@ export class BucketService {
         formData.append('image', file, file.name);
         formData.append('key', key );
 
-        
+
         xhr.upload.onprogress = (event:any) => {
           let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
 
-          
+
 
           // callabackUploadProgress(40);
           // setTimeout(()=>{
@@ -74,7 +75,7 @@ export class BucketService {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    
+
                     resolve(JSON.parse(xhr.response))
                 } else {
                     reject(xhr.response)
