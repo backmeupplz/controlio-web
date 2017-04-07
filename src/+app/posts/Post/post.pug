@@ -2,7 +2,7 @@ div.content.block-common-style(*ngIf="post", block="mb-post", mod="{{ post.galle
   div.top-block.col-md-12(elem="top-block", mod="{{ post.gallery != null && post.gallery.images.length > 0 ? 'post' : 'status' }}")
     div(class="settings-block")
       div
-        p.hidden-xs {{ post.date | amDateFormat: 'MMM D, h:mm A' }}
+        p {{ post.date | amDateFormat: 'MMM D, h:mm A' }}
         div.in-flex(*ngIf="post.editable && editMode", elem="edit-button", (click)="resetEditMode()")
           svg-icon(src="assets/edit.svg", block="mh-svg", mod="common awesome")
           p Cancel

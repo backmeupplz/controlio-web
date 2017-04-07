@@ -2,6 +2,6 @@ div.menu-block([ngClass]="{'checked': ischecked }", (click)="onClick()")
   a(*ngIf="url != undefined", [routerLink]="url", routerLinkActive="active")
     img([src]="icon", *ngIf="icon != undefined", class="icon")
     p.text-label {{title}}
-  a(*ngIf="action != undefined")
+  a(*ngIf="action != undefined && url == undefined")
     img([src]="icon", *ngIf="icon != undefined", class="icon")
     p.text-label {{title}}

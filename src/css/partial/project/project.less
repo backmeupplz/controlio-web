@@ -23,13 +23,53 @@
 	padding-right: 0;
 }
 
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 350px) {
 	.project .content {
 		padding-left: 0;
 	}
 }
+.common-block .main-photo {
+  max-width: 250px;
+}
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 600px) {
+
+  .project.common-block .main-photo {
+    max-width: 7em;
+    padding: 1em;
+    margin-left: 15px;
+    position: relative;
+    height: 7em;
+  }
+
+  .project.common-block .main-photo .photo-block {
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .project .title {
+    font-size: 1.5em !important;
+  }
+
+  .project .top-block {
+    padding-bottom: 0 !important;
+    padding-top: 1em !important;
+  }
+
+  .project .bottom-block {
+    padding: 1em 0 !important;
+  }
+
+  .project .author {
+    padding: 0 !important;
+  }
+}
+
+@media screen and (max-width: 350px) {
+
+  .common-block .main-photo {
+    max-width: 100%;
+  }
 	.project .top-block, .project .bottom-block {
 		padding-left: 15px  !important;
 		padding-right: 15px  !important;

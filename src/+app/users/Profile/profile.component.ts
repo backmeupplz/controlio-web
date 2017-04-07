@@ -8,7 +8,7 @@ import { UserModel } from '../models/user.model';
   `
     <div class="container" *ngIf="user">
       <div class="row">
-        <div class="profile  col-md-8">
+        <div class="profile  col-md-8 col-sm-12 col-xs-12">
           <div class="content">
             <div class="top-block">
               <span class="author no-padding-bottom">

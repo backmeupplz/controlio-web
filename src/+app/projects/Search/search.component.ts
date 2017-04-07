@@ -79,6 +79,10 @@ import { GlobalValidator } from '../../FormHelper';
     .search-block {
       flex-direction: column;
     }
+
+    fh-select >>> burger-drop-down-list {
+      margin-left: -100%;
+    }
   `],
   selector: 'search',
   template: require("./search.pug")
