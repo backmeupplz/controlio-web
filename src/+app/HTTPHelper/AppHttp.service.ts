@@ -15,9 +15,6 @@ export class AppHttp {
   }
 
   get( URL: string, data?: any, mainUrl?: boolean ){
-
-    console.log(URL)
-
     let headers = this.headers.getAuthHeader();
     let mainURL = (mainUrl == false) ? '' : this.headers.getMainURL()
     return this.http.get( mainURL + URL + this.headers.getFormatURL( data ), { headers } )

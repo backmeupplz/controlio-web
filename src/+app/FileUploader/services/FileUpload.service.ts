@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FileModel } from '../../Files/models';
+import { FileModel, FileImageModel } from '../../Files/models';
 import { Observable } from 'rxjs/Observable';
 import { BucketService } from '../../bucket/bucket.service';
 import { FileKeyGenService } from './FileKeyGen.service';
@@ -18,7 +18,8 @@ export class FileUploadService {
 
   loadFile(key: string) : Observable<FileModel> {
     return this.loadData(key).map((res)=>{
-      return new FileModel("","");
+      let file = new FileModel( key, res, true );
+      return file;
     });
   }
 
@@ -57,7 +58,7 @@ export class FileUploadService {
         if(callabackUploadProgress) callabackUploadProgress(-1)
       }
       this.bucketService.uploadImage( key, file, callabackUploadProgress ).subscribe((res)=>{
-        
+
         callback(null, res);
       }, (err)=>{
         callback(err, null);

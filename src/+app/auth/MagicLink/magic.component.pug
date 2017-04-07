@@ -1,0 +1,12 @@
+div
+  form.form-modal.form-block([formGroup]="myForm")
+    h1 Magic Link
+    p.subtitle(*ngIf="!sendEmail") Enter your email address and&nbsp;we'll send magic link.
+    p.subtitle.send-email-message(*ngIf="sendEmail") We sent link to your ✉&nbsp;email&nbsp;({{ email }})
+    error-message([error]="error")
+    div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null && submitted }", *ngIf="!sendEmail")
+      label.context(for="email") Email
+      input(name="email", placeholder="Your email", type="text", formControlName="email")
+      invalid-message([errors]="myForm.controls.email.errors", [list]="listMessages.email", [show]="submitted")
+    button.cbutton(*ngIf="!sendEmail", (click)="save(myForm.value, myForm.valid)", [disabled]="myForm.invalid && submitted", [ngClass]="{'disabled': myForm.invalid && submitted }") Send Email
+    a.under-link(routerLink="/login") Login with password

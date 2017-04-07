@@ -26,6 +26,8 @@ export class BucketService {
       let image = document.createElement('img');
   		image.src = 'data:image/png;base64,' + base64Data;
   		this.localStorage.setItem( key, image.src );
+      data.key = key;
+      data.src = image.src;
     }
 
 	  return data;

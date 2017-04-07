@@ -10,7 +10,13 @@ export class ImageService {
 
   downloadImage(key: string) : Observable<AbstractImageModel>{
     return this.fileUploadService.loadFileImage(key).map((file)=>{
-      return new ImageModel({ src: file.image.src })
+      return file.image;
     })
+  }
+
+  getCachedImg(key: string) : ImageModel {
+    let cachedImg = this.fileUploadService.getCachedImg(key);
+    if(cachedImg == null) return null;
+    return cachedImg.image;
   }
 }

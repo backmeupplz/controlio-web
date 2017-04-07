@@ -3,6 +3,7 @@ div
     h1 Account Recovery
     p.subtitle(*ngIf="!sendEmail") Enter your email address and we'll help you reset your&nbsp;password.
     p.subtitle.send-email-message(*ngIf="sendEmail") We sent link for reset password to your ✉&nbsp;email&nbsp;({{ email }})
+    error-message([error]="error")
     div.input-block(*ngIf="!sendEmail")
       label.context(for="email") Email
       input(name="email", placeholder="Your email", type="email", formControlName="email")

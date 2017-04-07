@@ -1,7 +1,7 @@
 div
   form.form-modal.form-block([formGroup]="myForm")
     h1 Sign Up
-    error-message([message]="error")
+    error-message([error]="error")
     div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null  && submitted }")
       label.context(for="email") Email
       input(name="email", placeholder="Your email", type="text", formControlName="email")

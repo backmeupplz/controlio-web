@@ -11,18 +11,23 @@ import { AccountRecoveryPageComponent, AccountRecovery } from './AccountRecovery
 import { SignIn, LoginComponent } from './SignIn';
 import { SignUp, SignUpPage } from './SignUp';
 import { LoggedInGuard, NotLoggedInGuard } from './LoggedGuard';
+import { MagicLinkComponent, MagicLinkPageComponent } from './MagicLink';
 
 const moduleRoutes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NotLoggedInGuard] },
+  { path: 'magic/:token', component: LoginComponent, canActivate: [NotLoggedInGuard] },
   { path: 'signin', component: LoginComponent, canActivate: [NotLoggedInGuard] },
   { path: 'account-recovery', component: AccountRecoveryPageComponent, canActivate: [NotLoggedInGuard] },
-  { path: 'signup', component: SignUpPage, canActivate: [NotLoggedInGuard] },
+  { path: 'get-magic-link', component: MagicLinkPageComponent, canActivate: [NotLoggedInGuard] },
+  { path: 'signup', component: SignUpPage, canActivate: [NotLoggedInGuard] }
 ];
 
 import { HTTPHelperModule } from '../HTTPHelper';
 import { AuthService } from './AuthServices';
 import { UserAuthModel } from './models';
 import { SharedModule } from '../shared/shared.module';
+import { SvgModule } from '../Svg';
+import { BemModule } from 'angular-bem';
 
 @NgModule({
   imports: [
@@ -43,6 +48,8 @@ export class AuthServiceModule {
 
 @NgModule({
   imports: [
+    BemModule,
+    SvgModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -55,7 +62,8 @@ export class AuthServiceModule {
   declarations: [
     AccountRecoveryPageComponent, AccountRecovery,
     SignIn, LoginComponent,
-    SignUp, SignUpPage
+    SignUp, SignUpPage,
+    MagicLinkComponent, MagicLinkPageComponent
   ],
   providers: [FormMessageService]
 })

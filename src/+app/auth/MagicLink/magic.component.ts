@@ -1,8 +1,10 @@
-import { Component,  Output, EventEmitter, Injectable } from '@angular/core';
+import { Component, OnInit,  Output, EventEmitter, Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { GlobalValidator, FormMessageService } from '../../FormHelper';
+
+
 import { Router } from '@angular/router';
 import { AuthService } from '../AuthServices';
+import { FormMessageService, GlobalValidator } from '../../FormHelper';
 
 @Component({
   styles: [`
@@ -10,42 +12,52 @@ import { AuthService } from '../AuthServices';
       padding-top: 15px;
     }
   `],
-  selector: 'account-recovery',
-  template: require("./account_recovery_form.pug")
+  selector: 'magic',
+  template: require("./magic.component.pug")
 })
 
+
 @Injectable()
-export class AccountRecovery {
+export class MagicLinkComponent implements OnInit {
+
   private listMessages: any = {};
-  private sendEmail: boolean;
-  private email: string;
   public myForm: FormGroup;
   public submitted: boolean = false;
+  private sendEmail: boolean = false;
+  private email: string;
   public logined: boolean = false;
   private error: string;
+
   constructor(private _fb: FormBuilder,
               private authService: AuthService,
               private router: Router,
               private message: FormMessageService) {
-    this.listMessages = message.createList(["email"]);
-    authService.loggedIn$.subscribe(value => {
+
+    this.listMessages = message.createList(["password", "email"]);
+    authService.loggedIn$.subscribe((value)=>{
       this.logined = true;
     });
   }
 
   ngOnInit() {
-      this.myForm = new FormGroup({
-          email: new FormControl('', [<any>Validators.required, GlobalValidator.mailFormat]),
-      });
+    this.myForm = new FormGroup({
+        email: new FormControl(this.authService.dataView.email || '', [<any>Validators.required, GlobalValidator.mailFormat])
+    });
+
+    this.myForm.valueChanges.subscribe(data => {
+      this.authService.dataView = { email: data.email };
+    })
   }
 
   save( data, isValid: boolean) {
     this.submitted = true;
+    console.log(data, isValid)
     if( isValid ){
       let self = this;
-      this.email = data.email;
-      this.authService.recoverPassword( data.email ).subscribe((result) => {
+      this.authService.magic( data.email).subscribe((result) => {
+        console.log(result)
         if (result) {
+          this.email = data.email;
           this.sendEmail = true;
         }
       }, (err)=>{
@@ -55,4 +67,3 @@ export class AccountRecovery {
   }
 
 }
-

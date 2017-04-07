@@ -29,5 +29,7 @@ export const routes: string[] = [
   'home',
   'todo',
   'lazy',
-  'account-recovery'
+  'account-recovery',
+  'get-magic-link',
+  'magic'
 ];

@@ -1,7 +1,7 @@
 div
   form.form-modal.form-block([formGroup]="myForm")
     h1 Sign In
-    error-message([message]="error")
+    error-message([error]="error")
     div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null && submitted }")
       label.context(for="email") Email
       input(name="email", placeholder="Your email", type="text", formControlName="email")
@@ -14,5 +14,8 @@ div
       input(type="checkbox", name="remember", id="remember", formControlName="remember")
       label.context.remember(for="remember")
         //-p Remember me
-    button.cbutton((click)="save(myForm.value, myForm.valid)", [disabled]="myForm.invalid && submitted", [ngClass]="{'disabled': myForm.invalid && submitted }") Sign In
+    button.cbutton((click)="save(myForm.value, myForm.valid)", [disabled]="(myForm.invalid && submitted) || isLoadingMagicLink", [ngClass]="{'disabled': myForm.invalid && submitted }") Sign In
     a.under-link(routerLink="/account-recovery") Forgot your password?
+  div.login-magic(*ngIf="isLoadingMagicLink")
+    svg-icon(src="assets/logo-clean.svg" block="mh-svg" mod="common grey")
+    p Login with magic

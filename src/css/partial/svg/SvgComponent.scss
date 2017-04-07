@@ -15,6 +15,9 @@
 	@include m('awesome'){
 		fill: $awesome_color_svg;
 	}
+  @include m('grey'){
+    fill: $grey_color_svg;
+  }
 	@include m('small-white'){
 		@include respond-to(handhelds) { fill: #fff;}
 	}

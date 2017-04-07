@@ -21,6 +21,11 @@ export class ImageKeyComponent implements OnInit {
   @Input()
   set key(key: string){
     this._key = key;
+    let cachedImg = this.imageService.getCachedImg(key);
+    if(cachedImg != null){
+      this._image = cachedImg;
+      return;
+    }
     if(this.key){
       this.imageService.downloadImage(this._key).subscribe((image)=>{
         this._image = image;

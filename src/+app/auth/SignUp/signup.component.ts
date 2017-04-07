@@ -30,12 +30,20 @@ export class SignUp implements OnInit {
    }
 
   ngOnInit() {
-      let passwordControl = new FormControl('', [<any>Validators.required, <any>Validators.minLength(6), GlobalValidator.checkPassword]);
-      this.myForm = new FormGroup({
-          email: new FormControl('', [<any>Validators.required, GlobalValidator.mailFormat]),
-          password: passwordControl,
-          confirm: new FormControl('', [<any>Validators.required, GlobalValidator.confirm(passwordControl) ])
-      });
+
+
+    let passwordControl = new FormControl('', [<any>Validators.required, <any>Validators.minLength(6), GlobalValidator.checkPassword]);
+    this.myForm = new FormGroup({
+        email: new FormControl(this.authService.dataView.email || '', [<any>Validators.required, GlobalValidator.mailFormat]),
+        password: passwordControl,
+        confirm: new FormControl('', [<any>Validators.required, GlobalValidator.confirm(passwordControl) ])
+    });
+
+
+    this.myForm.valueChanges.subscribe(data => {
+      this.authService.dataView = { email: data.email };
+    })
+
   }
 
   save( data, isValid: boolean) {
@@ -51,16 +59,7 @@ export class SignUp implements OnInit {
           this.authService.setLoggedIn( true );
         }
       }, (err)=>{
-        let error = err.json();
-        let status = !error ? 0 : (error.status) ? error.status : (error.currentTarget) ? error.currentTarget.status : 0;
-        if( status < 200 ) {
-          this.error = "Connect to server error";
-        } else if( status >= 400 && status < 500 ) {
-          ;
-          this.error = error.message;
-        } else if( status >= 500  ) {
-          this.error = "Server error";
-        }
+        this.error = err;
       });
     }
   }

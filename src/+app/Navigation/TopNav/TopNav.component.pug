@@ -11,7 +11,7 @@ div.row.jc-fs.nav-block
       burger-drop-down-list([data]="burger_list", #burger)
     div.row.hidden-sm.hidden-xs.jc-fs(*ngIf="isAccess")
       menu-block(*ngFor='let element of pages; let i = index; trackBy: trackByFn', [title]="element.title", [ischecked]="element.ischecked", [url]="element.url", [icon]="element.icon", [class]="element.css", [action]="element.action")
-  div.col-md-5.d-flex.col-sm-6.jc-fe.right-block
+  div.col-md-5.d-flex.col-sm-6.col-xs-6.jc-fe.right-block
     div.row.all-width.jc-fe(style="padding-right: 30px")
       menu-block([title]="addProject.title", [ischecked]="addProject.ischecked", [url]="addProject.url", [icon]="addProject.icon", [class]="addProject.css", [action]="addProject.action", *ngIf="isAccess")
       user-small-info([userValue]="userService", *ngIf="isAccess")
@@ -19,8 +19,8 @@ div.row.jc-fs.nav-block
         a((click)="menuCenter.openMenuOrClose(menuCenter.MENU.LanguageMenu)")
           img(src="assets/u-s.svg", class="icon")
         language-drop-down-list([event]="event", [open]="menuCenter.isOpenMenu(menuCenter.MENU.LanguageMenu)", (closedChange)="menuCenter.closeMenu($event)")
-      div.sign-buttons.col-xs-12.jc-fe(*ngIf="!isAccess")
-        a(routerLink="login", routerLinkActive="active")
+      div.sign-buttons.jc-fe(*ngIf="!isAccess")
+        a(routerLink="get-magic-link", routerLinkActive="active")
           button
             p Sign In
         a(routerLink="signup", routerLinkActive="active")

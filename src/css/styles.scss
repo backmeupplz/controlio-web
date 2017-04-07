@@ -4,6 +4,11 @@
 @import 'helpers/form-elements/file-upload.scss';
 @import 'icon.scss';
 
+
+.f-wrap {
+  flex-wrap: wrap;
+}
+
 .app-block {
   height: 100%;
   min-height: 100vh;

@@ -2,4 +2,4 @@ empty-data-set(*ngIf="projects == null || projects.length <= 0", [loading]="load
 //-div.container
   search((valueChange)="onSearch($event)")
 div.project-list(*ngIf="projects != null && projects.length > 0")
-  project-list-elem(*ngFor="let project of projects", [title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.status : null }}", [image]="project.image", [id]="project.id", [post]="project.lastPost || project.lastStatus", [manager]="project.manager", [date]="project.date", [isOpenSettings]="false")
+  project-list-elem(*ngFor="let project of projects", [title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.status : null }}", [imageKey]="project.image", [id]="project.id", [post]="project.lastPost || project.lastStatus", [manager]="project.manager", [date]="project.date", [isOpenSettings]="false")
