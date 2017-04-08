@@ -24,6 +24,7 @@ export class SignUp implements OnInit {
               private message: FormMessageService) {
 
     this.listMessages = message.createList(["password", "email", "confirm"]);
+
     authService.loggedIn$.subscribe((value) => {
       this.logined = true;
     });
@@ -47,6 +48,7 @@ export class SignUp implements OnInit {
   }
 
   save( data, isValid: boolean) {
+    console.log(this.myForm);
     this.submitted = true;
     if( isValid ){
       let self = this;

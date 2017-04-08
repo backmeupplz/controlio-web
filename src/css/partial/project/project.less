@@ -23,13 +23,27 @@
 	padding-right: 0;
 }
 
+
+.common-block .main-photo {
+  max-height: 330px;
+}
+
+.common-block .main-photo .photo-block {
+  border-radius: 4px 0 0 4px;
+  overflow: hidden;
+}
+
+
+@media screen and (max-width: 768px) {
+  .common-block .main-photo {
+    max-width: 250px;
+  }
+}
+
 @media screen and (min-width: 350px) {
 	.project .content {
 		padding-left: 0;
 	}
-}
-.common-block .main-photo {
-  max-width: 250px;
 }
 
 @media screen and (max-width: 600px) {
@@ -81,7 +95,7 @@
 		border-radius: 0 0 3px 3px;
 	}
 
-	.action-post {
+	.project .action-post {
     padding-left: 15px;
     left: 0;
     padding-right: 15px;

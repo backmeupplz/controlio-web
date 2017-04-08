@@ -12,7 +12,7 @@
 //   ngOnInit() {}
 // }
 
-
+import { Subscription } from 'rxjs/Subscription';
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FileImageModel } from '../Files/models';
 import { BucketService } from '../bucket/bucket.service';
@@ -53,12 +53,16 @@ import { ImageModel } from '../Image';
     [hidden] {
       display: none !important;
     }
+
+    cn-img-key {
+      width: 100%;
+    }
   `],
   selector: 'file-image',
   templateUrl: `
   <div class="thumbnail" *ngIf="file" [ngClass]="{'js-onload': file.isLoad, 'js-isuploaded': file.isUploaded }">
 
-     <cn-img [image]="image" style="position: absolute" class="{{ _styles }}"></cn-img>
+     <cn-img-key [image]="image" key="{{ (file.isUploaded) ? imageKey : null }}" style="position: absolute" class="{{ _styles }}"></cn-img-key>
 
      <div class="image-mask" [hidden]="!file.isLoad"><cn-img style="position: absolute" [image]="image" class="{{_styles}}"></cn-img></div>
      <div class="round-circle" [hidden]="!file.isLoad">
@@ -80,9 +84,10 @@ export class FileImageComponent implements OnInit {
   @ViewChild('circle') circle: CircleProgressComponent;
   private progress: number = 0;
   public _styles: string = "ng-thumb";
+  private sub: Subscription;
   constructor(private bucketService: BucketService, private ref: ChangeDetectorRef) {
     let self = this;
-    this.bucketService.progress$.subscribe(
+    this.sub = this.bucketService.progress$.subscribe(
     data => {
         if( data.key == self.file.key ){
           self.file.progress = data.progress;
@@ -92,7 +97,32 @@ export class FileImageComponent implements OnInit {
         }
     });
   }
-  @Input('file') file: FileImageModel;
+  private imageKey: string;
+  private _file: FileImageModel;
+  @Input('file')
+  set file(file: FileImageModel){
+    if(file instanceof FileImageModel){
+      if(file.preview){
+        this.image = file.preview;
+      }
+      else if(!file.isUploaded && file.file ){
+        file.loadPreview((err, res)=>{
+          this.image = file.preview;
+        })
+      } else if(file.isUploaded && !file.image){
+        this.imageKey = file.key;
+      } else {
+        this.image = file.image;
+      }
+    }
+    this._file = file;
+  }
+  get file(){
+    return this._file;
+  }
   @Input('image') image: ImageModel;
   ngOnInit() { }
+  ngOnDestroy(){
+    this.sub.unsubscribe()
+  }
 }

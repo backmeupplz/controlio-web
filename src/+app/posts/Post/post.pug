@@ -1,5 +1,5 @@
-div.content.block-common-style(*ngIf="post", block="mb-post", mod="{{ post.gallery != null && post.gallery.images.length > 0 ? 'post' : 'status' }}")
-  div.top-block.col-md-12(elem="top-block", mod="{{ post.gallery != null && post.gallery.images.length > 0 ? 'post' : 'status' }}")
+div.content.block-common-style(*ngIf="post", block="mb-post", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
+  div.top-block.col-md-12(elem="top-block", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
     div(class="settings-block")
       div
         p {{ post.date | amDateFormat: 'MMM D, h:mm A' }}
@@ -13,21 +13,21 @@ div.content.block-common-style(*ngIf="post", block="mb-post", mod="{{ post.galle
         div.in-flex(*ngIf="post.removable && editMode", elem="delete-button", (click)="removePost()")
           svg-icon(src="assets/delete.svg", block="mh-svg", mod="common awesome", style="width:10px")
           p Delete
-    span.author.all-width(*ngIf="data", elem="author", mod="{{ post.gallery != null && post.gallery.images.length > 0 ? 'post' : 'status' }}")
+    span.author.all-width(*ngIf="data", elem="author", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
       div.thumbnail
         cn-img.photo-mini(styles="ng-thumb")
       div.text-block.three-line(elem="message")
         p.context {{ data.title }}
         p.username(*ngIf="data.subtitle") {{ data.subtitle }}
         p.message(*ngIf="!editMode") {{ data.text }}
-        //-div.row(*ngIf="editMode", elem="edit-block")
+        div.row(*ngIf="editMode", elem="edit-block")
           div.col-sm-9.col-xs-12
-            message-form([value]="data.text",[gallery]="post.gallery", (inputChange)="postMessageInput($event)", [uploadFiles]="setUploadFiles", (changeFiles)="changeFiles($event)", [resetAll]="resetAll")
+            message-form(shorten="false", [limit]="congif.MESSAGE_MAX_LENGTH", formControlName="text", name="text", [(collection)]="post.gallery")
           div.col-sm-3.col-xs-12.f-right
             mh-button((click)="edit()", title="Edit post",mods="big padding common radius margin all-width",text-mods="common")
-  //-div.bottom-block(*ngIf="post.gallery && !editMode && post.gallery.images.length > 0 && post.isSave")
+  div.bottom-block(*ngIf="post.gallery && !editMode && post.gallery.length > 0")
     div.row.jc-fs
       div.col-xs-1.clip-icon
         img(src="assets/clip.svg")
-      div.col-xs-10.jc-fs.in-flex.post-gallery(elem="gallery")
-        ImageSmallGallery([gallery]="post.gallery")
+      div.col-xs-9.jc-fs.in-flex.post-gallery(elem="gallery")
+        cn-collection([collection]="post.gallery" [editable]="editMode")

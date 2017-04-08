@@ -116,6 +116,7 @@ app.get('/img', function(req, res) {
     res.status(400).send(json);
     return;
   }
+  res.header('Cache-Control', 'max-age=36000');
   bucket.getImage(key,(err, ans)=>{
     if(err){
       let json = JSON.stringify({ key: key, err: err });

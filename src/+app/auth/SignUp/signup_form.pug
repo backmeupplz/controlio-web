@@ -2,17 +2,17 @@ div
   form.form-modal.form-block([formGroup]="myForm")
     h1 Sign Up
     error-message([error]="error")
-    div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null  && submitted }")
+    div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null  && myForm.controls.email.touched }")
       label.context(for="email") Email
       input(name="email", placeholder="Your email", type="text", formControlName="email")
-      invalid-message([errors]="myForm.controls.email.errors", [list]="listMessages.email", [show]="submitted")
-    div.input-block([ngClass]="{'invalid-i': myForm.controls.password.errors != null  && submitted }")
+      invalid-message([errors]="myForm.controls.email.errors", [list]="listMessages.email", [show]="myForm.controls.email.touched")
+    div.input-block([ngClass]="{'invalid-i': myForm.controls.password.errors != null  && myForm.controls.password.touched }")
       label.context(for="password") Password
       input(name="password"  placeholder="Password", type="password", formControlName="password")
-      password-indicator([strong]="myForm.controls.password.warnings.strong" [errors]="myForm.controls.password.errors", [list]="listMessages.password", [show]="submitted")
-    div.input-block([ngClass]="{'invalid-i': myForm.controls.confirm.errors != null  && submitted }")
+      password-indicator([strong]="myForm.controls.password.warnings.strong" [errors]="myForm.controls.password.errors", [list]="listMessages.password", [show]="myForm.controls.password.touched")
+    div.input-block([ngClass]="{'invalid-i': myForm.controls.confirm.errors != null  && myForm.controls.confirm.touched }")
       label.context(for="confirm") Confirm Password
       input(name="confirm"  placeholder="Confirm password", type="password", formControlName="confirm")
-      invalid-message([errors]="myForm.controls.confirm.errors", [list]="listMessages.confirm", [show]="submitted")
+      invalid-message([errors]="myForm.controls.confirm.errors", [list]="listMessages.confirm", [show]="myForm.controls.confirm.touched")
     button.cbutton((click)="save(myForm.value, myForm.valid)", [disabled]="myForm.invalid && submitted", [ngClass]="{'disabled': myForm.invalid && submitted }") Sign Up
     a.under-link(routerLink="/login") I already have an account

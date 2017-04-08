@@ -39,6 +39,7 @@ export class Projects {
     this.route.params.forEach((params: Params) => {
       this.loading = true;
       this.projectService.getProjects( 0, 10 ).subscribe( res => {
+        console.log(res);
         this.loading = false;
         this.projects = res;
       }, (err: ErrorCommon)=>{

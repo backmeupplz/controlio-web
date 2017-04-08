@@ -3,6 +3,12 @@ import { AbstractImageModel } from '../AbstractImage.model';
 import { ImageService } from '../services';
 
 @Component({
+  styles: [`
+    :host {
+      display: flex;
+      height: 100%;
+    }
+  `],
   selector: 'cn-img-key',
   template: require('./ImageKey.component.pug')
 })
@@ -11,6 +17,7 @@ export class ImageKeyComponent implements OnInit {
   private _image: AbstractImageModel;
   @Input()
   set image(image: AbstractImageModel){
+    console.log(this.key, image)
     if(!this._key) this._image = image;
   }
   get image(){
@@ -21,13 +28,8 @@ export class ImageKeyComponent implements OnInit {
   @Input()
   set key(key: string){
     this._key = key;
-    let cachedImg = this.imageService.getCachedImg(key);
-    if(cachedImg != null){
-      this._image = cachedImg;
-      return;
-    }
-    if(this.key){
-      this.imageService.downloadImage(this._key).subscribe((image)=>{
+    if(key){
+      this.imageService.downloadImage(key).subscribe((image)=>{
         this._image = image;
       })
     }

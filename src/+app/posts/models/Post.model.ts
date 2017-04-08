@@ -7,6 +7,8 @@ import { UserModel } from '../../users/models/user.model';
 // import { IRemovableFile } from '../helpers/image-galery/IRemovableFile.interface';
 // import { FileModel } from '../helpers/form-elements/File.model';
 import { UserAuthModel } from '../../auth';
+import { FileCollection } from '../../Collection';
+import { FileModel, FileImageModel } from '../../Files/models';
 
 // implements IRemovableFile
 export class PostModel {
@@ -51,13 +53,13 @@ export class PostModel {
     return this._type;
   }
 
-  // protected _gallery: FilesGalleryModel = null;
-  // set gallery(gallery: FilesGalleryModel){
-  //  this._gallery = gallery;
-  // }
-  // get gallery(){
-  //  return this._gallery;
-  // }
+  protected _gallery: FileCollection<FileModel> = null;
+  set gallery(gallery: FileCollection<FileModel>){
+   this._gallery = gallery;
+  }
+  get gallery(){
+   return this._gallery;
+  }
 
   protected _isSave: boolean;
   save(post: PostModel){
@@ -87,25 +89,20 @@ export class PostModel {
     this._editable = false || editable;
     this._removable = false || removable;
 
-    // if(attachments != null){
-    //  let images = this.createImageFromKeys( attachments );
-    //  if(images.length > 0){
-  //       this._gallery = new ImageGalleryModel(images, this);
-  //     }
-    // }
+    if(attachments != null){
+      this.createImageFromKeys( attachments );
+    }
   }
 
   // removeFile(file: FileModel){
   //
   // }
 
-  // createImageFromKeys( keys: string[] ){
- //    let images = [];
-
- //    keys.forEach((key)=>{
- //      images.push(new ImageModel(key, true))
- //    })
-
- //    return images;
-  // }
+  createImageFromKeys( keys: string[] ){
+    if(!this.gallery) return false;
+    keys.forEach((key)=>{
+      let file = new FileImageModel(key, '',true);
+      this.gallery.push(file)
+    })
+  }
 }

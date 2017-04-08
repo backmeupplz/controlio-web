@@ -5,14 +5,14 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 @Component({
   styles: [`
     :host img {
-      overflow: hidden;
-      width: 100%;
       height: 100%;
     }
     :host {
       height: 100%;
       width: 100%;
       display: flex;
+      overflow: hidden;
+      justify-content: center;
     }
   `],
   selector: 'cn-img',

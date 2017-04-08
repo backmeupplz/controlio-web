@@ -6,9 +6,11 @@ import { SvgModule } from '../Svg';
 import { MomentModule } from 'angular2-moment';
 import { PostService } from './PostServices';
 import { ImageModule } from '../Image';
+import { CollectionModule } from '../Collection';
+import { MessageFormModule, FormHelperModule } from '../FormHelper';
 
 @NgModule({
-      imports: [BemModule, SvgModule, MomentModule, CommonModule, ImageModule],
+      imports: [BemModule, SvgModule, MomentModule, CommonModule, ImageModule, CollectionModule, MessageFormModule, FormHelperModule],
       exports: [PostComponent],
       declarations: [PostComponent],
       providers: [],

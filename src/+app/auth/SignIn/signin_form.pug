@@ -2,14 +2,14 @@ div
   form.form-modal.form-block([formGroup]="myForm")
     h1 Sign In
     error-message([error]="error")
-    div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null && submitted }")
+    div.input-block([ngClass]="{'invalid-i': myForm.controls.email.errors != null && myForm.controls.email.touched }")
       label.context(for="email") Email
       input(name="email", placeholder="Your email", type="text", formControlName="email")
-      invalid-message([errors]="myForm.controls.email.errors", [list]="listMessages.email", [show]="submitted")
-    div.input-block([ngClass]="{'invalid-i': myForm.controls.password.errors != null  && submitted }")
+      invalid-message([errors]="myForm.controls.email.errors", [list]="listMessages.email", [show]="myForm.controls.email.touched")
+    div.input-block([ngClass]="{'invalid-i': myForm.controls.password.errors != null  && myForm.controls.password.touched }")
       label.context(for="password") Password
       input(name="password"  placeholder="Password", type="password", formControlName="password")
-      invalid-message([errors]="myForm.controls.password.errors", [list]="listMessages.password", [show]="submitted")
+      invalid-message([errors]="myForm.controls.password.errors", [list]="listMessages.password", [show]="myForm.controls.password.touched")
     //-div.input-block
       input(type="checkbox", name="remember", id="remember", formControlName="remember")
       label.context.remember(for="remember")

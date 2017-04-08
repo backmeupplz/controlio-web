@@ -15,7 +15,7 @@ import { MagicLinkComponent, MagicLinkPageComponent } from './MagicLink';
 
 const moduleRoutes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NotLoggedInGuard] },
-  { path: 'magic/:token', component: LoginComponent, canActivate: [NotLoggedInGuard] },
+  { path: 'magic', component: LoginComponent, canActivate: [NotLoggedInGuard] },
   { path: 'signin', component: LoginComponent, canActivate: [NotLoggedInGuard] },
   { path: 'account-recovery', component: AccountRecoveryPageComponent, canActivate: [NotLoggedInGuard] },
   { path: 'get-magic-link', component: MagicLinkPageComponent, canActivate: [NotLoggedInGuard] },

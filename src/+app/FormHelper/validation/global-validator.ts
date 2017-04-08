@@ -4,9 +4,7 @@ export interface AbstractControlWarn extends AbstractControl { warnings: any; }
 
 export class GlobalValidator {
   static mailFormat(control: AbstractControl): ValidationResult {
-
     var EMAIL_REGEXP = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-
     if (control.value != "" && (control.value.length <= 5 || !EMAIL_REGEXP.test(control.value))) {
         return { "incorrectMailFormat": true };
     }
@@ -16,7 +14,7 @@ export class GlobalValidator {
 
   static confirm( controlCheck: AbstractControl ){
     return function( control: AbstractControl ): ValidationResult {
-      if (control.value != controlCheck.value ) {
+      if (control.value != controlCheck.value && control.value.length > 0) {
           return { "noConfirm": true };
       }
       return null;
@@ -115,11 +113,11 @@ export class GlobalValidator {
         strong = 3;
         strongStr = "Good";
         strongClass = "good";
-      } else if(s > 3600*24*100){
+      } else if(s > 3600*12*100){
         strong = 2;
         strongStr = "So so";
         strongClass = "so-so";
-      } else if(s > 600){
+      } else if(s > 200){
         strong = 1;
         strongStr = "Week";
         strongClass = "week";
@@ -132,6 +130,7 @@ export class GlobalValidator {
     }
 
     control.warnings = getTime(control.value);
+    if(control.warnings.strong==0 || control.warnings.strong==1) return { strongPasswordWeek: true }
     return null;
   }
 }

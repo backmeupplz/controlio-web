@@ -8,6 +8,9 @@ import { FormMessageService } from '../../FormHelper';
 import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
 import { PostModel, PostStatusModel } from '../../posts/models';
 import { PostService } from '../../posts/PostServices';
+import { FileCollection } from '../../Collection';
+import { FileModel } from '../../Files/models';
+import { FileUploadService } from '../../FileUploader';
 // import { ProjectListElem } from './project_list_elem.component.js';
 // import { ProjectService } from '../ProjectServices/project.service';
 // import { PostService } from '../../posts/PostServices/posts.service';
@@ -26,7 +29,8 @@ import { PostService } from '../../posts/PostServices';
     .you-dont-have-project .text { max-width: 375px; }
     .input-block { margin-bottom: 24px; }
     :host { padding-bottom: 240px; }
-    .project-post-block { padding-bottom: 90px; }`
+    .project-post-block { padding-bottom: 90px; }
+    `
   ],
   selector: 'projects',
   template: require("./project.pug"),
@@ -84,7 +88,7 @@ export class Project {
    private message: FormMessageService,
    private user: UserAuthModel,
     private postService: PostService,
-    // private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService
   ){
     this.listMessages = message.createList(["message"]);
   }
@@ -157,6 +161,14 @@ export class Project {
 
   }
 
+
+  private collectionMessage: FileCollection<FileModel> = new FileCollection<FileModel>();
+
+
+  removeCollection () {
+    //this.collectionMessage = new FileCollection<FileModel>();
+  }
+
   createPost(_data: any){
     let data = _data || {};
     data.projectid = this.project.id;
@@ -166,12 +178,52 @@ export class Project {
               type: data.type
             });
 
+    post.gallery = this.collectionMessage;
+    this.collectionMessage = new FileCollection<FileModel>();
     this.posts.unshift(post);
-    this.myForm.reset()
-    if( post instanceof PostStatusModel ) this.project.lastStatus = post;
+
+
+
+
+    let itemsProcessed = 0;
+    let count = this.collectionMessage.length;
+
+    data.attachments = post.gallery.forEach((file: FileModel)=>{
+      if(file.isUploaded) {
+        // let index = this.collectionMessage.indexOf(file)
+        // if(index > -1) this.collectionMessage.slice(index,1)
+        // console.log(index, "index")
+        // itemsProcessed++;
+        // console.log(this.collectionMessage.length)
+        // if(count == itemsProcessed) {
+        //   this.removeCollection();
+        // }
+        return file.key;
+      }
+      file.onFileProgress((err, res)=>{
+        console.log("after", res)
+        // let index = this.collectionMessage.indexOf(file)
+        // if(index > -1) this.collectionMessage.slice(index,1)
+        // itemsProcessed++;
+        // console.log(this.collectionMessage.length)
+        // if(count == itemsProcessed) {
+        //   this.removeCollection();
+        // }
+        // console.log(index, "index")
+      },(progress)=>{
+        console.log("progress", progress)
+      })
+      this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
+      return file.key;
+    })
 
     this.postService.save( this.project, data ).subscribe( res => {
       post.save(res);
+      this.myForm.reset()
+      if( post instanceof PostStatusModel ) this.project.lastStatus = post;
+    }, (err)=>{
+      this.myForm.reset()
+      if( post instanceof PostStatusModel ) this.project.lastStatus = post;
     });
   }
 

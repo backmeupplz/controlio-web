@@ -120,4 +120,37 @@
 .support .author {
   padding-top: 12px;
   padding-bottom: 12px;
+  padding-right: 2em;
 }
+
+
+@media screen and (max-width: 768px){
+  .support-container {
+    padding: 0;
+  }
+
+  .support.common-block {
+    margin-top: 0;
+  }
+
+  .support.common-block .main-photo {
+    width: 0;
+    max-width: 0;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .support.common-block .main-photo .image {
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  .support.common-block .main-photo {
+    width: 100%;
+    max-width: 100%;
+    background: #b5aafd;
+  }
+  .support .top-block, .support .bottom-block {
+    padding: 24px 30px !important;
+  }
+}
+

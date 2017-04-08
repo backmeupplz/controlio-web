@@ -11,22 +11,27 @@ div.container
         div.top-block
           div(class="settings-block")
             div
-              p.hidden-xs {{ date | amDateFormat: 'MMM D, h:mm A' }}
+              p {{ date | amDateFormat: 'MMM D, h:mm A' }}
               div(*ngIf="isOpenSettings", routerLink="/project/edit/{{ id }}", routerLinkActive="active")
                 svg-icon(src="assets/settings.svg" block="mh-svg" mod="common awesome small-white")
           div
             p.title
               a(routerLink="/project/{{ id }}", routerLinkActive="active") {{ title || "New project" }}
-            p.subtitle(*ngIf="subtitle") {{ subtitle }}
+            p.subtitle([ngClass]="{'subtitle-notset': !subtitle }") {{ subtitle || 'Стутус не определен' }}
         div.bottom-block
-          span.description(*ngIf="description")
+          span.description
             p.context Description
-            p.text {{ description }}
+            p.text([ngClass]="{'subtitle-notset': !subtitle }") {{ description || 'Описание не добавлено' }}
           span.author(*ngIf="_post != null && _post.sender != null")
             div.thumbnail
-              cn-img.photo-mini(styles="ng-thumb")
-              //-[key]="post.sender.photo"
+              cn-img-key.photo-mini(styles="ng-thumb" [key]="_post.sender.photo")
             div.text-block.three-line
               p.context {{ _post.sender.role }}
               p.username {{ _post.sender.name }}
               p.message {{ _post.text }}
+          span.author(*ngIf="_post == null && owner != null")
+            div.thumbnail
+              cn-img-key.photo-mini(styles="ng-thumb" [key]="owner.photo")
+            div.text-block.three-line
+              p.context Creator
+              p.username {{ owner.name }}

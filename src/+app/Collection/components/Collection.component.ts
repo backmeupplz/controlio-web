@@ -100,11 +100,11 @@ import { CircularGallery, ImageGalleryModel } from '../../ImageGallery';
    template: `
    <div *ngIf="collection" class="collection-main {{ _stylesMain }}">
      <div *ngFor ="let file of collection; let index = index" class="file-block">
-        <div *ngIf="!file.preview" class="file-title">
+        <div *ngIf="!isImage(file)" class="file-title">
           <p class="file-name">{{ file.shortName }}</p>
           <p class="file-type">{{ file.type }}</p>
         </div>
-        <file-image [file]="file" [image]="file.preview" *ngIf="file.preview" (click)="openGallery(index)"></file-image>
+        <file-image *ngIf="isImage(file)" [file]="file" (click)="openGallery(index)"></file-image>
         <!--cn-img *ngIf="file.preview" [image]="file.preview" class="photo-mini" styles="ng-thumb"></cn-img-->
         <span class="remove-icon glyphicon glyphicon-remove" aria-hidden="true" (click)="removeFile(file)" *ngIf="editable && !file.isLoad"></span>
       </div>
@@ -120,11 +120,6 @@ export class CollectionComponent {
   @Input('collection')
   set collection(collection: FileCollection<FileModel>){
     this._collection = collection;
-    this._collection.forEach((file)=>{
-      if(file instanceof FileImageModel){
-        file.loadPreview()
-      }
-    })
     /*
       newFile.loadImageMethod = ( file, callback )=>{
         // newFile.getImagePreview( file, ( err: any, img: ImageModel )=>{
@@ -138,6 +133,13 @@ export class CollectionComponent {
     return this._collection;
   }
 
+  isImage(file: FileModel){
+    if(file instanceof FileImageModel){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 
   public _styles: string = "ng-thumb";

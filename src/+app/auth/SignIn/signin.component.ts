@@ -60,9 +60,10 @@ export class SignIn implements OnInit {
     });
   }
 
+
   ngOnInit() {
 
-    this.route.params.forEach((params: Params) => {
+    this.route.queryParams.forEach((params: Params) => {
       if(params['token']){
         let token = params['token'];
         this.isLoadingMagicLink = true;
@@ -106,5 +107,4 @@ export class SignIn implements OnInit {
       });
     }
   }
-
 }

@@ -113,6 +113,7 @@ export class MessageForm implements ControlValueAccessor {
 
   private propagateChange = (_: any) => {};
   public writeValue(obj: string) {
+    console.log("writeValue", obj)
     if (obj) {
       this.inputValue = obj;
     }

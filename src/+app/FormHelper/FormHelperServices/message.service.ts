@@ -8,11 +8,12 @@ export class FormMessageService {
 			incorrectMailFormat: "Please include a valid email address"
 		},
 		password: {
-			required: "Please type your password",
+			required: "Please type your password.",
       minlength: (data)=>{
         let count = (data) ? data.requiredLength : NaN;
-        return `Length password should be < ${count}`;
-      }
+        return `Length password should be > ${count}.`;
+      },
+      strongPasswordWeek: "Week password."
 		},
 		confirm: {
 			required: "Please confirm your password",

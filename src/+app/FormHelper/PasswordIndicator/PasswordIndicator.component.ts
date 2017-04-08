@@ -15,6 +15,11 @@ import { Component, OnInit, Input } from '@angular/core';
       background: #d9d9d9;
     }
 
+    :host {
+      display: inline-flex;
+      flex-direction: column;
+    }
+
     .check-password-indicator.very-week span {
       background: #d9d9d9;
     }

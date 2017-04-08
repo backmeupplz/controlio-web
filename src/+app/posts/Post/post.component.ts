@@ -6,6 +6,11 @@ import { PostModel } from '../models/Post.model';
 import { PostStatusModel } from '../models/PostStatus.model';
 // import { FileImage } from '../helpers/form-elements/FileImage.model';
 // import { FileModel } from '../helpers/form-elements/File.model';
+import { FileCollection } from '../../Collection';
+import { FileModel } from '../../Files/models';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormMessageService } from '../../FormHelper';
+import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
 
 @Component({
   styles:[`
@@ -49,7 +54,7 @@ import { PostStatusModel } from '../models/PostStatus.model';
     }
 
     .clip-icon img {
-      padding-top: 18px;
+      padding-top: 32px;
       display: flex;
       margin-left: auto;
     }
@@ -90,6 +95,18 @@ import { PostStatusModel } from '../models/PostStatus.model';
     .mb-post__edit-block {
       margin: 8px -15px;
     }
+
+    .bottom-block {
+      margin-bottom: 15px;
+    }
+
+    .post-gallery {
+      border-top: 1px solid #eaeaea;
+      padding-top: 15px;
+      margin-top: 15px;
+      padding-left: 0;
+      margin-left: 15px;
+    }
   `],
   selector: 'post',
   template: require("./post.pug")
@@ -97,6 +114,11 @@ import { PostStatusModel } from '../models/PostStatus.model';
 
 export class PostComponent {
 
+  private congif: any  = {
+    MESSAGE_MAX_LENGTH: VALIDATOR_CONFIG_PROJECT.MESSAGE_MAX_LENGTH
+  }
+
+  private gallery: FileCollection<FileModel>
   private editMode: boolean = false;
   setEditMode(){
     this.editMode = true;
@@ -145,8 +167,9 @@ export class PostComponent {
     this.post.text = message;
   }
 
-  constructor(private postService: PostService){
-
+  private listMessages: any = {};
+  constructor(private postService: PostService, private _fb: FormBuilder, private message: FormMessageService,){
+    this.listMessages = message.createList(["message"]);
   }
 
   removePost(){
@@ -159,14 +182,20 @@ export class PostComponent {
   editPost(_data){
     let data = _data || {};
     data.postid = this.post.id;
-    this.setUploadFiles = ()=>{};
-    this.postService.put(this.post.project, data).subscribe((res)=>{
-      this.post = res;
-      this.resetEditMode();
-    })
+    data.attachments = this.post.gallery.map((elem)=>{ return elem.key; });
+    console.log(data);
+    // this.postService.put(this.post.project, data).subscribe((res)=>{
+    //   this.post = res;
+    //   this.resetEditMode();
+    // })
   }
 
-  ngOnInit(){}
+  public myForm: FormGroup;
+  ngOnInit(){
+    this.myForm = new FormGroup({
+      text: new FormControl('', [<any>Validators.maxLength(this.congif.MESSAGE_MAX_LENGTH)]),
+    });
+  }
 
   edit(){
     if(!this.editMode) return false;

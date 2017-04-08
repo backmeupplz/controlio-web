@@ -1,15 +1,32 @@
 import { Component, Input } from '@angular/core';
 import { AppConfig } from '../../app.config';
+import { UserModel } from '../../users';
 
 @Component({
   selector: 'project-list-elem',
   styles: [`
+  /*
   .content > .bottom-block {
     padding-bottom: 20px;
   }
 
   .content > .bottom-block .author {
     margin-top: 15px;
+  }*/
+
+  .subtitle-notset {
+    opacity: .5;
+  }
+
+  :host >>> cn-img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bottom-block {
+    align-content: space-between;
+    display: flex;
+    flex-direction: column;
   }
 
   `],
@@ -29,6 +46,7 @@ export class ProjectListElem {
     console.log(post);
     if(post) this._post = post;
   }
+  @Input() owner: UserModel;
   @Input() date: any;
   @Input() manager: any = null;
   @Input() isOpenSettings: boolean = false;
