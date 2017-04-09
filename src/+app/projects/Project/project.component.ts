@@ -165,7 +165,16 @@ export class Project {
   private collectionMessage: FileCollection<FileModel> = new FileCollection<FileModel>();
 
 
-  removeCollection () {
+  saveRequest (data: any, post: PostModel) {
+    console.log(data)
+    this.postService.save( this.project, data ).subscribe( res => {
+      post.save(res);
+      this.myForm.reset()
+      if( post instanceof PostStatusModel ) this.project.lastStatus = post;
+    }, (err)=>{
+      this.myForm.reset()
+      if( post instanceof PostStatusModel ) this.project.lastStatus = post;
+    });
     //this.collectionMessage = new FileCollection<FileModel>();
   }
 
@@ -182,49 +191,34 @@ export class Project {
     this.collectionMessage = new FileCollection<FileModel>();
     this.posts.unshift(post);
 
-
-
+    data.attachments = post.gallery.map((file)=>{
+      return file.key;
+    });
 
     let itemsProcessed = 0;
-    let count = this.collectionMessage.length;
+    let count = data.attachments.length;
 
-    data.attachments = post.gallery.forEach((file: FileModel)=>{
+    post.gallery.forEach((file: FileModel)=>{
       if(file.isUploaded) {
-        // let index = this.collectionMessage.indexOf(file)
-        // if(index > -1) this.collectionMessage.slice(index,1)
-        // console.log(index, "index")
-        // itemsProcessed++;
-        // console.log(this.collectionMessage.length)
-        // if(count == itemsProcessed) {
-        //   this.removeCollection();
-        // }
+        itemsProcessed++;
+        console.log(itemsProcessed, count)
+        if(count == itemsProcessed) {
+          this.saveRequest(data, post);
+        }
         return file.key;
       }
       file.onFileProgress((err, res)=>{
-        console.log("after", res)
-        // let index = this.collectionMessage.indexOf(file)
-        // if(index > -1) this.collectionMessage.slice(index,1)
-        // itemsProcessed++;
-        // console.log(this.collectionMessage.length)
-        // if(count == itemsProcessed) {
-        //   this.removeCollection();
-        // }
-        // console.log(index, "index")
+        itemsProcessed++;
+        console.log(itemsProcessed, count)
+        if(count == itemsProcessed) {
+          this.saveRequest(data, post);
+        }
       },(progress)=>{
         console.log("progress", progress)
       })
       this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
       return file.key;
     })
-
-    this.postService.save( this.project, data ).subscribe( res => {
-      post.save(res);
-      this.myForm.reset()
-      if( post instanceof PostStatusModel ) this.project.lastStatus = post;
-    }, (err)=>{
-      this.myForm.reset()
-      if( post instanceof PostStatusModel ) this.project.lastStatus = post;
-    });
   }
 
   private posts: any = [];

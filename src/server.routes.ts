@@ -31,5 +31,5 @@ export const routes: string[] = [
   'lazy',
   'account-recovery',
   'get-magic-link',
-  'magic'
+  'magicweb'
 ];

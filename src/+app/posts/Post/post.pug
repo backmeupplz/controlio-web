@@ -1,4 +1,4 @@
-div.content.block-common-style(*ngIf="post", block="mb-post", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
+div.content.block-common-style(*ngIf="post", block="mb-post", [mod]="mods")
   div.top-block.col-md-12(elem="top-block", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
     div(class="settings-block")
       div

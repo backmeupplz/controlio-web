@@ -17,7 +17,6 @@ export class ImageKeyComponent implements OnInit {
   private _image: AbstractImageModel;
   @Input()
   set image(image: AbstractImageModel){
-    console.log(this.key, image)
     if(!this._key) this._image = image;
   }
   get image(){

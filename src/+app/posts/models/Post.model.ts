@@ -89,8 +89,9 @@ export class PostModel {
     this._editable = false || editable;
     this._removable = false || removable;
 
+    console.log('attachments', attachments)
     if(attachments != null){
-      this.createImageFromKeys( attachments );
+      this.createGallery( attachments );
     }
   }
 
@@ -98,11 +99,12 @@ export class PostModel {
   //
   // }
 
-  createImageFromKeys( keys: string[] ){
-    if(!this.gallery) return false;
-    keys.forEach((key)=>{
-      let file = new FileImageModel(key, '',true);
+  createGallery( keys: string[] ){
+    this.gallery = new FileCollection<FileModel>();
+    return keys.map((key)=>{
+      let file = new FileImageModel(key, null, true);
       this.gallery.push(file)
+      return file
     })
   }
 }

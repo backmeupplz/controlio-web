@@ -43,11 +43,12 @@ import { ImageModel } from '../Image';
       z-index: 12;
     }
     .js-onload {
-      background: #aaaaaa;/*#d5d5d5;*/
+      background: #ede8e8;/*#d5d5d5;*/
+      opacity: .7;
     }
 
     .js-onload /deep/ .ng-thumb {
-      opacity: .7;
+      opacity: .5;
     }
 
     [hidden] {

@@ -29,6 +29,11 @@ import { UserModel } from '../../users';
     flex-direction: column;
   }
 
+  .bottom-block .author {
+    position: absolute;
+    bottom: 0;
+  }
+
   `],
   template: require("./project_list_elem.pug")
 })

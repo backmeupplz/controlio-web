@@ -77,6 +77,10 @@ import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
       flex-grow: 1;
     }
 
+    .mb-post--not-saved {
+      opacity: .5;
+    }
+
     .mb-post__top-block--post {
       padding: 15px 15px 0 !important;
     }
@@ -132,13 +136,19 @@ export class PostComponent {
   //   this.files = files;
   // }
 
+  get mods(){
+    let type = this.post.gallery != null && this.post.gallery.length > 0 ? 'post' : 'status';
+    let saved = this.post.isSave ? 'saved' : 'not-saved';
+    return type + ' ' + saved;
+  }
+
   private resetAll: any;
 
   private data: any;
   private _post: PostModel;
   @Input()
   set post(post: PostModel | PostStatusModel ){
-
+    console.log(post)
     if(post instanceof PostModel || post instanceof PostStatusModel ){
       this._post = post;
       if( this.post instanceof PostStatusModel && this.post.sender != null){

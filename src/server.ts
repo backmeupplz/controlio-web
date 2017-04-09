@@ -78,7 +78,7 @@ process.on('uncaughtException', function (err) {
 function ngApp(req, res) {
 
   function onHandleError(parentZoneDelegate, currentZone, targetZone, error)  {
-    console.warn('Error in SSR, serving for direct CSR');
+    //console.warn('Error in SSR, serving for direct CSR');
     res.sendFile('index.html', {root: './src'});
     return false;
   }
