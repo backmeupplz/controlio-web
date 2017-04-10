@@ -11,6 +11,7 @@ import { FileModel } from '../../Files/models';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { FormMessageService } from '../../FormHelper';
 import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
+import { FileUploadService } from '../../FileUploader';
 
 @Component({
   styles:[`
@@ -89,11 +90,10 @@ import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
       padding: 15px !important;
     }
 
-    .mb-post__edit-button {
-      padding: 20px;
-    }
-    .mb-post__delete-button {
-      padding: 20px;
+
+    .mb-post__delete-button, .mb-post__edit-button, .mb-post__cancel-button {
+      padding: 20px 0 20px 20px;
+      cursor: pointer;
     }
 
     .mb-post__edit-block {
@@ -111,6 +111,22 @@ import { VALIDATOR_CONFIG_PROJECT } from '../../app.config';
       padding-left: 0;
       margin-left: 15px;
     }
+
+    .mb-post__edit-button {
+      display: none;
+    }
+    :host:hover .mb-post__edit-button, .mb-post__text-info {
+      display: inline-flex;
+    }
+
+    .mb-post__text-info {
+      white-space:nowrap;
+      padding: 20px 0 20px 20px;
+    }
+
+    .mb-post__text-info span {
+      padding-right: .5em;
+    }
   `],
   selector: 'post',
   template: require("./post.pug")
@@ -125,9 +141,13 @@ export class PostComponent {
   private gallery: FileCollection<FileModel>
   private editMode: boolean = false;
   setEditMode(){
+    this.collectionMessage = this.post.gallery;
+    this.myForm.reset({text: this.post.text})
     this.editMode = true;
   }
   resetEditMode(){
+    this.collectionMessage = this.post.gallery;
+    this.myForm.reset({text: this.post.text})
     this.editMode = false;
   }
 
@@ -148,13 +168,12 @@ export class PostComponent {
   private _post: PostModel;
   @Input()
   set post(post: PostModel | PostStatusModel ){
-    console.log(post)
     if(post instanceof PostModel || post instanceof PostStatusModel ){
       this._post = post;
       if( this.post instanceof PostStatusModel && this.post.sender != null){
         this.data = {
           title: 'Updated status',
-          text: this.post.text,
+          text: this.post.text || `Attachments(${post.gallery.length})`,
           photo: this.post.project.image,
           subtitle: (this.post.sender) ? (this.post.sender.name ||this.post.sender.email) : "No name",
         }
@@ -178,13 +197,13 @@ export class PostComponent {
   }
 
   private listMessages: any = {};
-  constructor(private postService: PostService, private _fb: FormBuilder, private message: FormMessageService,){
+  constructor(private postService: PostService, private _fb: FormBuilder, private message: FormMessageService,private fileUploadService: FileUploadService){
     this.listMessages = message.createList(["message"]);
   }
 
   removePost(){
-    this.postService.delete(this.post.id).subscribe((res)=>{
-      ;
+    this.postService.delete(this.post).subscribe((res)=>{
+
     })
   }
 
@@ -193,7 +212,7 @@ export class PostComponent {
     let data = _data || {};
     data.postid = this.post.id;
     data.attachments = this.post.gallery.map((elem)=>{ return elem.key; });
-    console.log(data);
+
     // this.postService.put(this.post.project, data).subscribe((res)=>{
     //   this.post = res;
     //   this.resetEditMode();
@@ -203,45 +222,68 @@ export class PostComponent {
   public myForm: FormGroup;
   ngOnInit(){
     this.myForm = new FormGroup({
-      text: new FormControl('', [<any>Validators.maxLength(this.congif.MESSAGE_MAX_LENGTH)]),
+      text: new FormControl(this.post.text, [<any>Validators.maxLength(this.congif.MESSAGE_MAX_LENGTH)]),
     });
   }
 
-  edit(){
-    if(!this.editMode) return false;
-    /*
-    this.setUploadFiles = {
-      callback: (err: any, images: any )=>{
+  saveRequest (data: any, post: PostModel) {
+    console.log(data, post);
 
-      },
-      uploadCallback: (err: any, images: any )=>{
-        if(!err){
-          ;
-
-          let prevKeys = this.post.gallery.files.filter((elem)=>{
-            if(elem.iskey) return true;
-          }).map((elem)=>{
-            return elem.str
-          });
-
-          let keys = images.filter((elem)=>{
-            if(!elem.err) return elem;
-          }).map((elem)=>{
-            return elem.key;
-          });
-
-          let data = {
-            attachments: prevKeys.concat(keys),
-            text: this.post.message,
-            type: "post"
-          }
-          this.editPost(data);
-        }
-        else {
-          console.error(err);
-        }
+    this.postService.put( post.project, data ).subscribe( res => {
+      this.post.save(res);
+      if( post instanceof PostStatusModel ) this.post.project.lastStatus = post;
+      else {
+        this.post.gallery = this.collectionMessage
       }
-    }*/
+      this.resetEditMode()
+    }, (err)=>{
+      console.error(err);
+    });
+  }
+
+  private collectionMessage: FileCollection<FileModel> = new FileCollection<FileModel>();
+
+  edit(_data: any, isValid: boolean){
+    if(!this.editMode) return false;
+    let data = _data || {};
+    data.projectid = this.post.project.id;
+    data.postid = this.post.id;
+
+    if(this.collectionMessage.length <= 0 ){
+      this.saveRequest(data, this.post);
+    } else {
+      let itemsProcessed = 0;
+      let count = this.collectionMessage.length;
+      data.attachments = [];
+      this.collectionMessage.forEach((file: FileModel)=>{
+        if(file.isUploaded) {
+          itemsProcessed++;
+          if(count == itemsProcessed) {
+            this.saveRequest(data, this.post);
+          }
+          data.attachments.push(file.key)
+          return file.key;
+        }
+        file.onFileProgress((err, res)=>{
+          console.log(err, res, count, itemsProcessed)
+          itemsProcessed++;
+          if(!err) data.attachments.push(file.key)
+          if(count == itemsProcessed) {
+            this.saveRequest(data, this.post);
+          }
+        },(progress)=>{
+
+        })
+
+        let upload = ()=>{
+          this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
+        }
+        upload()
+        file.uploadFunc = upload;
+
+        return file.key;
+      })
+    }
   }
 
 }

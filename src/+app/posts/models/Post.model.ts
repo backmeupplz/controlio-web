@@ -63,8 +63,12 @@ export class PostModel {
 
   protected _isSave: boolean;
   save(post: PostModel){
+    if(this.isSave){
+      this._isEdited = true
+    }
     this._id = post.id;
     this._date = post.date;
+    this._text = post.text;
     this._isSave = true;
   }
   get isSave(){
@@ -80,7 +84,12 @@ export class PostModel {
     return this._removable;
   }
 
-  constructor( id: string, sender: UserModel | UserAuthModel, project: ProjectModel, date: string, text?: string, editable?: boolean, removable?: boolean, attachments?: string[], isSave?: boolean ){
+  protected _isEdited: boolean;
+  get isEdited(){
+    return this._isEdited;
+  }
+
+  constructor( id: string, sender: UserModel | UserAuthModel, project: ProjectModel, date: string, text?: string, editable?: boolean, removable?: boolean, attachments?: string[], isSave?: boolean, isEdited?: boolean ){
     this._id = id;
     this._isSave = isSave === false ? false : true;
     this._sender = sender;
@@ -88,8 +97,8 @@ export class PostModel {
     this._project = project;
     this._editable = false || editable;
     this._removable = false || removable;
-
-    console.log('attachments', attachments)
+    this._isEdited = isEdited === false ? false : true;
+    this._date = date;
     if(attachments != null){
       this.createGallery( attachments );
     }

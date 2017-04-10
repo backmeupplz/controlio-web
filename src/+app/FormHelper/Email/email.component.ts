@@ -63,7 +63,7 @@ export class EmailComponent implements ControlValueAccessor {
   private _emails: string[];
   @Input()
   set emails( emails: string[] ){
-    ;
+   
     this.settings = { recipients: emails };
     this._emails = emails;
     if(!this.isSet ){

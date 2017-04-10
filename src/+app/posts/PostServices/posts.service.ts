@@ -92,9 +92,9 @@ export class PostService {
       });
   }
 
-  delete( postid ){
+  delete( post: PostModel ){
     let headers = this.headers.getAuthHeader();
-    let body = { postid };
+    let body = { postid: post.id, projectid: post.project.id };
 
     let request = this.http
       .delete(
@@ -126,9 +126,9 @@ export class PostService {
         res.forEach((elem)=>{
           let author = new UserModel(elem.author)
           if(elem.type == 'status'){
-            posts.push(new PostStatusModel(elem._id, author, project, elem.updatedAt, elem.text));
+            posts.push(new PostStatusModel(elem._id, author, project, elem.updatedAt, elem.text, true, elem.isEdited));
           }  else if(elem.type == 'post'){
-            posts.push(new PostModel(elem._id, author,project,elem.updatedAt,elem.text, true, true, elem.attachments));
+            posts.push(new PostModel(elem._id, author,project,elem.updatedAt,elem.text, true, true, elem.attachments, true, elem.isEdited));
           }
         })
         return posts;

@@ -43,7 +43,7 @@ export class ProfileComponent {
     ) { }
   ngOnInit(){
     this.userService.getProfile().subscribe((result) => {
-      ;
+     
       this.user = result;
     })
   }

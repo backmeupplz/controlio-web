@@ -2,7 +2,7 @@
 var SelectItem = (function () {
     function SelectItem(source) {
         var _this = this;
-        console.log(source);
+        
         if (typeof source === 'string') {
             this.id = this.text = source;
         }

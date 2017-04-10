@@ -31,6 +31,9 @@ export abstract class ServiceGallery<T> implements IServiceGallery<T> {
   get index(){
     return this._index;
   }
+  set index(index: number){
+    this._index = index;
+  }
 
   getElementFromIndex(index: number) : T | null {
     if(this._elements.length < index || index < 0 ) return null;
@@ -70,7 +73,7 @@ export class CircularGallery<T> extends ServiceGallery<T> {
   }
 
   getNextElement() : T {
-    if(this._index == this._elements.length){
+    if(this._index == this._elements.length - 1){
       this._index = 0;
     } else {
       this._index++;
@@ -79,12 +82,21 @@ export class CircularGallery<T> extends ServiceGallery<T> {
   }
 
   getPrevElement() : T{
-    if(this._index == 0){
+    if(this._index <= 0){
       this._index = this._elements.length - 1;
     } else {
       this._index--;
     }
     return this.currentElement;
+  }
+
+  get currentElement() : T {
+    if(this._index >= this._elements.length ){
+      this._index = this._elements.length - 1;
+    } else if(this._index < 0){
+      this._index = 0;
+    }
+    return this.getElementFromIndex(this._index);
   }
 }
 
@@ -96,6 +108,14 @@ export abstract class AbsctractGalleryModel<T> implements IGalleryModel<T> {
 
   get elements() : T[] {
     return this.service.elements;
+  }
+
+  setIndexFromElem(elem: T){
+    this.service.index = this.elements.indexOf(elem) > -1 ? this.elements.indexOf(elem) : 0;
+  }
+
+  setIndex(index: number){
+    this.service.index = index;
   }
 
   get index(){

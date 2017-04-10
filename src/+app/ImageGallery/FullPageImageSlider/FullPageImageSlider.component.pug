@@ -1,10 +1,11 @@
 div.ng-overlay(*ngIf="opened")
   div.ng-gallery-content
-    div.uil-ring-css(*ngIf="loading")
+    //-div.uil-ring-css(*ngIf="loading")
     a.close-popup((click)="closeGallery()")
       svg-icon(src="assets/clear.svg" block="mh-svg" mod="common")
     a.nav-left(*ngIf="gallery.elements.length > 1" (click)="prevImage()")
       bts-icon(icon="chevron-left")
-    cn-img.effect([image]="gallery.currentElement.image" class="{{ styles }}" (click)="nextImage()")
+    cn-img-key.effect(*ngIf="!gallery.currentElement.image", [key]="gallery.currentElement.key" class="{{ styles }}" (click)="nextImage()")
+    cn-img.effect(*ngIf="gallery.currentElement.image", [image]="gallery.currentElement.image" class="{{ styles }}" (click)="nextImage()")
     a.nav-right(*ngIf="gallery.elements.length > 1" (click)="nextImage()")
       bts-icon(icon="chevron-right")

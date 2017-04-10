@@ -40,7 +40,7 @@ export class FileUploadService {
   // uploadGallery( gallery: FilesGalleryModel ){
   //   if(!gallery) return;
   //   gallery.files.forEach((file)=>{
-  //     ;
+  //    
   //     if(!file.isUploaded){
   //       file.setLoad();
   //       this.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress );

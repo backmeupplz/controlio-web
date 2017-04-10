@@ -35,7 +35,7 @@ export class DropDownList {
   }
 
   open(){
-    console.log("open", this._close, this.setOpen)
+    
     if(!this._close){
       this._close = true;
       this.setOpen = false;

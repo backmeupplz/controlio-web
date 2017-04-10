@@ -19,9 +19,14 @@ export class ImageGallery {
   ngOnInit(){
     this.imageGalleryService.gallery$.subscribe(
     value => {
-       console.log(value)
+       
       if(value){
-        this.gallery = value;
+        this.gallery = value.gallery;
+        if(typeof value.index === "number"){
+          this.gallery.setIndex(value.index);
+        } else {
+          this.gallery.setIndexFromElem(value.index);
+        }
         this.openModalWindow = true;
         return;
       }
@@ -34,7 +39,7 @@ export class ImageGallery {
    // for (var i = 0; i < images.length; i++) {
    //        if (imageSrc === images[i].img) {
    //          imageModalPointer = i;
-   //          ;
+   //         
    //          break;
    //        }
    //   }

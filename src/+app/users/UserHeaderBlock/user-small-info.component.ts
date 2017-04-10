@@ -23,7 +23,7 @@ export class UserSmallInfoComponent {
   }
 
   openDropDownList(){
-    console.log("openDropDownList")
+    
     this.list.open();
   }
 }

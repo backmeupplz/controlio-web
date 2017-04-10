@@ -51,11 +51,11 @@ export class MagicLinkComponent implements OnInit {
 
   save( data, isValid: boolean) {
     this.submitted = true;
-    console.log(data, isValid)
+    
     if( isValid ){
       let self = this;
       this.authService.magic( data.email).subscribe((result) => {
-        console.log(result)
+        
         if (result) {
           this.email = data.email;
           this.sendEmail = true;

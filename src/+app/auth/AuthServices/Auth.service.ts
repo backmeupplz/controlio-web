@@ -56,7 +56,7 @@ export class AuthService {
     let headers = this.headers.getHeader();
     return this.http.post( '/users/recoverPassword', { email }, true, headers )
                     .map((res)=>{
-                      ;
+                     
                       return res.success;
                     })
   }
@@ -66,7 +66,7 @@ export class AuthService {
     return this.http.post( '/users/requestMagicLink', { email }, true, headers )
                     .map((res)=>{
                       if ( res ) {
-                        console.log(res);
+                        
                         return true;
                       }
                       return false;
@@ -77,7 +77,7 @@ export class AuthService {
     let headers = this.headers.getHeader();
     return this.http.post( '/users/loginMagicLink', { token }, true, headers )
                     .map((res)=>{
-                      console.log(res);
+                      
                       if ( res.token ) {
                         this.userAuthModel.exit();
                         this.userAuthModel.setUser(res);
@@ -99,7 +99,7 @@ export class AuthService {
                         this.userAuthModel.setUser(res);
                         this.loggedIn = true;
                         this.loggedInChange.next( true );
-                        ;
+                       
                         return true;
                       }
                       return false;
@@ -129,7 +129,7 @@ export class AuthService {
 
     return this.http.post( '/users/login', { webPushToken } )
                     .map((res)=>{
-                      ;
+                     
                       return true;
                     })
   }

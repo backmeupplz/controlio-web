@@ -53,7 +53,8 @@ export class EditUser {
 
     this.myForm = new FormGroup({
         name: new FormControl(this.userAuth.name),
-        phone: new FormControl(this.userAuth.phone)
+        phone: new FormControl(this.userAuth.phone),
+        //image: new FormControl(this.userAuth.phone),
     });
   }
 
@@ -68,7 +69,7 @@ export class EditUser {
       // if( this.imageKey ){
       //   data.image = this.imageKey;
       //   this.callback_upload = (err, data)=>{
-      //     ;
+      //
       //   }
       // }
     }

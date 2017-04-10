@@ -1,16 +1,17 @@
 div
-	form.form-modal.form-block([formGroup]="myForm")
-		h1 {{ typeWindow }}
-		div.row
-			div.input-block.col-sm-6.col-xs-12
-				label.context(for="title") Name
-				input(name="name", placeholder="Your name", type="text", formControlName="name", id="name")
-			div.input-block.col-sm-6.col-xs-12
-				label.context(for="title") Phone
-				input(name="phone", placeholder="phone", type="text", formControlName="phone", id="phone")
-		div.row.jc-sb
-			div.input-block.col-sm-6.col-xs-12
-				label.context Photo
-				//-file-upload([upload]="callback_upload", (valueChange)="imageKeyChange($event)", [ext]="photoExt", [image]="image")
-			div.input-block.col-md-3.col-sm-5.col-xs-12.f-right
-				button.cbutton((click)="save(myForm.value, myForm.valid)") {{ typeWindow }}
+  form.form-modal.form-block([formGroup]="myForm")
+    h1 {{ typeWindow }}
+    div.row
+      div.input-block.col-sm-6.col-xs-12
+        label.context(for="title") Name
+        input(name="name", placeholder="Your name", type="text", formControlName="name", id="name")
+      div.input-block.col-sm-6.col-xs-12
+        label.context(for="title") Phone
+        input(name="phone", placeholder="phone", type="text", formControlName="phone", id="phone")
+    div.row.jc-sb
+      div.input-block.col-sm-6.col-xs-12
+        label.context Photo
+        //-file-upload(maxCount="1", formControlName="image", name="image", [ext]="ext")
+        //-file-upload([upload]="callback_upload", (valueChange)="imageKeyChange($event)", [ext]="photoExt", [image]="image")
+      div.input-block.col-md-3.col-sm-5.col-xs-12.f-right
+        button.cbutton((click)="save(myForm.value, myForm.valid)") {{ typeWindow }}

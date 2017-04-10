@@ -39,10 +39,10 @@ export class PaymentsService {
 
 
   deleteCard( customerid: string, cardid: any ){
-    console.log(customerid, cardid)
+    
     return this.http.delete( this.baseURL + '/card', {},{ customerid, cardid } )
                     .map((res)=>{
-                      console.log(res);
+                      
                       return res;
                     })
   }

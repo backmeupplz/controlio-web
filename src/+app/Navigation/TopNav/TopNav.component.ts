@@ -82,7 +82,7 @@ export class TopNavComponent implements OnInit {
     });
   }
   openBurger(){
-    console.log("openBurger")
+
     this.burger.open();
   }
 }

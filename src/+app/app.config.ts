@@ -9,6 +9,7 @@ export class AppConfig {
   private static get DEBUG_MODE(): boolean { return false; }
   //'http://192.168.1.66:8443'
   public static get API_ENDPOINT(): string { return AppConfig.DEBUG_MODE ? 'http://localhost:8443' : 'http://api.controlio.co:3001'}
+  public static get API_ENDPOINT_IMAGE(): string { return AppConfig.DEBUG_MODE ? 'http://localhost:3000' : 'http://localhost:3000'}
   public static STRIPE_KEY(): string { return 'pk_test_MybaaRNvH9ndvmA5ty1atlGO' }
 
   // remove

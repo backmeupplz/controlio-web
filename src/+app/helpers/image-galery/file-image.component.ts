@@ -72,14 +72,14 @@ export class FileImageComponent implements OnInit {
           this.file.progress = data.progress;
           this.ref.detectChanges();
           this.circle.start(data.progress);
-          ;
+         
         }
       // }
     });
   }
   @Input('file') file: FileImage;
   ngOnChange(value){
-    ;
+   
   }
   ngOnInit() { }
 }

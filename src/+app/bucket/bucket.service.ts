@@ -11,6 +11,7 @@ export class BucketService {
   public progress$: Observable<any>;
   private progressObserver: any;
 
+
 	constructor(private http: AppHttp, private headers: AppHeaders, @Inject(LocalStorage) private localStorage){
     let self = this;
     this.progress$ = Observable.create(observer => {
@@ -18,23 +19,9 @@ export class BucketService {
     }).share();
   }
 
-	store_data( key: string, data: any ) {
-    let array = data.Body.data;
-
-    if( btoa != undefined ){
-      let base64Data = btoa(String.fromCharCode.apply(null, array));
-      let image = document.createElement('img');
-  		image.src = 'data:image/png;base64,' + base64Data;
-  		this.localStorage.setItem( key, image.src );
-      data.key = key;
-      data.src = image.src;
-    }
-
-	  return data;
-	}
 
 	getCachedImg( key: string ){
-		const imgSrc = this.localStorage.getItem(key);
+		const imgSrc = null;
 		if( imgSrc ){
 			return imgSrc;
 		} else {
@@ -57,7 +44,7 @@ export class BucketService {
         xhr.upload.onprogress = (event:any) => {
           let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
 
-
+          console.log("xhr.upload.onprogress", progress)
 
           // callabackUploadProgress(40);
           // setTimeout(()=>{
@@ -67,9 +54,14 @@ export class BucketService {
           //   callabackUploadProgress(100);
           // }, 2000)
 
-          console.log("self.progressObserver", self.progressObserver)
+
           if(self.progressObserver) self.progressObserver.next({key, progress});
           if(callabackUploadProgress) callabackUploadProgress(progress);
+        };
+
+        xhr.upload.onerror = function (event: any) {
+
+          if(self.progressObserver) self.progressObserver.next({ key: key, err: "error"});
         };
 
         xhr.onprogress = function(event) {
@@ -82,10 +74,12 @@ export class BucketService {
                     let res = xhr.response
                     let isUploaded = true;
                     self.progressObserver.next({key, res, isUploaded});
+                     self.progressObserver.next({ key: key, isUploaded: true });
                     resolve(JSON.parse(xhr.response))
                 } else {
                     let error = xhr.response
                     self.progressObserver.next({key, error});
+                    self.progressObserver.next({ key: key, err: error});
                     reject(xhr.response)
                 }
             }
@@ -113,8 +107,8 @@ export class BucketService {
     /*
     return this.http.postFile( 'upload', formData, false, headers )
             .map((res)=>{
-              ;
-              ;
+
+
               return res;
             },(err)=>{
               console.error("Failed to retrieve an object: " + err );
@@ -127,7 +121,7 @@ export class BucketService {
 		let self = this;
     return this.http.get( 'img', { key }, false )
             .map((res)=>{
-              return self.store_data( key, res );
+              return res;
             },(err)=>{
               console.error("Failed to retrieve an object: " + err );
               return err;

@@ -15,40 +15,40 @@ import { UserService } from '../users/user.service';
 @Injectable()
 export class AddManager implements OnInit {
   componentName: "AddProject";
-	public myForm: FormGroup;
-	private event_click: any;
-	public events: any[] = [];
+  public myForm: FormGroup;
+  private event_click: any;
+  public events: any[] = [];
 
-	changeManagers( emails ){
+  changeManagers( emails ){
     let obj = this.myForm.value;
     obj.managers = emails;
     this.myForm.setValue( obj );
-	}
+  }
 
-	@Input()
-	set event(event: any) {
+  @Input()
+  set event(event: any) {
     this.event_click = event || null;
   }
 
-	constructor(private _fb: FormBuilder, private userService: UserService ) { }
+  constructor(private _fb: FormBuilder, private userService: UserService ) { }
 
-	ngOnInit() {
+  ngOnInit() {
     this.myForm = new FormGroup({
       managers: new FormControl('')
     });
-	}
+  }
 
 
-	save( data, isValid: boolean) {
+  save( data, isValid: boolean) {
 
-		console.log( data, isValid );
+    
     if( isValid ) {
-	    data.managers.forEach( email =>{
-	    	this.userService.addManager( email ).subscribe((result) => {
-	    		console.log( "addManager", result );
-	    	});
-	    })
-	  }
+      data.managers.forEach( email =>{
+        this.userService.addManager( email ).subscribe((result) => {
+          console.log( "addManager", result );
+        });
+      })
+    }
 
-	}
+  }
 }

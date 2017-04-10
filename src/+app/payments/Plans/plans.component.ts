@@ -312,7 +312,7 @@ export class Plans {
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setDefaultPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      ;
+     
     }, (err)=>{
 
     })
@@ -333,7 +333,7 @@ export class Plans {
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      ;
+     
     }, (err)=>{
 
     })
@@ -390,17 +390,17 @@ export class Plans {
     this.user = this.userService;
     this.subsciption = this.user.plan;
 
-    ;
+   
     this.paymentsService.getCustomer( this.user.stripeId ).subscribe((res)=>{
 
        this.customer = res;
-       ;
+      
        this.card = this.customer.default;
 
 
        this.loading = false;
     }, (err)=>{
-      ;
+     
     })
 
   }

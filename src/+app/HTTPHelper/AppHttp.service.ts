@@ -9,7 +9,7 @@ export class AppHttp {
   constructor(private http: Http, private headers: AppHeaders, private errorHandlerService: ErrorHandlerService ){}
 
   catchError(err: any){
-    console.log(this.errorHandlerService)
+    
     let error = this.errorHandlerService.createError(err)
     return Observable.throw(error)
   }

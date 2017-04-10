@@ -47,8 +47,12 @@ import { ImageModel } from '../Image';
       opacity: .7;
     }
 
-    .js-onload /deep/ .ng-thumb {
+    .js-onload /deep/ .ng-thumb, .js-iserror /deep/ .ng-thumb{
       opacity: .5;
+    }
+
+    .js-iserror {
+      background: red;
     }
 
     [hidden] {
@@ -58,15 +62,40 @@ import { ImageModel } from '../Image';
     cn-img-key {
       width: 100%;
     }
+
+    .error-icon,  .reupload {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 2em;
+      height: 2em;
+    }
+
+    .thumbnail:hover .error-icon {
+      display: none;
+    }
+
+    .reupload {
+      display: none;
+    }
+
+    .thumbnail:hover .reupload {
+      display: block;
+    }
   `],
   selector: 'file-image',
   templateUrl: `
-  <div class="thumbnail" *ngIf="file" [ngClass]="{'js-onload': file.isLoad, 'js-isuploaded': file.isUploaded }">
+  <div class="thumbnail" *ngIf="file" [ngClass]="{'js-onload': file.isLoad, 'js-isuploaded': file.isUploaded, 'js-iserror': isError }">
 
      <cn-img-key [image]="image" key="{{ (file.isUploaded) ? imageKey : null }}" style="position: absolute" class="{{ _styles }}"></cn-img-key>
+     <svg-icon src="assets/error-triangle-w-clean.svg" block="mh-svg" mod="common" class="error-icon" *ngIf="isError"></svg-icon>
+     <svg-icon src="assets/reload.svg" block="mh-svg" mod="common" class="reupload" *ngIf="isError && file.isCanReload" (click)="reloadAsset()"></svg-icon>
 
-     <div class="image-mask" [hidden]="!file.isLoad"><cn-img style="position: absolute" [image]="image" class="{{_styles}}"></cn-img></div>
-     <div class="round-circle" [hidden]="!file.isLoad">
+     <div class="image-mask" [hidden]="!file.isLoad || isError"><cn-img style="position: absolute" [image]="image" class="{{_styles}}"></cn-img></div>
+     <div class="round-circle" [hidden]="!file.isLoad || isError">
      <circle-progress #circle
      [percent]="0"
      [boxSize]="46"
@@ -91,13 +120,20 @@ export class FileImageComponent implements OnInit {
     this.sub = this.bucketService.progress$.subscribe(
     data => {
         if( data.key == self.file.key ){
-          self.file.progress = data.progress;
-          self.ref.detectChanges();
-          console.log("FileImageComponent",data.progress)
-          self.circle.start(data.progress);
+          if(data.progress){
+            self.file.progress = data.progress;
+            self.ref.detectChanges();
+
+            self.circle.start(data.progress);
+          }
+          if( data.error ){
+
+            this.isError = true;
+          }
         }
     });
   }
+  private isError: boolean = false;
   private imageKey: string;
   private _file: FileImageModel;
   @Input('file')
@@ -122,6 +158,9 @@ export class FileImageComponent implements OnInit {
     return this._file;
   }
   @Input('image') image: ImageModel;
+  reloadAsset(){
+    this.file.uploadFile();
+  }
   ngOnInit() { }
   ngOnDestroy(){
     this.sub.unsubscribe()

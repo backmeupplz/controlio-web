@@ -34,7 +34,7 @@ export class AddProjectModal extends ModalWindow {
           let index = 0;
           let users = result.map(elem=>{
             index++;
-            ;
+           
             return { userId: elem._id, name: ( elem.name || elem.email ), id: index };
           });
 

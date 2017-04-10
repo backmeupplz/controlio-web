@@ -166,7 +166,7 @@ export class Project {
 
 
   saveRequest (data: any, post: PostModel) {
-    console.log(data)
+
     this.postService.save( this.project, data ).subscribe( res => {
       post.save(res);
       this.myForm.reset()
@@ -189,36 +189,38 @@ export class Project {
 
     post.gallery = this.collectionMessage;
     this.collectionMessage = new FileCollection<FileModel>();
+    let count = post.gallery.length;
     this.posts.unshift(post);
 
-    data.attachments = post.gallery.map((file)=>{
-      return file.key;
-    });
+    if( count <= 0 ){
+      this.saveRequest(data, post);
+    } else {
+      data.attachments = [];
+      let itemsProcessed = 0;
+      post.gallery.forEach((file: FileModel)=>{
+        if(file.isUploaded) {
+          itemsProcessed++;
 
-    let itemsProcessed = 0;
-    let count = data.attachments.length;
-
-    post.gallery.forEach((file: FileModel)=>{
-      if(file.isUploaded) {
-        itemsProcessed++;
-        console.log(itemsProcessed, count)
-        if(count == itemsProcessed) {
-          this.saveRequest(data, post);
+          if(count == itemsProcessed) {
+            this.saveRequest(data, post);
+          }
+          data.attachments.push(file.key)
+          return file.key;
         }
+        file.onFileProgress((err, res)=>{
+          itemsProcessed++;
+          console.log(err, res, itemsProcessed, count)
+          if(!err) data.attachments.push(file.key)
+          if(count == itemsProcessed) {
+            this.saveRequest(data, post);
+          }
+        },(progress)=>{
+
+        })
+        this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
         return file.key;
-      }
-      file.onFileProgress((err, res)=>{
-        itemsProcessed++;
-        console.log(itemsProcessed, count)
-        if(count == itemsProcessed) {
-          this.saveRequest(data, post);
-        }
-      },(progress)=>{
-        console.log("progress", progress)
       })
-      this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
-      return file.key;
-    })
+    }
   }
 
   private posts: any = [];

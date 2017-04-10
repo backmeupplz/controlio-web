@@ -130,7 +130,7 @@ export class SearchComponent implements OnInit {
     this.myForm.valueChanges.subscribe(data => {
       this.valueChange.emit(data);
       this.isSetText = data.text.length > 0;
-      ;
+     
     })
   }
 

@@ -41,7 +41,6 @@ export class FileUploadButton {
   set collection(collection: FileCollection<FileModel>) {
     if(collection){
       this._collection = collection;
-      this.collectionChange.emit(this._collection);
     }
   }
 
@@ -99,7 +98,6 @@ export class FileUploadButton {
 
   setArrayCollection(collection, files: FileModel[]){
     if(collection){
-      collection.splice(0, collection.length);
       files.forEach((elem)=>{
         if(collection.length < this.maxCount) collection.push(elem);
       })
@@ -109,7 +107,11 @@ export class FileUploadButton {
 
   filesChange(files: FileModel[]){
     if(this.collection){
-      this.collection = this.setArrayCollection(this.collection, files)
+      let collection = this.collection.filter((elem)=>{
+        return elem.isUploaded;
+      })
+      this.collection = this.setArrayCollection(collection, files)
+      this.collectionChange.emit(this._collection);
     }
   }
 }

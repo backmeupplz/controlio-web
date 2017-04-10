@@ -41,7 +41,7 @@ export class CircleProgressComponent implements OnInit {
   }
 
   @Input() boxSize:number = 200;
-  @Input() radius:number = 0.9*this.boxSize ;
+  @Input() radius:number = 0.9*this.boxSize
   @Input() time:number = 0;
   @Input() border:number = 20;
   @Input() color:string = '#b0a4fd';

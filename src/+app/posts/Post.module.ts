@@ -8,9 +8,22 @@ import { PostService } from './PostServices';
 import { ImageModule } from '../Image';
 import { CollectionModule } from '../Collection';
 import { MessageFormModule, FormHelperModule } from '../FormHelper';
-
+import { FIleUploaderModule } from '../FileUploader';
+import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
 @NgModule({
-      imports: [BemModule, SvgModule, MomentModule, CommonModule, ImageModule, CollectionModule, MessageFormModule, FormHelperModule],
+      imports: [
+        BemModule,
+        SvgModule,
+        MomentModule,
+        CommonModule,
+        ImageModule,
+        CollectionModule,
+        MessageFormModule,
+        FormHelperModule,
+        FIleUploaderModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
       exports: [PostComponent],
       declarations: [PostComponent],
       providers: [],

@@ -114,7 +114,7 @@ export class ImageSmallGallery {
   @Input('gallery')
   set gallery(gallery: FilesGalleryModel){
     if(!gallery) return;
-    ;
+   
     this._gallery = gallery;
     this._gallery.files.forEach((elem)=>{
       if( elem instanceof FileImage){
@@ -122,10 +122,10 @@ export class ImageSmallGallery {
       }
       if(!elem.isUploaded){
         elem.callbackProgress = (progress)=>{
-          ;
+         
         };
         elem.callbackAfter = (err, res)=>{
-          ;
+         
         }
       }
     })

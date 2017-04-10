@@ -48,7 +48,7 @@ export class SignUp implements OnInit {
   }
 
   save( data, isValid: boolean) {
-    console.log(this.myForm);
+   
     this.submitted = true;
     if( isValid ){
       let self = this;

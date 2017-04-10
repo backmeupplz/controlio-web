@@ -152,7 +152,9 @@ export class FileUploaderButton {
 
   setArrayCollection(collection, files: FileModel[]){
     if(collection){
-      collection.splice(0, collection.length);
+      collection = collection.filter((elem)=>{
+        return elem.isUploaded;
+      })
       files.forEach((elem)=>{
         if(collection.length < this.maxCount) collection.push(elem);
       })

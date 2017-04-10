@@ -1,7 +1,7 @@
-import { AbstractImageModel, ImageModel, IHaveSRC, IHaveImage } from '../../Image';
+import { AbstractImageModel, ImageModel, IHaveKey, IHaveImage } from '../../Image';
 import { FileModel } from './File.model';
 
-export class FileImageModel extends FileModel implements IHaveImage {
+export class FileImageModel extends FileModel implements IHaveImage, IHaveKey {
 	constructor(key: string, file: any, isUploaded?: boolean, name?: string){
     super(key, file, isUploaded, name);
 	}
@@ -47,7 +47,7 @@ export class FileImageModel extends FileModel implements IHaveImage {
     reader.onerror = (err)=>{
       if( callback ) callback(err, null)
     }
-    console.log(this._file)
+
     reader.readAsDataURL( this._file );
   }
 }

@@ -58,7 +58,7 @@ import {LocalStorage} from './+app/helpers/local-storage';
 
     Meta,
 
-    // { provide: AUTO_PREBOOT, useValue: false } // turn off auto preboot complete
+    { provide: AUTO_PREBOOT, useValue: false } // turn off auto preboot complete
   ]
 })
 export class MainModule {

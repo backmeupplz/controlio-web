@@ -1,9 +1,11 @@
 div.content.block-common-style(*ngIf="post", block="mb-post", [mod]="mods")
   div.top-block.col-md-12(elem="top-block", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
     div(class="settings-block")
-      div
-        p {{ post.date | amDateFormat: 'MMM D, h:mm A' }}
-        div.in-flex(*ngIf="post.editable && editMode", elem="edit-button", (click)="resetEditMode()")
+      div(*ngIf="post.isSave")
+        p(elem="text-info")
+          span(*ngIf="post.isEdited") (edited)
+          | {{ post.date | amDateFormat: 'MMM D, h:mm A' }}
+        div.in-flex(*ngIf="post.editable && editMode", elem="cancel-button", (click)="resetEditMode()")
           svg-icon(src="assets/edit.svg", block="mh-svg", mod="common awesome")
           p Cancel
         div.in-flex(*ngIf="post.editable && !editMode", elem="edit-button", (click)="setEditMode()")
@@ -19,12 +21,12 @@ div.content.block-common-style(*ngIf="post", block="mb-post", [mod]="mods")
       div.text-block.three-line(elem="message")
         p.context {{ data.title }}
         p.username(*ngIf="data.subtitle") {{ data.subtitle }}
-        p.message(*ngIf="!editMode") {{ data.text }}
-        div.row(*ngIf="editMode", elem="edit-block")
+        p.message(*ngIf="!editMode") {{ post.text }}
+        form.row(*ngIf="editMode", elem="edit-block", [formGroup]="myForm")
           div.col-sm-9.col-xs-12
-            message-form(shorten="false", [limit]="congif.MESSAGE_MAX_LENGTH", formControlName="text", name="text", [(collection)]="post.gallery")
+            message-form(shorten="false", [limit]="congif.MESSAGE_MAX_LENGTH", formControlName="text", name="text", [(collection)]="collectionMessage")
           div.col-sm-3.col-xs-12.f-right
-            mh-button((click)="edit()", title="Edit post",mods="big padding common radius margin all-width",text-mods="common")
+            mh-button((click)="edit(myForm.value, myForm.valid)", title="Edit post",mods="big padding common radius margin all-width",text-mods="common")
   div.bottom-block(*ngIf="post.gallery && !editMode && post.gallery.length > 0")
     div.row.jc-fs
       div.col-xs-1.clip-icon

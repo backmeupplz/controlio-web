@@ -10,8 +10,7 @@ export class ImageGalleryService {
   private galleryChange = new Subject<any>();
   gallery$ = this.galleryChange.asObservable()
 
-  setImages( gallery: ImageGalleryModel ) {
-    this.galleryChange.next(gallery);
+  setImages( gallery: ImageGalleryModel, index?: any ) {
+    this.galleryChange.next({ index, gallery });
   }
-
 }

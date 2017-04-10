@@ -22,6 +22,8 @@ import { ProjectListElem } from './Project/project_list_elem.component';
 import { FIleUploaderModule } from '../FileUploader';
 import { PostModule } from '../posts';
 
+import { InviteModule } from '../invites';
+
 import { EmptyDataSetModule } from '../EmptyDataSet';
 import { HTTPHelperModule } from '../HTTPHelper';
 
@@ -34,6 +36,7 @@ const moduleRoutes: Routes = [
 
 @NgModule({
   imports: [
+    InviteModule,
     HTTPHelperModule,
     EmptyDataSetModule,
     ImageModule,

@@ -4,7 +4,7 @@ import { ErrorServer, ErrorCommon, ErrorServerConnect, ErrorRequest } from './mo
 @Injectable()
 export class ErrorHandlerService {
   createError(data: any){
-    console.log(data);
+    
     if(data.json != undefined) data = data.json()
 
     if(data.status != undefined){

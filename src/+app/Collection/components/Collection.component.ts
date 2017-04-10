@@ -104,7 +104,7 @@ import { CircularGallery, ImageGalleryModel } from '../../ImageGallery';
           <p class="file-name">{{ file.shortName }}</p>
           <p class="file-type">{{ file.type }}</p>
         </div>
-        <file-image *ngIf="isImage(file)" [file]="file" (click)="openGallery(index)"></file-image>
+        <file-image *ngIf="isImage(file)" [file]="file" (click)="openGallery(file)"></file-image>
         <!--cn-img *ngIf="file.preview" [image]="file.preview" class="photo-mini" styles="ng-thumb"></cn-img-->
         <span class="remove-icon glyphicon glyphicon-remove" aria-hidden="true" (click)="removeFile(file)" *ngIf="editable && !file.isLoad"></span>
       </div>
@@ -114,7 +114,7 @@ import { CircularGallery, ImageGalleryModel } from '../../ImageGallery';
 export class CollectionComponent {
 
   constructor(private imageGalleryService: ImageGalleryService, private circularGallery: CircularGallery<FileModel>) {}
-
+  @Input() canOpenGallery: boolean = true;
   @Input() editable: boolean = true;
   private _collection: FileCollection<FileModel>;
   @Input('collection')
@@ -176,7 +176,7 @@ export class CollectionComponent {
   @Input('gallery')
   set gallery(gallery: FilesGalleryModel){
     if(!gallery) return;
-    ;
+   
     this._gallery = gallery;
     this._gallery.files.forEach((elem)=>{
       if( elem instanceof FileImage){
@@ -184,10 +184,10 @@ export class CollectionComponent {
       }
       if(!elem.isUploaded){
         elem.callbackProgress = (progress)=>{
-          ;
+         
         };
         elem.callbackAfter = (err, res)=>{
-          ;
+         
         }
       }
     })
@@ -228,19 +228,14 @@ export class CollectionComponent {
     // }
   }*/
 
-  openGallery(index) {
-    console.log(index);
-    // this.gallery.index = index;
-    let files = this._collection.filterType<FileImageModel>()
-    let gallery = new ImageGalleryModel(files, this.circularGallery )
-    this.imageGalleryService.setImages(gallery)
-    // this.opened = true;
-    // for (var i = 0; i < this.gallery.images.length; i++) {
-    //   if (i === this.currentImageIndex ) {
-    //     this.imgSrc = this.gallery.images[i].str;
-    //     this.loading = false;
-    //     break;
-    //   }
-    // }
+  openGallery(file: FileModel) {
+    if(file && !file.isError && this.canOpenGallery && !file.isLoad ){
+      let files = this._collection.filterType<FileImageModel>()
+      let gallery = new ImageGalleryModel(files, this.circularGallery )
+      if( file instanceof FileImageModel) this.imageGalleryService.setImages(gallery, files.indexOf(file))
+      else {
+        this.imageGalleryService.setImages(gallery)
+      }
+    }
   }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 const AWS = require('aws-sdk');
 import * as fs from 'fs';
+var mkdirp = require('mkdirp');
+
 
 export class BucketService {
   private identy: string = "us-east-1:16327515-a666-4f4b-b7b9-d7c831b285c0";
@@ -27,28 +29,31 @@ export class BucketService {
   }
 
   store_data( key: string, data: any, callback: any ) {
-    //let array = data.Body;
-    //let base64Data = btoa(String.fromCharCode.apply(null, array));
-    //let image = document.createElement('img');
-    //image.src = 'data:image/png;base64,' + base64Data;
-    //localStorage.setItem( key, image.src );
-    callback(null, data);
+    let directory = key.split('/')[0];
+    console.log( __dirname +  '/images/' + directory )
+    mkdirp( __dirname +  '/images/' + directory, function(err) {
+      if(err) {
+        callback(err, null)
+        return;
+      }
+      console.log(  __dirname +  '/images/' + key )
+      console.log("next")
+      fs.writeFile( __dirname + '/images/' + key, data.Body, function (err, w, s) {
+          if (err) {
+            callback(err, null);
+          } else {
+            console.log("fs.appendFile")
+            callback(null, data)
+            //fut.return(chunk.length);
+          }
+      });
+    });
   }
-
-  getCachedImg( key: string ){
-    // const imgSrc = localStorage.getItem(key);
-    // if( imgSrc ){
-    //   return imgSrc;
-    // } else {
-      return null;
-    //}
-  }
-
 
   uploadImage( key, file, callback ){
     let self = this;
     if( callback != undefined && callback != null && key.length > 0 && file != undefined ){
-      console.log( file );
+      
       fs.readFile(file.path, function (err, dataFile) {
       if (err) throw err; // Something went wrong!
 
@@ -62,7 +67,7 @@ export class BucketService {
               }
           });
 
-          console.log(err, data);
+          
 
           if( !err ) callback(null, data);
           else callback(err, null);
@@ -73,19 +78,27 @@ export class BucketService {
 
   getImage( key, callback ){
     if( callback != undefined && callback != null && key.length > 0 ){
-    let self = this;
-    this.s3.getObject(
-      { Bucket: this.bucketName, Key: key },
-      function (error, data) {
-        if (error != null) {
-          console.error("Failed to retrieve an object: " + error, data );
-          callback(error, null);
-        } else {
-          console.log("вызов store_data");
-          self.store_data( key, data, callback );
-        }
-      });
+      let self = this;
+      if (fs.existsSync(__dirname + '/image/' + key)) {
+        callback(null, true)
+      } else {
+        this.s3.getObject(
+          {
+            Bucket: this.bucketName,
+            Key: key,
+            // ResponseContentType: 'image/png',
+            // ResponseContentEncoding:
+          },
+          function (error, data) {
+            if (error != null) {
+              console.error("Failed to retrieve an object: " + error, data );
+              callback(error, null);
+            } else {
+              console.log("вызов store_data");
+              self.store_data( key, data, callback );
+            }
+          });
+      }
     }
   }
-
 }

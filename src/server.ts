@@ -6,15 +6,20 @@ import 'angular2-universal-polyfills';
 import 'ts-helpers';
 import './__workaround.node'; // temporary until 2.1.1 things are patched in Core
 
+import * as fs from 'fs';
 import * as path from 'path';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import * as compression from 'compression';
+// const cache = require('cache-control');
 
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
+
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
 // Angular 2
 import { enableProdMode } from '@angular/core';
@@ -36,6 +41,7 @@ enableProdMode();
 
 const app = express();
 const ROOT = path.join(path.resolve(__dirname, '..'));
+
 
 
 
@@ -61,13 +67,15 @@ app.use(compression());
 
 app.use(morgan('dev'));
 
+
+
 function cacheControl(req, res, next) {
   // instruct browser to revalidate in 60 seconds
   res.header('Cache-Control', 'max-age=60');
   next();
 }
 // Serve static files
-app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
+app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 36000}));
 app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
 
@@ -116,7 +124,7 @@ app.get('/img', function(req, res) {
     res.status(400).send(json);
     return;
   }
-  res.header('Cache-Control', 'max-age=36000');
+  // res.header('Cache-Control', 'max-age=36000');
   bucket.getImage(key,(err, ans)=>{
     if(err){
       let json = JSON.stringify({ key: key, err: err });
@@ -124,12 +132,62 @@ app.get('/img', function(req, res) {
     }
     else {
       //let json = JSON.stringify({ key: key, res: ans });
-      res.send(ans);
+      //res.send(ans);
+      var options = {
+        root: __dirname +  '/images',
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true,
+            'Cache-Control': 'max-age=2592000'
+        }
+      };
+
+      var fileName = key;
+      res.sendFile(fileName, options, function (err) {
+        if (err) {
+          let json = JSON.stringify({ key: key, err: err });
+          res.status(500).send(json);
+        } else {
+          console.log('Sent:', fileName);
+        }
+      });
     }
   });
 });
 
 
+app.post('/upload', upload.array('image', 10), function (req: express.Request & { files: any }, res, next) {
+  // req.files is array of `photos` files
+  // req.body will contain the text fields, if there were any
+  let key = req.body.key;
+  if(!req.files){
+    let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });
+    res.status(400).send(json);
+    return;
+  }
+
+  if(!key){
+    let json = JSON.stringify({ error: 'NOT_FOUND_KEY' });
+    res.status(400).send(json);
+    return;
+  }
+
+  let files = req.files;
+
+  files.forEach((file)=>{
+    bucket.uploadImage(key, file, (err, ans)=>{
+      if(err){
+        let json = JSON.stringify({ key: key, err: err });
+        res.status(400).send(json);
+      }
+      else {
+        res.send(ans);
+      }
+    });
+  })
+})
+/*
 app.post('/upload', multipartMiddleware, function(req: express.Request & { files: any }, res) {
   let key = req.body.key;
   if(!req.files){
@@ -144,9 +202,14 @@ app.post('/upload', multipartMiddleware, function(req: express.Request & { files
     return;
   }
 
-
   let file = req.files.image;
   bucket.uploadImage(key, file, (err, ans)=>{
+
+    console.log(file.path)
+    // fs.unlink(file.path, (err: any)=>{
+    //   console.log(err, res)
+    // })
+
     if(err){
       let json = JSON.stringify({ key: key, err: err });
       res.status(400).send(json);
@@ -155,8 +218,7 @@ app.post('/upload', multipartMiddleware, function(req: express.Request & { files
       res.send(ans);
     }
   });
-  // don't forget to delete all req.files when done
-});
+});*/
 
 
 app.get('*', function(req, res) {

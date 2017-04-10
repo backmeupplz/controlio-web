@@ -33,12 +33,21 @@ export class FileModel extends AbstractFile {
 
 
   public callbackAfter: any =  function(){};
+  protected _isError: boolean = false;
+  get isError(){
+    return this._isError;
+  }
   protected _isUploaded: boolean = false;
   get isUploaded(){
     return this._isUploaded;
   }
   public loadFile: any = (err, res)=>{
-    if(!err) this._isUploaded = true;
+    if(!err) {
+      this._isUploaded = true;
+      this._isError = false;
+    } else {
+      this._isError = true;
+    }
     this._isLoad = false;
     this.callbackAfter(err, res);
   };
@@ -70,6 +79,21 @@ export class FileModel extends AbstractFile {
   onFileProgress(_callbackAfter?: any, _callbackProgress?: any){
     if( _callbackAfter ) this.callbackAfter = _callbackAfter;
     if( _callbackProgress ) this.callbackProgress = _callbackProgress;
+  }
+
+  private _uploadFunc: ()=>void;
+  set uploadFunc(func: ()=>void){
+    this._uploadFunc = func;
+  }
+  get isCanReload(){
+    return (this._uploadFunc) ? true : false;
+  }
+
+  uploadFile(){
+    if(this._uploadFunc){
+
+      this._uploadFunc()
+   }
   }
 
 	constructor(key: string, file: any, isUploaded?: boolean, name?: string){

@@ -108,14 +108,14 @@ export class Cards {
   ){}
 
   setDefault( source: any ){
-    console.log(this.user, source)
+    
     if( !this.user.stripeId || !this.source ) return;
 
     this.paymentsService.setDefaultPayments( this.user.stripeId, this.source.id ).subscribe((res)=>{
-      console.log(res)
+      
       this.source = source;
     }, (err)=>{
-      console.log(err)
+      
     })
   }
 
@@ -123,11 +123,11 @@ export class Cards {
   setSource( source: any ){
     if( !this.user.stripeId || !source ) return;
     this.paymentsService.setPayments( this.user.stripeId, source.id ).subscribe((res)=>{
-      console.log(res)
+      
       this.source = source;
       this.cards.push(res)
     }, (err)=>{
-      console.log(err)
+      
     })
   }
 
@@ -137,15 +137,15 @@ export class Cards {
     this.paymentsService.deleteCard( this.user.stripeId, source.id ).subscribe((res)=>{
       let index = this.cards.indexOf(source);
       if( index > -1 ) this.cards.splice(index, 1)
-      console.log(res)
+      
     }, (err)=>{
-      console.log(err)
+      
     })
   }
 
   ngOnInit(){
     this.paymentsService.getCustomer( this.user.stripeId ).subscribe((res)=>{
-      console.log(res);
+      
       this.customer = res;
       this.cards = this.customer.sources.data;
       this.default = res.default_source;

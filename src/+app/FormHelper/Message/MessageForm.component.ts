@@ -67,6 +67,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
       top: 0;
       vertical-align: top;
       padding-top: 10px;
+      padding-right: 15px;
     }
 
     .message-gallery {
@@ -78,7 +79,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
       <!--  name="text", placeholder="Message", type="text", formControlName="text", id="text"  -->
 
       <!-- [collection]="_collection" [maxCount]="10" -->
-      <file-upload-button [(collection)]="_collection" #fileUploadButton [maxCount]="10" class="file-upload-button">
+      <file-upload-button [collection]="_collection" #fileUploadButton (collectionChange)="collectionChangeFB($event)" [maxCount]="10" class="file-upload-button">
         <img src="assets/photo-clip.svg"/>
       </file-upload-button>
 
@@ -93,7 +94,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
 
       <div class="message-gallery"  *ngIf="_collection.length > 0">
         <img src="assets/clip.svg" *ngIf="_collection.length > 0" class="clip-icon"/>
-        <cn-collection [(collection)]="_collection" [editable]="editableImage" (removeChange)="removeChange($event)"></cn-collection>
+        <cn-collection [canOpenGallery]="canOpenGallery" [(collection)]="_collection" [editable]="editableImage" (removeChange)="removeChange($event)"></cn-collection>
         <!-- ImageSmallGallery [stylesmain]="styles" [(gallery)]="_fileGallery" editable="{{ true }}" *ngIf="fileGallery._files.length > 0">
         </ImageSmallGallery -->
       </div>
@@ -110,10 +111,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
 export class MessageForm implements ControlValueAccessor {
 
   @ViewChild('fileUploadButton') fileUploadButton: FileUploadButton;
-
+  @Input() canOpenGallery: boolean = true;
   private propagateChange = (_: any) => {};
   public writeValue(obj: string) {
-    console.log("writeValue", obj)
+    
     if (obj) {
       this.inputValue = obj;
     }
@@ -267,15 +268,17 @@ export class MessageForm implements ControlValueAccessor {
   @Output() collectionChange = new EventEmitter();
 
   set collection(collection: FileCollection<FileModel>) {
+    
     if(collection){
       this._collection = this.setArrayCollection(new FileCollection<FileModel>(), collection);
-      this.collectionChange.emit(this._collection);
-      //if( !this.isCanUndo ) {
-        //this.oldState = this.setArrayCollection(new FileCollection<FileModel>(), collection);
-      //}
     }
   }
 
+  collectionChangeFB(collection: FileCollection<FileModel>){
+    
+    this.collection = collection
+    this.collectionChange.emit(this._collection);
+  }
 
   private oldState: FileCollection<FileModel> = null;
 
@@ -283,7 +286,7 @@ export class MessageForm implements ControlValueAccessor {
     if(this.collection){
       if(!this.fileUploadButton) return;
       this.collection.remove(file);
-      //this.collection = this.collection;
+      this.collectionChange.emit(this._collection);
       this.fileUploadButton.resetFiles();
     }
   }
@@ -306,6 +309,7 @@ export class MessageForm implements ControlValueAccessor {
   }
 
   setArrayCollection(collection, files: FileModel[]){
+    
     if(collection){
       collection.splice(0, collection.length);
       files.forEach((elem)=>{

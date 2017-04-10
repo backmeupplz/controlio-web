@@ -58,7 +58,7 @@ export class FilesGalleryModel {
   }
 
   removefile(file: FileModel){
-    ;
+   
     this.removefileFromStr(file.key);
   }
 

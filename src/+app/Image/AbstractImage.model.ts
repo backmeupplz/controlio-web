@@ -2,6 +2,10 @@ export interface IHaveSRC {
   src: string;
 }
 
+export interface IHaveKey {
+  key: string;
+}
+
 export interface IImageModel {
   src: string;
 }

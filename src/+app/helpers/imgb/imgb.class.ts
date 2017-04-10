@@ -8,7 +8,7 @@ export class ImageClass {
 	protected _src: string | SafeUrl;
 	protected _img: any = AppSettings.DEFAUL_IMG || "";
   get img(){
-    ;
+   
   	return this._img;
   }
 	get str(){
