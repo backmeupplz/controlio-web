@@ -14,6 +14,7 @@ morgan.log
 # Node #
 npm-debug.log
 /npm-debug.log.*
+.env
 
 # Webpack #
 webpack.records.json

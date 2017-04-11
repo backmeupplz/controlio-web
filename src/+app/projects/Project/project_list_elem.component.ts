@@ -1,20 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { AppConfig } from '../../app.config';
 import { UserModel } from '../../users';
 import { AbstractImageModel } from '../../Image';
 
 @Component({
   selector: 'project-list-elem',
   styles: [`
-  /*
-  .content > .bottom-block {
-    padding-bottom: 20px;
-  }
-
-  .content > .bottom-block .author {
-    margin-top: 15px;
-  }*/
-
   .subtitle-notset {
     opacity: .5;
   }
@@ -50,16 +40,11 @@ export class ProjectListElem {
   private _post: any;
   @Input()
   set post(post: any){
-
     if(post) this._post = post;
   }
   @Input() owner: UserModel;
   @Input() date: any;
   @Input() manager: any = null;
   @Input() isOpenSettings: boolean = false;
-  componentName: "ProjectListElem";
-  private defaultImage: string = AppConfig.DEFAUL_IMG;
-  constructor() {
-
-  }
+  constructor() {}
 }

@@ -28,7 +28,7 @@ export class Stripe {
     let self = this;
 
     var handler = (<any>window).StripeCheckout.configure({
-      key: AppConfig.STRIPE_KEY(),
+      key: AppConfig.STRIPE_KEY,
       locale: 'auto',
       token: function (token: any) {
         self.sourceData.emit( token );
@@ -36,7 +36,7 @@ export class Stripe {
     });
 
     handler.open({
-    	key: AppConfig.STRIPE_KEY(),
+    	key: AppConfig.STRIPE_KEY,
       class: "stripe-button",
     	// image: "https://stripe.comassets/documentation/checkout/marketplace.png",
       name: 'Controlio',

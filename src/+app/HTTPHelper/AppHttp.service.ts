@@ -9,7 +9,7 @@ export class AppHttp {
   constructor(private http: Http, private headers: AppHeaders, private errorHandlerService: ErrorHandlerService ){}
 
   catchError(err: any){
-    
+
     let error = this.errorHandlerService.createError(err)
     return Observable.throw(error)
   }
@@ -33,6 +33,7 @@ export class AppHttp {
   post( URL: string, data: any = {}, mainUrl?: boolean, _headers?: any ){
     let headers = (_headers) ? _headers : this.headers.getAuthHeader();
     let mainURL = (mainUrl == false) ? '' : this.headers.getMainURL();
+    console.log(mainURL, URL )
     return this.http.post( mainURL + URL, JSON.stringify( data ), { headers } )
             .map(res=>res.json())
             .catch((err: any)=>this.catchError(err));

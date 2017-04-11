@@ -4,6 +4,7 @@ var clone = require('js.clone');
 var webpackMerge = require('webpack-merge');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const extractCSS = new ExtractTextPlugin('main.css');
+const Dotenv = require('dotenv-webpack');
 
 export var commonPlugins = [
   new webpack.ContextReplacementPlugin(
@@ -14,6 +15,10 @@ export var commonPlugins = [
       // your Angular Async Route paths relative to this root directory
     }
   ),
+  new Dotenv({
+    path: './.env',
+    safe: false // load .env.example (defaults to "false" which does not use dotenv-safe)
+  }),
 
   // Loader options
   new webpack.LoaderOptionsPlugin({
