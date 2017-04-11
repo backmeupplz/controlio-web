@@ -1,4 +1,34 @@
-div.container(*ngIf="invites")
-  div.row
-    div.col-xs-12
-      p Count invites: {{ invites.length }}
+div.container(*ngFor="let invite of invites")
+  div.row(*ngIf="invite.accept == null || invite.accept")
+    div.common-block.project
+      div.block-mask.block-common-style
+      div.col-md-3.main-photo.col-xs-12.col-sm-3
+        div.background-grey.photo-block
+          a.image( routerLink="/project/{{ invite.project.id }}" routerLinkActive="active")
+            cn-img-key([key]="invite.project.image")
+      div.content.col-md-9.col-xs-12.col-sm-9
+        div.top-block
+          div(class="settings-block")
+            div
+              p {{ invite.date | amDateFormat: 'MMM D, h:mm A' }}
+              div(*ngIf="isOpenSettings", routerLink="/project/edit/{{ id }}", routerLinkActive="active")
+                svg-icon(src="assets/settings.svg" block="mh-svg" mod="common awesome small-white")
+          div
+            p.title
+              a(routerLink="/project/{{ invite.project.id }}", routerLinkActive="active") Приглашение в проект: {{ invite.project.title || "New project" }}
+            p.subtitle([ngClass]="{'subtitle-notset': !invite.project.subtitle }") {{ invite.project.subtitle || 'Стутус не определен' }}
+        div.bottom-block
+          span.description
+            p.context Description
+            p.text([ngClass]="{'subtitle-notset': !invite.project.subtitle }") {{ invite.project.description || 'Описание не добавлено' }}
+          span.author(*ngIf="invite != null && invite.sender != null")
+            div.thumbnail
+              cn-img-key.photo-mini(styles="ng-thumb" [key]="invite.sender.photo")
+            div.text-block.three-line
+              p.context {{ invite.sender.role }}
+              p.username {{ invite.sender.name || invite.sender.email }}
+              p.message Пригласил вас в проект
+          div.col-md-4.in-flex.buttons
+            mh-button.reject-button(*ngIf="invite.accept == null",(click)="acceptInvite(invite, false)", title="Reject invite",mods="big padding painted-red radius margin all-width",text-mods="painted-red")
+            mh-button.accept-button(*ngIf="invite.accept == null", (click)="acceptInvite(invite, true)", title="Accept invite",mods="big padding painted-green radius margin all-width",text-mods="painted-green")
+

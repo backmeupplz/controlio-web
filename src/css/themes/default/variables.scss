@@ -8,6 +8,9 @@ $awesome_color:  #b0a4fd;
 $awesome_background:  #b0a4fd;
 $painted_color_font:  #fff;
 
+$red_background:  #ff5e5e;
+$background_green:  #03c38d;
+
 $grey_color_svg: #c7c7c7;
 $awesome_color_svg: $awesome_color;
 $common_color_svg: #fff;
@@ -66,7 +69,7 @@ $all-width: (
 /**
 * Buttons
 */
-$button_mods: 'painted', 'common', 'default','radius', 'all-width', 'padding', 'padding-big', 'big', 'middle', 'small', 'sign-up';
+$button_mods: 'painted', 'painted-red', 'painted-green', 'common', 'default','radius', 'all-width', 'padding', 'padding-big', 'big', 'middle', 'small', 'sign-up';
 
 $button: (
   main: (height: 2.5em),
@@ -99,6 +102,16 @@ $button: (
   ),
   painted_text: (color: #fff),
   painted_image: (color: #fff),
+  painted-red: (
+    background-color: $red_background,
+  ),
+  painted-red_text: (color: #fff),
+  painted-red_image: (color: #fff),
+  painted-green: (
+    background-color: $background_green
+  ),
+  painted-green_text: (color: #fff),
+  painted-green_image: (color: #fff),
   common: map-merge(
     $green-background,
     (box-shadow: 0 5px 20px 0 rgba(25, 151, 128, 0.5))

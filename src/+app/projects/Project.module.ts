@@ -21,11 +21,12 @@ import { ProjectService } from './ProjectServices';
 import { ProjectListElem } from './Project/project_list_elem.component';
 import { FIleUploaderModule } from '../FileUploader';
 import { PostModule } from '../posts';
-
+import { AuthServiceModule } from '../auth';
 import { InviteModule } from '../invites';
 
 import { EmptyDataSetModule } from '../EmptyDataSet';
 import { HTTPHelperModule } from '../HTTPHelper';
+import { ProjectTemplateModule } from './Project';
 
 const moduleRoutes: Routes = [
   { path: 'projects', component: Projects, canActivate: [LoggedInGuard] },
@@ -36,7 +37,9 @@ const moduleRoutes: Routes = [
 
 @NgModule({
   imports: [
-    InviteModule,
+    ProjectTemplateModule,
+    AuthServiceModule,
+    InviteModule.forRoot(),
     HTTPHelperModule,
     EmptyDataSetModule,
     ImageModule,
@@ -59,7 +62,6 @@ const moduleRoutes: Routes = [
     SearchComponent,
     AddProject,
     AddProjectPage,
-    ProjectListElem,
     Project,
     Projects,
     EditProject,
@@ -71,7 +73,6 @@ const moduleRoutes: Routes = [
     AddProjectPage,
     Project,
     Projects,
-    ProjectListElem,
     EditProject,
     EditProjectPage
   ],

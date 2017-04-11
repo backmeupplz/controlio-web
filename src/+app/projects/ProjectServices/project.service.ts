@@ -53,21 +53,21 @@ export class ProjectService {
           lastStatus = (status) ? new PostStatusModel(status._id, statusAuthor, null,status.updatedAt,status.text ) : null;
         }
 
-        let project = new ProjectModel(
-          res._id,
-          res.title,
-          res.description,
-          res.image,
+        let project = new ProjectModel({
+          _id: res._id,
+          title: res.title,
+          description: res.description,
+          image: res.image,
           managers,
           owner,
-          res.clients,
-          true,
-          res.isArchived || false,
-          true,
+          clients: res.clients,
+          editable: true,
+          isArchived: res.isArchived || false,
+          removeable: true,
           lastStatus,
           lastPost,
-          res.updatedAt
-          );
+          updatedAt: res.updatedAt
+        });
         return project;
       });
   }
@@ -127,19 +127,21 @@ export class ProjectService {
           }
 
           let project = new ProjectModel(
-            res._id,
-            res.title,
-            res.description,
-            res.image,
-            managers,
-            owner,
-            res.clients,
-            true,
-            res.isArchived || false,
-            true,
-            lastStatus,
-            lastPost,
-            res.updatedAt
+            {
+              _id: res._id,
+              title: res.title,
+              description: res.description,
+              image: res.image,
+              managers,
+              owner,
+              clients: res.clients,
+              editable: true,
+              isArchived: res.isArchived || false,
+              removeable: true,
+              lastStatus,
+              lastPost,
+              updatedAt: res.updatedAt
+            }
             );
 
           projects.push(project);

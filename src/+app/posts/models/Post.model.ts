@@ -45,7 +45,7 @@ export class PostModel {
     this._text = text;
   }
   get text(){
-    return this._text;
+    return this._text || ((this.attachments) ? `Attachments(${this.attachments.length})` : '');
   }
 
   protected _type: string = 'post';
@@ -89,6 +89,11 @@ export class PostModel {
     return this._isEdited;
   }
 
+  protected _attachments: string[];
+  get attachments(){
+    return this._attachments;
+  }
+
   constructor( id: string, sender: UserModel | UserAuthModel, project: ProjectModel, date: string, text?: string, editable?: boolean, removable?: boolean, attachments?: string[], isSave?: boolean, isEdited?: boolean ){
     this._id = id;
     this._isSave = isSave === false ? false : true;
@@ -99,6 +104,7 @@ export class PostModel {
     this._removable = false || removable;
     this._isEdited = isEdited === false ? false : true;
     this._date = date;
+    this._attachments = attachments
     if(attachments != null){
       this.createGallery( attachments );
     }

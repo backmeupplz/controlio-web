@@ -46,8 +46,19 @@
 	}
 }
 
+.project .bottom-block .author, .project .bottom-block .buttons {
+  position: absolute;
+}
+
+.project .bottom-block .buttons {
+  margin-right: 15px;
+}
+
 @media screen and (max-width: 600px) {
 
+  .project .bottom-block .author, .project .bottom-block .buttons {
+    position: initial;
+  }
   .project.common-block .main-photo {
     max-width: 7em;
     padding: 1em;

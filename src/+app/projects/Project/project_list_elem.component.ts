@@ -21,7 +21,6 @@ import { AbstractImageModel } from '../../Image';
   }
 
   .bottom-block .author {
-    position: absolute;
     bottom: 0;
   }
 

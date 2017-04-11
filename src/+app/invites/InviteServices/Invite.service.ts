@@ -6,6 +6,9 @@ import { AppHeaders, AppHttp } from '../../HTTPHelper';
 import { ProjectModel } from '../../projects';
 import { InviteModel } from '../models';
 
+import { UserModel } from '../../users';
+
+
 @Injectable()
 export class InviteService {
   private baseUrl: string = '/projects';
@@ -19,13 +22,17 @@ export class InviteService {
       .get( this.baseUrl + '/invites', { userid });
     return request
       .map((res) => {
-        return res.map((elem)=> { return new InviteModel(elem) });
+        return res.map((elem)=> {
+          elem.sender = new UserModel(elem.sender)
+          elem.project = new ProjectModel(elem.project)
+          return new InviteModel(elem)
+        });
       });
   }
 
-  accept(userId: string, inviteId: string, accept: boolean){
+  accept(userid: string, inviteid: string, accept: boolean){
     let request = this.http
-      .post( this.baseUrl + '/invite', { userId, inviteId, accept });
+      .post( this.baseUrl + '/invite', { userid, inviteid, accept });
     return request
       .map((res) => {
         console.log(res);

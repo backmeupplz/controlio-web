@@ -1,10 +1,14 @@
+import { ProjectModel } from '../../projects';
+import { UserModel } from '../../users';
+
 export class InviteModel {
   date: string;
-  sender: any;
-  project: any;
+  sender: UserModel;
+  project: ProjectModel;
   id: string;
   type: string;
   invitee: string;
+  accept: boolean = null;
   constructor(obj: {
     date: string,
     sender: any,

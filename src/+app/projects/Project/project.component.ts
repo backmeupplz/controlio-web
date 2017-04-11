@@ -131,8 +131,7 @@ export class Project {
   // Posts
 
   onScroll () {
-
-    //this.loadPosts();
+    this.loadPosts();
   }
 
 
@@ -224,7 +223,6 @@ export class Project {
   }
 
   private posts: any = [];
-
   private limitPostLoad = 10;
   private skipPosts = 0;
 

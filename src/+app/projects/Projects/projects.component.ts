@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ProjectService } from '../ProjectServices/project.service';
 import { ErrorCommon } from '../../ErrorHandler';
-
+import { InviteModel, InviteService } from '../../invites';
+import { UserAuthModel } from '../../auth';
 
 @Component({
   styles: [`
@@ -28,24 +29,38 @@ export class Projects {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private inviteService: InviteService,
+    private userAuthModel: UserAuthModel
   ){
     this.title = "You don't have projects yet, create your first one!";
   }
 
-  onSearch(value: any){}
+  private invites: InviteModel[];
 
-  ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-      this.loading = true;
-      this.projectService.getProjects( 0, 10 ).subscribe( res => {
-        
-        this.loading = false;
-        this.projects = res;
-      }, (err: ErrorCommon)=>{
-        this.loading = false;
-        this.error = err;
-      })
-    });
+  private limitProjetLoad = 10;
+  private skipProjet = 0;
+
+  onScroll(){
+    this.loadProjects()
+  }
+  onSearch(value: any){}
+  ngOnInit(){
+    this.loadProjects()
+    this.inviteService.getInvites(this.userAuthModel.id).subscribe((res)=>{
+      console.log(res);
+      this.invites = res;
+    })
+  }
+  loadProjects(){
+    this.loading = true;
+    this.projectService.getProjects( this.skipProjet, this.limitProjetLoad ).subscribe( res => {
+      this.loading = false;
+      this.skipProjet += this.limitProjetLoad;
+      this.projects = this.projects.concat(res);
+    }, (err: ErrorCommon)=>{
+      this.loading = false;
+      this.error = err;
+    })
   }
 }

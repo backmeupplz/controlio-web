@@ -18,36 +18,38 @@ export class ProjectModel {
 	public date: string;
 
 	constructor(
-		id: string,
-		title: string,
-		description: string,
-		image: string,
-		managers: UserModel[],
-		owner: UserModel,
-		clients: any[],
-		editable: boolean,
-		isArchived: boolean,
-		removeable: boolean,
-		lastStatus: PostStatusModel,
-		lastPost: PostModel,
-		date: string
+    obj: {
+  		_id: string,
+  		title: string,
+  		description: string,
+  		image: string,
+  		managers: UserModel[],
+  		owner: UserModel,
+  		clients: any[],
+  		editable: boolean,
+  		isArchived: boolean,
+  		removeable: boolean,
+  		lastStatus: PostStatusModel,
+  		lastPost: PostModel,
+  		updatedAt: string
+    }
 		){
-		this.id = id;
-		this.title = title;
-		this.description= description;
-		this.image = image;
-		this.managers = managers;
-		this.owner = owner;
-		this.clients = (clients) ? clients.map((client)=>{
+		this.id = obj._id;
+		this.title = obj.title;
+		this.description= obj.description;
+		this.image = obj.image;
+		this.managers = obj.managers;
+		this.owner = obj.owner;
+		this.clients = (obj.clients) ? obj.clients.map((client)=>{
       if(typeof client === "string") return client;
       else return client.email;
     }) : [];
-		this.lastStatus = lastStatus;
-		this.lastPost = lastPost;
-		this.editable = editable;
-		this.isArchived = isArchived;
-		this.removeable = removeable;
-		this.date = date;
+		this.lastStatus = obj.lastStatus;
+		this.lastPost = obj.lastPost;
+		this.editable = obj.editable;
+		this.isArchived = obj.isArchived;
+		this.removeable = obj.removeable;
+		this.date = obj.updatedAt;
 	}
 
 	getAccess(user: UserModel){
