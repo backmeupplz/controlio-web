@@ -116,7 +116,7 @@ export class ProjectService {
 
           if(post){
             let postAuthor = new UserModel(post.author)
-            lastPost = (post) ? new PostModel(post._id, postAuthor, null, post.updatedAt, post.text) : null;
+            lastPost = (post) ? new PostModel(post._id, postAuthor, null, post.updatedAt, post.text, false, false, post.attachments) : null;
           }
 
           let status = res.lastStatus, lastStatus = null;

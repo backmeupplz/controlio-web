@@ -2,7 +2,7 @@ div.content.block-common-style(*ngIf="post", block="mb-post", [mod]="mods")
   div.top-block.col-md-12(elem="top-block", mod="{{ post.gallery != null && post.gallery.length > 0 ? 'post' : 'status' }}")
     div(class="settings-block")
       div(*ngIf="post.isSave")
-        p(elem="text-info")
+        p(elem="text-info" *ngIf="!editMode")
           span(*ngIf="post.isEdited") (edited)
           | {{ post.date | amDateFormat: 'MMM D, h:mm A' }}
         div.in-flex(*ngIf="post.editable && editMode", elem="cancel-button", (click)="resetEditMode()")
@@ -31,5 +31,5 @@ div.content.block-common-style(*ngIf="post", block="mb-post", [mod]="mods")
     div.row.jc-fs
       div.col-xs-1.clip-icon
         img(src="assets/clip.svg")
-      div.col-xs-9.jc-fs.in-flex.post-gallery(elem="gallery")
+      div.col-xs-8.jc-fs.in-flex.post-gallery(elem="gallery")
         cn-collection([collection]="post.gallery" [editable]="editMode")

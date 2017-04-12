@@ -17,10 +17,10 @@ div.container(*ngFor="let invite of invites")
             p.title
               a(routerLink="/project/{{ invite.project.id }}", routerLinkActive="active") Приглашение в проект: {{ invite.project.title || "New project" }}
             p.subtitle([ngClass]="{'subtitle-notset': !invite.project.subtitle }") {{ invite.project.subtitle || 'Стутус не определен' }}
-        div.bottom-block
           span.description
             p.context Description
             p.text([ngClass]="{'subtitle-notset': !invite.project.subtitle }") {{ invite.project.description || 'Описание не добавлено' }}
+        div.bottom-block
           span.author(*ngIf="invite != null && invite.sender != null")
             div.thumbnail
               cn-img-key.photo-mini(styles="ng-thumb" [key]="invite.sender.photo")

@@ -68,6 +68,7 @@ import { FileUploadService } from '../../FileUploader';
       position: absolute;
       right: 0;
       top: 0;
+      padding-right: 15px;
     }
 
     .mb-post__gallery {
@@ -115,6 +116,8 @@ import { FileUploadService } from '../../FileUploader';
     .mb-post__edit-button {
       display: none;
     }
+
+
     :host:hover .mb-post__edit-button, .mb-post__text-info {
       display: inline-flex;
     }
@@ -126,6 +129,15 @@ import { FileUploadService } from '../../FileUploader';
 
     .mb-post__text-info span {
       padding-right: .5em;
+    }
+
+    @media screen and (max-width: 450px) {
+      :host:hover .mb-post__text-info {
+        display: none;
+      }
+      .mb-post__edit-button, .mb-post__text-info, .mb-post__cancel-button, .mb-post__delete-button {
+        padding:  1em 0  1em 1em;
+      }
     }
   `],
   selector: 'post',

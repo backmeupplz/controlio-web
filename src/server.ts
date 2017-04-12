@@ -74,8 +74,14 @@ function cacheControl(req, res, next) {
   res.header('Cache-Control', 'max-age=60');
   next();
 }
+
+function cacheControlAssets(req, res, next) {
+  res.header('Cache-Control', 'max-age=36000');
+  next();
+}
+
 // Serve static files
-app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 36000}));
+app.use('/assets', cacheControlAssets, express.static(path.join(__dirname, 'assets'), {maxAge: 36000}));
 app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
 

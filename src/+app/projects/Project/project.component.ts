@@ -30,9 +30,18 @@ import { FileUploadService } from '../../FileUploader';
     .input-block { margin-bottom: 24px; }
     :host { padding-bottom: 240px; }
     .project-post-block { padding-bottom: 90px; }
+    .main-photo {
+        max-height: 240px;
+    }
+    .project-info >>> .common-block .content .bottom-block {
+      display: none;
+    }
+    .project-info >>> .common-block .main-photo {
+      max-height: 240px;
+    }
     `
   ],
-  selector: 'projects',
+  selector: 'project',
   template: require("./project.pug"),
   providers: [FormMessageService]
 })

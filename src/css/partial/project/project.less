@@ -10,6 +10,7 @@
 .common-block.project {
 	margin-top: 24px;
   width: 100%;
+  max-height: 330px;
 }
 
 .project-post-block {
@@ -38,16 +39,16 @@
   .common-block .main-photo {
     max-width: 250px;
   }
+  .action-post {
+    left: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
 }
 
-@media screen and (min-width: 350px) {
-	.project .content {
-		padding-left: 0;
-	}
-}
-
-.project .bottom-block .author, .project .bottom-block .buttons {
-  position: absolute;
+.project .content {
+  padding-left: 0;
 }
 
 .project .bottom-block .buttons {
@@ -55,10 +56,14 @@
 }
 
 @media screen and (max-width: 600px) {
-
-  .project .bottom-block .author, .project .bottom-block .buttons {
+  .settings-block > div {
     position: initial;
   }
+
+  .common-block.project {
+    max-height: auto;
+  }
+
   .project.common-block .main-photo {
     max-width: 7em;
     padding: 1em;
@@ -95,10 +100,10 @@
   .common-block .main-photo {
     max-width: 100%;
   }
-	.project .top-block, .project .bottom-block {
+/*	.project .top-block, .project .bottom-block {
 		padding-left: 15px  !important;
 		padding-right: 15px  !important;
-	}
+	}*/
 	.project .top-block, .project .backgrond-funny {
 		border-radius: 3px 3px 0 0 !important;
 	}
@@ -122,11 +127,11 @@
   }
 
 
-  .common-block .main-photo .image {
+/*  .common-block .main-photo .image {
     opacity: .3;
-  }
+  }*/
 
-  .common-block .main-photo + .content .top-block p, .common-block .main-photo + .content .top-block a {
+/*  .common-block .main-photo + .content .top-block p, .common-block .main-photo + .content .top-block a {
     color: #fff !important;
-  }
+  }*/
 }

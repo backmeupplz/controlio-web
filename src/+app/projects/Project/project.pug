@@ -1,7 +1,7 @@
 div.center-block.you-dont-have-project(*ngIf="project == null")
   h1.text {{ title }}
 div(*ngIf="project != null", [infiniteScrollDistance]="2", [infiniteScrollThrottle]="300", (scrolled)="onScroll()", infinite-scroll)
-  project-list-elem([title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.text : null }}", [imageKey]="project.image", [id]="project.id", [manager]="project.manager", [date]="project.date", [isOpenSettings]="project.editable")
+  project-list-elem.project-info([title]="project.title", [description]="project.description", subtitle="{{ (project.lastStatus) ? project.lastStatus.text : null }}", [imageKey]="project.image", [id]="project.id", [manager]="project.manager", [date]="project.date", [isOpenSettings]="project.editable")
   div.container.project-post-block
     div.row.jc-fe
       div.common-block.col-sm-9.col-xs-12.action-post.np(*ngIf="project.editable")

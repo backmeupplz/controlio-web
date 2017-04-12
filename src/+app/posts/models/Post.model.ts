@@ -45,6 +45,10 @@ export class PostModel {
     this._text = text;
   }
   get text(){
+    return this._text;
+  }
+
+  get textInfo(){
     return this._text || ((this.attachments) ? `Attachments(${this.attachments.length})` : '');
   }
 

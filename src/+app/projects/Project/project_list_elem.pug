@@ -18,17 +18,17 @@ div.container
             p.title
               a(routerLink="/project/{{ id }}", routerLinkActive="active") {{ title || "New project" }}
             p.subtitle([ngClass]="{'subtitle-notset': !subtitle }") {{ subtitle || 'Стутус не определен' }}
-        div.bottom-block
           span.description
             p.context Description
             p.text([ngClass]="{'subtitle-notset': !subtitle }") {{ description || 'Описание не добавлено' }}
+        div.bottom-block
           span.author(*ngIf="_post != null && _post.sender != null")
             div.thumbnail
               cn-img-key.photo-mini(styles="ng-thumb" [key]="_post.sender.photo")
             div.text-block.three-line
               p.context {{ _post.sender.role }}
               p.username {{ _post.sender.name }}
-              p.message {{ _post.text }}
+              p.message {{ _post.textInfo }}
           //-span.author(*ngIf="_post == null && owner != null")
             div.thumbnail
               cn-img-key.photo-mini(styles="ng-thumb" [key]="owner.photo")
