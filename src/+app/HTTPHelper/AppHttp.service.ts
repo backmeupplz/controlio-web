@@ -14,8 +14,17 @@ export class AppHttp {
     return Observable.throw(error)
   }
 
+
   get( URL: string, data?: any, mainUrl?: boolean ){
     let headers = this.headers.getAuthHeader();
+    let mainURL = (mainUrl == false) ? '' : this.headers.getMainURL()
+    return this.http.get( mainURL + URL + this.headers.getFormatURL( data ), { headers } )
+                    .map(res=>res.json())
+                    .catch((err: any)=>this.catchError(err));
+  }
+
+  getFile( URL: string, data?: any, contentType?: string, mainUrl?: boolean ){
+    let headers = this.headers.getAuthHeader( null, contentType );
     let mainURL = (mainUrl == false) ? '' : this.headers.getMainURL()
     return this.http.get( mainURL + URL + this.headers.getFormatURL( data ), { headers } )
                     .map(res=>res.json())
@@ -26,7 +35,6 @@ export class AppHttp {
     let headers = (_headers) ? _headers : this.headers.getAuthHeader();
     let mainURL = (mainUrl == false) ? '' : this.headers.getMainURL();
     return this.http.post( mainURL + URL, data, { headers } )
-            .map(res=>res.json())
             .catch((err: any)=>this.catchError(err));
   }
 

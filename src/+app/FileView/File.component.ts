@@ -138,6 +138,7 @@ export class FileImageComponent implements OnInit {
   private _file: FileImageModel;
   @Input('file')
   set file(file: FileImageModel){
+    console.log(file);
     if(file instanceof FileImageModel){
       if(file.preview){
         this.image = file.preview;

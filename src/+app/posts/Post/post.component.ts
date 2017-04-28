@@ -270,10 +270,10 @@ export class PostComponent {
       this.collectionMessage.forEach((file: FileModel)=>{
         if(file.isUploaded) {
           itemsProcessed++;
+          data.attachments.push(file.key)
           if(count == itemsProcessed) {
             this.saveRequest(data, this.post);
           }
-          data.attachments.push(file.key)
           return file.key;
         }
         file.onFileProgress((err, res)=>{

@@ -6,7 +6,9 @@ import { UserService } from '../UserServices/user.service';
 import { UserAuthModel } from '../../auth';
 
 import { UserModel } from '../models/user.model';
-
+import { FileCollection } from '../../Collection';
+import { FileModel, FileImageModel } from '../../Files/models';
+import { FileUploadService } from '../../FileUploader';
 
 @Component({
   selector: 'edit-user',
@@ -28,6 +30,8 @@ export class EditUser {
     this.imageKey = obj.key;
   }
 
+  private id: string;
+
   @Input()
   set setUser( user: UserModel ){
     if( user ){
@@ -43,35 +47,80 @@ export class EditUser {
   constructor(
     private _fb: FormBuilder,
     private userService: UserService,
-    private userAuth: UserAuthModel) {}
+    private userAuth: UserAuthModel,
+    private fileUploadService: FileUploadService) {}
 
   ngOnInit(){
     this.userService.getProfile().subscribe((result) => {
       this.user = result;
       this.userAuth.setUser(result);
+      this.id = this.userAuth.id;
     })
+
+    let collection = new FileCollection<FileModel>()
+    if(this.userAuth.photo) collection.push(new FileImageModel(this.userAuth.photo, null, true))
 
     this.myForm = new FormGroup({
         name: new FormControl(this.userAuth.name),
         phone: new FormControl(this.userAuth.phone),
-        //image: new FormControl(this.userAuth.phone),
+        photo: new FormControl(collection),
     });
   }
 
-  save( data, isValid: boolean) {
-    data.photo = ""
+  saveRequest (id: string, data: any) {
+    this.userService.editProfile( data.name, data.phone, data.photo ).subscribe((result) => {
+      if( result instanceof UserModel ){
+        if(this.userAuth.id == id) this.userAuth.setUser(result)
+      }
+    });
+  }
+
+
+  save( _data, isValid: boolean) {
     if( isValid ) {
-      this.userService.editProfile( data.name, data.phone, this.imageKey ).subscribe((result) => {
-        if( result instanceof UserModel ){
-          this.userAuth.setUser(result)
-        }
-      });
-      // if( this.imageKey ){
-      //   data.image = this.imageKey;
-      //   this.callback_upload = (err, data)=>{
-      //
-      //   }
-      // }
+      let data = {
+        name: _data.name,
+        phone: _data.phone,
+        photo: ""
+      }
+
+      if(_data.photo.length <= 0 ){
+        this.saveRequest(this.id, data);
+      } else {
+        let itemsProcessed = 0;
+        let count = 1;
+        let photo = "";
+        _data.photo.forEach((file: FileModel)=>{
+          if(file.isUploaded) {
+            itemsProcessed++;
+            photo = file.key;
+            if(count == itemsProcessed) {
+              data.photo = photo;
+              this.saveRequest(this.id, data);
+            }
+            return file.key;
+          }
+          file.onFileProgress((err, res)=>{
+            itemsProcessed++;
+            if(!err) photo = file.key;
+            else {
+              console.log(err);
+            }
+            if(count == itemsProcessed) {
+              data.photo = photo;
+              this.saveRequest(this.id, data);
+            }
+          },(progress)=>{
+
+          })
+          let upload = ()=>{
+            this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
+          }
+          upload()
+          file.uploadFunc = upload;
+          return file.key;
+        })
+      }
     }
   }
 }

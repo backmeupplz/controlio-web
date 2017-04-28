@@ -18,7 +18,8 @@ export class ImageKeyComponent implements OnInit {
   private _image: AbstractImageModel;
   @Input()
   set image(image: AbstractImageModel){
-    if(!this._key && image) this._image = image;
+    if(!this._key && image) this.src = image.src;
+    //this._image = image;
   }
   get image(){
     return this._image;
@@ -30,10 +31,9 @@ export class ImageKeyComponent implements OnInit {
   set key(key: string){
     this._key = key;
     if(key){
-      this.src = AppConfig.API_ENDPOINT_IMAGE + '/img?key=' + key;
-      // this.imageService.downloadImage(key).subscribe((image)=>{
-      //   this._image = image;
-      // })
+      this.imageService.downloadImage(key).subscribe((image)=>{
+        this.src = image.src;
+      })
     }
   }
   get key(){

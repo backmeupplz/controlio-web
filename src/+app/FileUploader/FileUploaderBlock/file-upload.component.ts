@@ -81,6 +81,7 @@ export class FileUploaderButton {
   private editable: boolean = true;
   private propagateChange = (_: any) => {};
   public writeValue(value: FileCollection<FileModel>) {
+    console.log(value)
     this.collection = value;
   }
   public registerOnChange(fn: any) {
@@ -89,6 +90,7 @@ export class FileUploaderButton {
   public registerOnTouched() {}
 
   onChange( value: { value: FileCollection<FileModel>, isChanged: boolean } ){
+    console.log(value)
     if( value.isChanged ){
       this.collection = value.value;
       this.propagateChange(this.collection);

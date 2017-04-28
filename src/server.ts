@@ -164,8 +164,7 @@ app.get('/img', function(req, res) {
 
 
 app.post('/upload', upload.array('image', 10), function (req: express.Request & { files: any }, res, next) {
-  // req.files is array of `photos` files
-  // req.body will contain the text fields, if there were any
+
   let key = req.body.key;
   if(!req.files){
     let json = JSON.stringify({ error: 'NOT_FOUND_FILES' });

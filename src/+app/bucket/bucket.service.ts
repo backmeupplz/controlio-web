@@ -4,6 +4,7 @@ import { LocalStorage } from '../helpers/local-storage';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 import 'rxjs/add/observable/fromPromise';
+import { AppConfig } from '../app.config';
 
 @Injectable()
 export class BucketService {
@@ -40,21 +41,8 @@ export class BucketService {
         formData.append('image', file, file.name);
         formData.append('key', key );
 
-
         xhr.upload.onprogress = (event:any) => {
           let progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
-
-          console.log("xhr.upload.onprogress", progress)
-
-          // callabackUploadProgress(40);
-          // setTimeout(()=>{
-          //   callabackUploadProgress(70);
-          // }, 1000)
-          // setTimeout(()=>{
-          //   callabackUploadProgress(100);
-          // }, 2000)
-
-
           if(self.progressObserver) self.progressObserver.next({key, progress});
           if(callabackUploadProgress) callabackUploadProgress(progress);
         };
@@ -85,6 +73,14 @@ export class BucketService {
             }
         }
         xhr.open("POST", url, true)
+
+        let authHeaders = this.headers.getAuthParams();
+        let commonHeaders = this.headers.getHeaderBaseParams();
+
+        xhr.setRequestHeader('userId', authHeaders.userId)
+        xhr.setRequestHeader('token', authHeaders.token)
+        xhr.setRequestHeader('apiKey', commonHeaders.apiKey)
+
         xhr.send(formData)
     }));
   }
@@ -98,32 +94,20 @@ export class BucketService {
     formData.append('image', file, file.name);
     formData.append('key', key );
 
-    return this.makeFileRequest('upload',file, key, callabackUploadProgress).map((res)=>{
+    return this.makeFileRequest( AppConfig.API_ENDPOINT + '/img', file, key, callabackUploadProgress).map((res)=>{
               return res;
             },(err)=>{
               console.error("Failed to retrieve an object: " + err );
               return err;
             })
-    /*
-    return this.http.postFile( 'upload', formData, false, headers )
-            .map((res)=>{
-
-
-              return res;
-            },(err)=>{
-              console.error("Failed to retrieve an object: " + err );
-              return err;
-            })*/
 	}
 
 	getImage( key ){
 		if( key && key.length > 0 ){
-		let self = this;
-    return this.http.get( 'img', { key }, false )
+    return this.http.getFile('/img', { key }, 'image/jpeg')
             .map((res)=>{
               return res;
             },(err)=>{
-              console.error("Failed to retrieve an object: " + err );
               return err;
             })
 	  }

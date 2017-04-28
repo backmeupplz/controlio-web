@@ -119,15 +119,8 @@ export class CollectionComponent {
   private _collection: FileCollection<FileModel>;
   @Input('collection')
   set collection(collection: FileCollection<FileModel>){
+    console.log(collection);
     this._collection = collection;
-    /*
-      newFile.loadImageMethod = ( file, callback )=>{
-        // newFile.getImagePreview( file, ( err: any, img: ImageModel )=>{
-        //   newFile.image = img;
-        //   if(callback) callback(null, img);
-        // }, newFile.key );
-      };
-    */
   }
   get collection(){
     return this._collection;
@@ -141,7 +134,6 @@ export class CollectionComponent {
     }
   }
 
-
   public _styles: string = "ng-thumb";
   @Input()
   set styles(styles: string){
@@ -149,84 +141,10 @@ export class CollectionComponent {
   }
 
   removeFile(file: FileModel){
-
     this.removeChange.emit(file);
-
-    // this.collection.remove(file)
-    // this.collectionChange.emit(this.collection)
   }
   @Output() collectionChange = new EventEmitter(true);
   @Output() removeChange = new EventEmitter(true);
-/*
-  public _stylesMain: string = "ng-gallery";
-  @Input()
-  set stylesmain(stylesMain: string){
-    this._stylesMain += " " + stylesMain;
-  }
-  public _element:any;
-  public opened:boolean = false;
-  public imgSrc:string;
-  public currentImageIndex:number;
-  public loading:boolean= false;
-  public _gallery: FilesGalleryModel;
-
-
-  //private progressLoads: any = {};
-  @Output() galleryChange = new EventEmitter();
-  @Input('gallery')
-  set gallery(gallery: FilesGalleryModel){
-    if(!gallery) return;
-   
-    this._gallery = gallery;
-    this._gallery.files.forEach((elem)=>{
-      if( elem instanceof FileImage){
-        elem.loadImage();
-      }
-      if(!elem.isUploaded){
-        elem.callbackProgress = (progress)=>{
-         
-        };
-        elem.callbackAfter = (err, res)=>{
-         
-        }
-      }
-    })
-    this.galleryChange.emit(this._gallery);
-  }
-  get gallery(){
-    return this._gallery;
-  }
-
-
-  @Input('editable') public editable: boolean = false;
-  constructor(private imageGalleryService: ImageGalleryService) {
-
-  }
-
-  ngOnInit(){
-    //;
-  }
-
-  @Output() removeEvent = new EventEmitter<any>();
-  removeFile(file: FileModel){
-
-    this.gallery.removefile(file);
-    this.removeEvent.emit(file);
-  }
-
-
-  openGallery(index) {
-    // this.gallery.index = index;
-    // this.imageGalleryService.setImages( this.gallery )
-    // this.opened = true;
-    // for (var i = 0; i < this.gallery.images.length; i++) {
-    //   if (i === this.currentImageIndex ) {
-    //     this.imgSrc = this.gallery.images[i].str;
-    //     this.loading = false;
-    //     break;
-    //   }
-    // }
-  }*/
 
   openGallery(file: FileModel) {
     if(file && !file.isError && this.canOpenGallery && !file.isLoad ){

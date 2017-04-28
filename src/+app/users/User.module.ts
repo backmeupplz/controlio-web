@@ -11,6 +11,7 @@ import { UserService } from './UserServices';
 import { FormHelperModule } from '../FormHelper';
 import { AuthServiceModule } from '../auth';
 import { ImageModule } from '../Image';
+import { FIleUploaderModule } from '../FileUploader';
 
 const moduleRoutes: Routes = [
   { path: 'profile/edit', component: UserEditPage, canActivate: [LoggedInGuard] },
@@ -20,6 +21,7 @@ const moduleRoutes: Routes = [
 
 @NgModule({
   imports: [
+    FIleUploaderModule,
     AuthServiceModule,
     FormsModule,
     ReactiveFormsModule,

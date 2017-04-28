@@ -15,16 +15,12 @@ export class AppHeaders {
 	}
 
 	getHeaderBase( contentType?: string ): Headers {
-		return new Headers({
-      'Content-Type': (contentType) ? contentType : AppConfig.CONTENT_TYPE,
-      'Access-Control-Allow-Origin': AppConfig.ACESS_CONTROL_ALLOW_ORIGIN,
-      'apiKey':  AppConfig.API_KEY,
-    });
+		return new Headers(this.getHeaderBaseParams(contentType));
 	}
 
-	getHeader( params?: any ): Headers {
-		let headers = this.getHeaderBase();
-		if( typeof params === "object" ){
+	getHeader( params?: any, contentType?: string ): Headers {
+		let headers = this.getHeaderBase(contentType);
+		if( typeof params === "object" && params != null ){
       for( let prop in params ){
         if(!headers.has(prop)){
           headers.append( prop, params[prop] );
@@ -36,18 +32,31 @@ export class AppHeaders {
 		return headers;
 	}
 
-	getAuthHeader( params?: any ): Headers {
+  getHeaderBaseParams(contentType?: string){
+    return {
+      'Content-Type': (contentType) ? contentType : AppConfig.CONTENT_TYPE,
+      'Access-Control-Allow-Origin': AppConfig.ACESS_CONTROL_ALLOW_ORIGIN,
+      'apiKey':  AppConfig.API_KEY,
+    }
+  }
+
+  getAuthParams(){
+    return {
+      userId: this.localStorage.getItem('userId') || this.cookieService.get( "userId" ),
+      token: this.localStorage.getItem('auth_token') || this.cookieService.get( "auth_token" )
+    }
+  }
+
+	getAuthHeader( params?: any, contentType?: string ): Headers {
 		if( !params ){
-		  params = {
-				'userId': this.localStorage.getItem('userId') || this.cookieService.get( "userId" ),
-	      'token': this.localStorage.getItem('auth_token') || this.cookieService.get( "auth_token" )
-    	}
+		  params = this.getAuthParams()
 		} else {
-      params['userId'] = this.localStorage.getItem('userId') || this.cookieService.get( "userId" );
-      params['token'] = this.localStorage.getItem('auth_token') || this.cookieService.get( "auth_token" );
+      let data = this.getAuthParams();
+      params['userId'] = data.userId
+      params['token'] = data.token
     }
 
-		let headers = this.getHeader( params );
+		let headers = this.getHeader( params, contentType );
 		return headers;
 	}
 

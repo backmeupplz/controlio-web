@@ -71,13 +71,13 @@ export class AddProject implements OnInit {
     this.submitted = true;
     if(!data) return;
     if( isValid ) {
-      
+
 
       let image = data.image.map((file: FileModel)=>{
         file.onFileProgress((err, res)=>{
-          
+
         },(progress)=>{
-          
+
         })
         this.fileUploadService.uploadOn(file.key, file.file, file.loadFile, file.loadFileProgress)
         return file.key;
